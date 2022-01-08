@@ -19,6 +19,9 @@
 ## 2. Installation Process
 
 ## 3. Getting Started
+```
+docker-compose up --build
+```
 
 ## 4. File Manifest
 
