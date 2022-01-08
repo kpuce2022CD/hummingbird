@@ -1,7 +1,6 @@
 # ✨메뉴캔버스 ✨
-https://adhesive-carpet-0f4.notion.site/MenuCanvas-a950308ec6d049c6acbd171f420bbe7c
-
-- 손쉽게 이쁜 디지털 메뉴판을 만들어보세요.
+## 손쉽게 이쁜 디지털 메뉴판을 만들어보세요.
+- [팀 노션 바로가기](https://adhesive-carpet-0f4.notion.site/MenuCanvas-a950308ec6d049c6acbd171f420bbe7c)
 
 - Table of Index
   - [1. Prerequisites](#1-prerequisites)
