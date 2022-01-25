@@ -1,0 +1,6 @@
+framework module Pods_MenuCanvas {
+  umbrella header "Pods-MenuCanvas-umbrella.h"
+
+  export *
+  module * { export * }
+}
