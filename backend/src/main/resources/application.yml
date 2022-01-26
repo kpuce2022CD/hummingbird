@@ -1,4 +1,7 @@
 spring:
+  security:
+    user:
+      password: "root"
   application:
     name: "backend"
   datasource:
@@ -20,6 +23,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
 #security:
 #  basic:
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 #    enabled: false

@@ -15,20 +15,12 @@ public class Security extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-
-                .antMatchers("/").permitAll()
-
+                .antMatchers("/*").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
-
                 .logout().permitAll()
-
                 .and()
-
                 .formLogin();
-
-
         http.csrf().disable();
 
     }
