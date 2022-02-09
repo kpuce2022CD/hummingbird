@@ -36,7 +36,7 @@ services:
     environment:
       MYSQL_DATABASE: menucanvas
       MYSQL_ROOT_PASSWORD: "0000"
-      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_HOST: "%"
     volumes:
       - ./db/menucanvas:/var/lib/menucanvas
     ports:
