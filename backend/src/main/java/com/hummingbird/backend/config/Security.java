@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableWebSecurity // Spring Security를 활성화한다는 의미의 어노테이션
-@Configuration
 public class Security extends WebSecurityConfigurerAdapter {
 
     @Override
