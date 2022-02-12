@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import React from "react";
 import Nav from "../components/Nav";
 
-const qrpage: NextPage = () => {
+const QrPage: NextPage = () => {
   return (
     <div>
       <Nav />
@@ -32,4 +32,4 @@ const qrpage: NextPage = () => {
   );
 };
 
-export default qrpage;
+export default QrPage;

@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import React from "react";
 
-const orderPage: NextPage = () => {
+const OrderPage: NextPage = () => {
   return <div>orderPage</div>;
 };
 
-export default orderPage;
+export default OrderPage;

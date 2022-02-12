@@ -1,7 +1,8 @@
+import React from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import React from "react";
 import Nav from "../components/Nav";
+import MenuFormCard from "../components/MenuFormCard";
 
 const MenuPage: NextPage = () => {
   const router = useRouter();
@@ -28,6 +29,8 @@ const MenuPage: NextPage = () => {
                 <button className="bg-gray-300">+</button>
               </div>
               <div className="bg-purple-100">메뉴 수정 정보수정창</div>
+              <MenuFormCard />
+              {}
             </div>
           </div>
         </div>
