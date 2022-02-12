@@ -5,11 +5,11 @@ import { menuInputCardState } from "../recoil/states";
 const MenuFormCard = () => {
   const [menuValues, setMenuValues] = useState<{
     menu: string;
-    price: number;
+    price: string;
     menuInfo: string;
   }>({
     menu: "",
-    price: 0,
+    price: "",
     menuInfo: "",
   });
 
@@ -19,7 +19,9 @@ const MenuFormCard = () => {
   // 디바운싱 최적화 필요
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setMenuValues({ ...menuValues, [name]: value });
+    if (value !== null) {
+      setMenuValues({ ...menuValues, [name]: value });
+    }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -41,7 +43,6 @@ const MenuFormCard = () => {
           name="price"
           placeholder="가격"
           value={menuValues.price}
-          type="number"
           onChange={handleChange}
         />
         <input

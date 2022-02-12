@@ -3,10 +3,12 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Nav from "../components/Nav";
 import MenuFormCard from "../components/MenuFormCard";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { menuInputCardState } from "../recoil/states";
+import MenuList from "../components/MenuList";
 
 const MenuPage: NextPage = () => {
   const router = useRouter();
-
   return (
     <div>
       <Nav />
@@ -22,7 +24,6 @@ const MenuPage: NextPage = () => {
             저장
           </button>
           <div className="flex bg-yellow-100">
-            <div className="bg-green-100">메뉴선택</div>
             <div className="bg-orange-100 w-full">
               <div className="flex justify-between">
                 <h2 className="inline-block">정보수정창</h2>
@@ -30,7 +31,7 @@ const MenuPage: NextPage = () => {
               </div>
               <div className="bg-purple-100">메뉴 수정 정보수정창</div>
               <MenuFormCard />
-              {}
+              <MenuList />
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ const menuInputCardState = atom({
   default: [
     {
       menu: "",
-      price: 0,
+      price: "",
       menuInfo: "",
     },
   ],
