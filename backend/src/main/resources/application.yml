@@ -20,6 +20,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 #security:
 #  basic:
 #    enabled: false
