@@ -1,10 +1,15 @@
 package com.hummingbird.backend.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Date;
 
+@Setter
+@Getter
 @Entity
-public class Menu {
+public class Menu extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long menu_id;
@@ -16,49 +21,10 @@ public class Menu {
     @JoinColumn(name = "user")
     private User user;
 
-    @Column(name = "created_at")
-    private Date created_at;
+//    @Column(name = "created_at")
+//    private Date created_at;
+//
+//    @Column(name = "modified_at")
+//    private Date modified_at;
 
-    @Column(name = "modified_at")
-    private Date modified_at;
-
-    public Long getMenu_id() {
-        return menu_id;
-    }
-
-    public void setMenu_id(Long menu_id) {
-        this.menu_id = menu_id;
-    }
-
-    public String getMenu_name() {
-        return menu_name;
-    }
-
-    public void setMenu_name(String menu_name) {
-        this.menu_name = menu_name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
-
-    public Date getModified_at() {
-        return modified_at;
-    }
-
-    public void setModified_at(Date modified_at) {
-        this.modified_at = modified_at;
-    }
 }

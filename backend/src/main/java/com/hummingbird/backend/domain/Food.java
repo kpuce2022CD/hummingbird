@@ -1,7 +1,12 @@
 package com.hummingbird.backend.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 public class Food {
     @Id
@@ -22,43 +27,6 @@ public class Food {
     @JoinColumn(name = "category")
     private Category category;
 
-    public Long getFood_id() {
-        return food_id;
-    }
 
-    public void setFood_id(Long food_id) {
-        this.food_id = food_id;
-    }
 
-    public String getFood_name() {
-        return food_name;
-    }
-
-    public void setFood_name(String food_name) {
-        this.food_name = food_name;
-    }
-
-    public String getFood_describe() {
-        return food_describe;
-    }
-
-    public void setFood_describe(String food_describe) {
-        this.food_describe = food_describe;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }

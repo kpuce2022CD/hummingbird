@@ -1,7 +1,12 @@
 package com.hummingbird.backend.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Setter
+@Getter
 @Entity
 public class User {
     @Id
@@ -11,19 +16,4 @@ public class User {
     @Column(name = "user_name",length = 20)
     private String user_name;
 
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
 }
