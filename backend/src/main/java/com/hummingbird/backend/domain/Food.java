@@ -20,11 +20,11 @@ public class Food {
     private String food_describe;
 
     @ManyToOne
-    @JoinColumn(name = "menu")
+    @JoinColumn(name = "menu_id")
     private Menu menu;
 
     @ManyToOne
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_id")
     private Category category;
 
 

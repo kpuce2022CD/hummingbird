@@ -18,7 +18,7 @@ public class Menu extends BaseTimeEntity{
     private String menu_name;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
 //    @Column(name = "created_at")

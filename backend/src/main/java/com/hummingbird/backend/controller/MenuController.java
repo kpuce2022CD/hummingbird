@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @SuppressWarnings("ALL")
-@Controller
+@RestController
 public class MenuController {
 
     private MenuService menuService;
@@ -18,8 +19,13 @@ public class MenuController {
     }
 
     @PostMapping("/menu/new")
-    public String create(@RequestBody Menu menu){
-        menuService.submit(menu);
-        return "redirect:/";
+    public Long create(@RequestBody Menu menu){
+        try{
+            menuService.submit(menu);
+            return menu.getMenu_id();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return -1L;
     }
 }

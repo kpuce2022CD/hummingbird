@@ -1,6 +1,7 @@
 package com.hummingbird.backend.service.impl;
 
 import com.hummingbird.backend.domain.Menu;
+import com.hummingbird.backend.domain.User;
 import com.hummingbird.backend.repository.MenuRepository;
 import com.hummingbird.backend.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Long submit(Menu menu) {
+        User user =new User();
+        user.setUser_id(1L);
+        user.setUser_name("song");
+        menu.setUser(user);
         menuRepository.save(menu);
         return menu.getMenu_id();
     }
