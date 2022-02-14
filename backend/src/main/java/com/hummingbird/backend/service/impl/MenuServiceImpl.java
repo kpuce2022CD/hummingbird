@@ -5,7 +5,6 @@ import com.hummingbird.backend.domain.User;
 import com.hummingbird.backend.repository.MenuRepository;
 import com.hummingbird.backend.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,12 +31,29 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Optional<Menu> findOne(Long id) {
-        return menuRepository.findById(id);
+    public boolean delete(Long id) {
+
+        Optional<Menu> menu = menuRepository.findById(id);
+        if(!menu.isPresent()){
+            return false;
+        }
+        menuRepository.delete(menu.get());
+        return true;
     }
 
     @Override
-    public List<Menu> findAll() {
-        return null;
+    public Menu getMenu(Long id) {
+        Optional<Menu> optionalMenu = menuRepository.findById(id);
+        if (!optionalMenu.isPresent()) {
+            return null;
+        }
+        return optionalMenu.get();
     }
+
+    @Override
+    public List<Menu> getMenuList() {
+        List<Menu> menuList = menuRepository.findAll();
+        return menuList;
+    }
+
 }
