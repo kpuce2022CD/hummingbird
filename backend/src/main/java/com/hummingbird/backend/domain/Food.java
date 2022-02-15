@@ -19,6 +19,9 @@ public class Food {
     @Column(name = "food_describe",length = 100)
     private String food_describe;
 
+    @Column(name = "food_price")
+    private int food_price;
+
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;

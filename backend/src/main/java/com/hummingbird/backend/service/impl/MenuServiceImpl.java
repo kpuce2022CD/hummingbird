@@ -33,12 +33,25 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean delete(Long id) {
 
+
         Optional<Menu> menu = menuRepository.findById(id);
         if(!menu.isPresent()){
             return false;
         }
         menuRepository.delete(menu.get());
         return true;
+    }
+
+    @Override
+    public Long update(Long id,String name) {
+        Optional<Menu> optionalMenu = menuRepository.findById(id);
+        if (optionalMenu.isEmpty()) {
+            return null;
+        }
+        Menu menu = optionalMenu.get();
+        menu.setMenu_name(name);
+        menuRepository.save(menu);
+        return menu.getMenu_id();
     }
 
     @Override
@@ -55,5 +68,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> menuList = menuRepository.findAll();
         return menuList;
     }
+
+
 
 }

@@ -16,5 +16,9 @@ public class Category {
     @Column(name = "category_name")
     private String category_name;
 
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu_id;
+
 
 }

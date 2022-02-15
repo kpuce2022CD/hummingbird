@@ -22,13 +22,19 @@ public class MenuController {
     }
 
     @PostMapping("/menu/new")
-    public Long create(@RequestBody Menu menu){
+    public Long createMenu(@RequestBody Menu menu){
         menuService.submit(menu);
         return menu.getMenu_id();
     }
 
+    @PostMapping("/menu/update")
+    public Long updateMenu(Long id,String name){
+        //update 로직
+        return menuService.update(id, name);
+    }
+
     @PostMapping("/menu/delete")
-    public boolean delete(Long id){
+    public boolean deleteMenu(Long id){
         return menuService.delete(id);
     }
 
