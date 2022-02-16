@@ -4,6 +4,7 @@ interface menuInputCardType {
   menu: string;
   price: number;
   menuInfo: string;
+  allergy: string;
 }
 
 const menuInputCardState = atom({
@@ -13,8 +14,15 @@ const menuInputCardState = atom({
       menu: "",
       price: "",
       menuInfo: "",
+      allergy: "",
     },
   ],
 });
 
-export { menuInputCardState };
+// 쓰이지는 않는다.
+const menuNameState = atom({
+  key: "menuName",
+  default: "",
+});
+
+export { menuInputCardState, menuNameState };

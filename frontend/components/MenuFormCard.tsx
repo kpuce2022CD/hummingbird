@@ -7,10 +7,12 @@ const MenuFormCard = () => {
     menu: string;
     price: string;
     menuInfo: string;
+    allergy: string;
   }>({
     menu: "",
     price: "",
     menuInfo: "",
+    allergy: "",
   });
 
   const [menuCardValues, setMenuCardValues] =
@@ -49,6 +51,12 @@ const MenuFormCard = () => {
           name="menuInfo"
           placeholder="메뉴소개"
           value={menuValues.menuInfo}
+          onChange={handleChange}
+        />
+        <input
+          name="allergy"
+          placeholder="알러지 정보"
+          value={menuValues.allergy}
           onChange={handleChange}
         />
         <button className="bg-gray-200" type="submit">
