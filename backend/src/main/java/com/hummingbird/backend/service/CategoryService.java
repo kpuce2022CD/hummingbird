@@ -1,5 +1,13 @@
 package com.hummingbird.backend.service;
 
+import com.hummingbird.backend.domain.Category;
+
+import java.util.List;
+
 public interface CategoryService {
-    boolean updateCategory(Long id,String name);
+    Long create(Category category);
+    Long update(Long id,String name);
+    boolean delete(Long id);
+
+
 }

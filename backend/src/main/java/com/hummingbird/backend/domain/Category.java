@@ -11,14 +11,14 @@ import javax.persistence.*;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long category_id;
+    private Long id;
 
-    @Column(name = "category_name")
-    private String category_name;
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "menu_id")
-    private Menu menu_id;
+    private Menu menu;
 
 
 }

@@ -24,7 +24,7 @@ public class MenuController {
     @PostMapping("/menu/new")
     public Long createMenu(@RequestBody Menu menu){
         menuService.submit(menu);
-        return menu.getMenu_id();
+        return menu.getId();
     }
 
     @PostMapping("/menu/update")

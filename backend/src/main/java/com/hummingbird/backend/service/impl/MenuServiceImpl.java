@@ -1,7 +1,11 @@
 package com.hummingbird.backend.service.impl;
 
+import com.hummingbird.backend.domain.Category;
+import com.hummingbird.backend.domain.Food;
 import com.hummingbird.backend.domain.Menu;
 import com.hummingbird.backend.domain.User;
+import com.hummingbird.backend.repository.CategoryRepository;
+import com.hummingbird.backend.repository.FoodRepository;
 import com.hummingbird.backend.repository.MenuRepository;
 import com.hummingbird.backend.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +18,23 @@ import java.util.Optional;
 @Service
 public class MenuServiceImpl implements MenuService {
     public final MenuRepository menuRepository;
+    public final CategoryRepository categoryRepository;
+    public final FoodRepository foodRepository;
 
     @Autowired
-    public MenuServiceImpl(MenuRepository menuRepository) {
+    public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository, FoodRepository foodRepository) {
         this.menuRepository = menuRepository;
+        this.categoryRepository = categoryRepository;
+        this.foodRepository = foodRepository;
     }
 
     @Override
     public Long submit(Menu menu) {
         User user =new User();
-        user.setUser_id(1L);
-        user.setUser_name("song");
+        user.setId(1L);
         menu.setUser(user);
-        menuRepository.save(menu);
-        return menu.getMenu_id();
+        Menu result = menuRepository.save(menu);
+        return result.getId();
     }
 
     @Override
@@ -38,6 +45,28 @@ public class MenuServiceImpl implements MenuService {
         if(!menu.isPresent()){
             return false;
         }
+
+        List<Category> categoryList = categoryRepository.findByMenu_Id(id);
+        System.out.println("categoryList : "+categoryList.size());
+
+        for(int i=0;i<categoryList.size();i++){
+            System.out.println("id : "+categoryList.get(i).getId());
+            List<Food> foodList =
+                    foodRepository.findByCategory_Id(categoryList.get(i).getId());
+            foodRepository.deleteAll(foodList);
+//            if(foodList.size()>0){
+//                for (int j = 0; i < foodList.size(); i++) {
+//                    foodRepository.delete(foodList.get(i));
+//                }
+//            }
+
+
+        }
+
+        for (int i = 0; i < categoryList.size(); i++) {
+            categoryRepository.delete(categoryList.get(i));
+        }
+
         menuRepository.delete(menu.get());
         return true;
     }
@@ -49,9 +78,9 @@ public class MenuServiceImpl implements MenuService {
             return null;
         }
         Menu menu = optionalMenu.get();
-        menu.setMenu_name(name);
+        menu.setName(name);
         menuRepository.save(menu);
-        return menu.getMenu_id();
+        return menu.getId();
     }
 
     @Override

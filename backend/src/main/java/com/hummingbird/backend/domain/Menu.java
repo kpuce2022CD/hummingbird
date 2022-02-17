@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Setter
 @Getter
@@ -12,10 +11,10 @@ import java.sql.Date;
 public class Menu extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long menu_id;
+    private Long id;
 
-    @Column(name = "menu_name",length = 20)
-    private String menu_name;
+    @Column(name = "name",length = 20)
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
