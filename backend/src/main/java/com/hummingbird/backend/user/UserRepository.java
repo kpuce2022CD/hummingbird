@@ -1,4 +1,4 @@
-package com.hummingbird.backend.repository;
+package com.hummingbird.backend.user;
 
 
 import com.hummingbird.backend.domain.User;

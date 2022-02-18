@@ -1,13 +1,11 @@
-package com.hummingbird.backend.service.impl;
+package com.hummingbird.backend.menu;
 
 import com.hummingbird.backend.domain.Category;
 import com.hummingbird.backend.domain.Food;
 import com.hummingbird.backend.domain.Menu;
 import com.hummingbird.backend.domain.User;
-import com.hummingbird.backend.repository.CategoryRepository;
-import com.hummingbird.backend.repository.FoodRepository;
-import com.hummingbird.backend.repository.MenuRepository;
-import com.hummingbird.backend.service.MenuService;
+import com.hummingbird.backend.category.CategoryRepository;
+import com.hummingbird.backend.food.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

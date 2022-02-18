@@ -1,4 +1,4 @@
-package com.hummingbird.backend.repository;
+package com.hummingbird.backend.category;
 
 import com.hummingbird.backend.domain.Category;
 import com.hummingbird.backend.domain.Food;

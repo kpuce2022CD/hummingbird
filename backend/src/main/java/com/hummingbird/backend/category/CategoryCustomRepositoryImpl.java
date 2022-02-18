@@ -1,8 +1,6 @@
-package com.hummingbird.backend.repository.impl;
+package com.hummingbird.backend.category;
 
 import com.hummingbird.backend.domain.Category;
-import com.hummingbird.backend.repository.CategoryCustomRepository;
-import com.hummingbird.backend.repository.FoodRepository;
 
 import java.util.Optional;
 

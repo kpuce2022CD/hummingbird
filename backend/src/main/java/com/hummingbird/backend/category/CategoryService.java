@@ -1,4 +1,4 @@
-package com.hummingbird.backend.service;
+package com.hummingbird.backend.category;
 
 import com.hummingbird.backend.domain.Category;
 

@@ -1,4 +1,4 @@
-package com.hummingbird.backend.service;
+package com.hummingbird.backend.food;
 
 import com.hummingbird.backend.domain.Food;
 

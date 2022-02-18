@@ -1,4 +1,4 @@
-package com.hummingbird.backend.service;
+package com.hummingbird.backend.menu;
 
 import com.hummingbird.backend.domain.Menu;
 import org.springframework.transaction.annotation.Transactional;

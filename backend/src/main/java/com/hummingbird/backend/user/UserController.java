@@ -1,4 +1,4 @@
-package com.hummingbird.backend.controller;
+package com.hummingbird.backend.user;
 
 import org.springframework.web.bind.annotation.RestController;
 

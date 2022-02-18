@@ -1,7 +1,6 @@
-package com.hummingbird.backend.controller;
+package com.hummingbird.backend.food;
 
 import com.hummingbird.backend.domain.Food;
-import com.hummingbird.backend.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
