@@ -1,6 +1,5 @@
 package com.hummingbird.backend.push.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -18,10 +17,10 @@ public class PushCommonMessage {
     private LocalDateTime createdMessageTime;
 //    private String image;
 
-    public final static PushCommonMessage REQUEST_ORDER = PushCommonMessage.builder().title("주문 요청").message("새로운 주문이 요청 발생.").build();
-    public final static PushCommonMessage ACCEPT_ORDER = PushCommonMessage.builder().title("주문 수락").message("주문이 요청 수락.").build();
+    public static final PushCommonMessage REQUEST_ORDER = new PushCommonMessage("주문 요청", "새로운 주문이 요청 발생.");
+    public static final PushCommonMessage ACCEPT_ORDER = new PushCommonMessage("주문 수락", "주문이 요청 수락.");
 
-    @Builder
+
     public PushCommonMessage(String title, String message) {
         this.title = title;
         this.message = message;
