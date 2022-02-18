@@ -9,7 +9,7 @@ import MenuList from "../components/MenuList";
 
 const MenuPage: NextPage = () => {
   const router = useRouter();
-
+  const menuFiltered = useRecoilValue(menuInputCardState);
   const [menuName, setMenuName] = useState<string>();
   const handleChangeMenuName = (event: React.ChangeEvent<HTMLInputElement>) => {
     let menuNameValue = event.target.value;
@@ -17,7 +17,15 @@ const MenuPage: NextPage = () => {
   };
 
   // FIXME: 차후 서버와 API 통신이 발생하는 곳
+  // 해당 메뉴의 정보를 DB에 저장할 수 있는 API가 연결된다.
+  // 현재는 로컬스토리지를 통해 기능을 구현하였다.
   const handleQr = () => {
+    menuFiltered.map((value, index) => {
+      if (index !== 0) {
+        const key = String(index);
+        window.localStorage.setItem(key, JSON.stringify(value));
+      }
+    });
     router.push({
       pathname: "/qrpage",
       query: { menuName: menuName },

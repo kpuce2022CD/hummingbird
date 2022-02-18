@@ -1,12 +1,12 @@
 import { atom } from "recoil";
 
+// FIXME: 이미지 업로드, 카테고리
 interface menuInputCardType {
   menu: string;
   price: number;
   menuInfo: string;
   allergy: string;
 }
-
 const menuInputCardState = atom({
   key: "menuInputCard",
   default: [

@@ -9,6 +9,7 @@ interface qrpageType {
   queryStringUrl: string;
 }
 
+// QR코드 다운로드 기능
 const onImageDownload = () => {
   // FIXME: useRef를 활용하여 돔 객체에 접근하는 방식이 아닌 State로 접근하는 방식으로 차후 구현할 것.
   const svg = document.getElementById("QRCode");
