@@ -1,7 +1,4 @@
 spring:
-  security:
-    user:
-      password: "root"
   application:
     name: "backend"
   datasource:
@@ -23,14 +20,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    generate-ddl: true
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 #security:
 #  basic:
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
 #    enabled: false
+project:
+  properties:
+    fcm_private_key_path: "oder-canvas-firebase-adminsdk-xeoff-b3e5bb9530.json"
+    firebase-create-scoped: "https://www.googleapis.com/auth/firebase.messaging"
+    firebase-multicast-message-size: 500
