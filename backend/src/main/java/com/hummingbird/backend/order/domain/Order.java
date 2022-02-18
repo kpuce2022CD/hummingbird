@@ -1,11 +1,14 @@
 package com.hummingbird.backend.order.domain;
 
+import com.hummingbird.backend.user.domain.Customer;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
@@ -17,6 +20,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
     private Long orderId;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @Column(name = "order_status",length = 30, nullable = false)
     private String orderStatus;
