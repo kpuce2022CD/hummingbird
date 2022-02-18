@@ -1,5 +1,6 @@
 package com.hummingbird.backend.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hummingbird.backend.order.domain.Order;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class Customer {
     @Column(name = "name",nullable = false)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
 }
