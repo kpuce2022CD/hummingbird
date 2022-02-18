@@ -13,23 +13,21 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter @Setter
 @Entity
-@Table(name = "order_item")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
     @Id
     @GeneratedValue
-    @Column(name = "order_item_id", nullable = false)
+    @Column(name = "order_item_id")
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
+
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Column(name = "order_price", nullable = false)
     private int orderPrice;
