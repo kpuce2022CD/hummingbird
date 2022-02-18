@@ -49,6 +49,17 @@ const ResultMenu = () => {
   // 카테고리 리스트의 갯수만큼 해당 내용이 출력되어야한다.
   // 기능 구현 후 컴포넌트로 뺄 예정이다.
   // 횡스크롤이 가능하여야한다.
+  const handleAddCard = (menu: string, price: string) => {
+    alert("장바구니 담기 완료!");
+
+    if (!sessionStorage.getItem(menu)) {
+      sessionStorage.setItem(menu, price);
+    } else {
+      const prePrice = parseInt(sessionStorage.getItem(menu)!);
+      const curPrice = String(prePrice + parseInt(price));
+      sessionStorage.setItem(menu, curPrice);
+    }
+  };
 
   const contentObj = {
     0: (
@@ -58,7 +69,10 @@ const ResultMenu = () => {
           {menuList.map((value, index) => {
             return (
               <>
-                <div className="flex-shrink-0 w-[200px] h-[50px] bg-red-100">
+                <div
+                  className="flex-shrink-0 w-[200px] h-[50px] bg-red-100 cursor-pointer"
+                  onClick={() => handleAddCard(value.menu, value.price)}
+                >
                   <span className="block"> 메뉴명 : {value.menu}</span>
                   <span className="block"> 가격 : {value.price}</span>
                 </div>
