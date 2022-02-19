@@ -16,6 +16,10 @@ const ResultMenu = () => {
         allergy: string;
       }
     ];
+    obj: {
+      menu: string;
+      price: string;
+    };
   }
 
   const [menuList, setMenuList] = useRecoilState(menuInputCardState);
@@ -36,7 +40,7 @@ const ResultMenu = () => {
     setTabActiveState(idx);
     const objList = [];
     if (localStorage !== null) {
-      for (let i = 1; i < localStorage.length; i++) {
+      for (let i = 1; i <= localStorage.length; i++) {
         const key = String(i);
         const obj = JSON.parse(localStorage.getItem(key)!);
         objList.push(obj);
@@ -49,15 +53,20 @@ const ResultMenu = () => {
   // 카테고리 리스트의 갯수만큼 해당 내용이 출력되어야한다.
   // 기능 구현 후 컴포넌트로 뺄 예정이다.
   // 횡스크롤이 가능하여야한다.
-  const handleAddCard = (menu: string, price: string) => {
+  const handleAddCard = (index: number, menu: string, price: string) => {
     alert("장바구니 담기 완료!");
-
-    if (!sessionStorage.getItem(menu)) {
-      sessionStorage.setItem(menu, price);
+    let obj = {
+      menuName: menu,
+      totalPrice: price,
+    };
+    if (!sessionStorage.getItem(String(index))) {
+      sessionStorage.setItem(String(index), JSON.stringify(obj));
     } else {
-      const prePrice = parseInt(sessionStorage.getItem(menu)!);
-      const curPrice = String(prePrice + parseInt(price));
-      sessionStorage.setItem(menu, curPrice);
+      const tmpObj = JSON.parse(sessionStorage.getItem(String(index))!);
+      const prePrice = tmpObj.totalPrice;
+      const curPrice = String(parseInt(prePrice) + parseInt(price));
+      obj.totalPrice = curPrice;
+      sessionStorage.setItem(String(index), JSON.stringify(obj));
     }
   };
 
@@ -71,7 +80,7 @@ const ResultMenu = () => {
               <>
                 <div
                   className="flex-shrink-0 w-[200px] h-[50px] bg-red-100 cursor-pointer"
-                  onClick={() => handleAddCard(value.menu, value.price)}
+                  onClick={() => handleAddCard(index, value.menu, value.price)}
                 >
                   <span className="block"> 메뉴명 : {value.menu}</span>
                   <span className="block"> 가격 : {value.price}</span>
@@ -107,7 +116,7 @@ const ResultMenu = () => {
       <div className="w-[414px] h-[896px] bg-blue-100">
         <div className="flex justify-between">
           <button>햄버거메뉴</button>
-          <button>장바구니 메뉴</button>
+          <button onClick={() => router.push("/cart")}>장바구니 메뉴</button>
         </div>
         <div>
           <span>슬로건1</span>
