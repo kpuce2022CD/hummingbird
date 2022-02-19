@@ -3,11 +3,23 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { menuInputCardState } from "../recoil/states";
+import { count } from "console";
 // 완성된 메뉴판, 손님들이 볼 메뉴판입니다.
 const ResultMenu = () => {
+  interface ICategoryFilterItems {
+    menu: string;
+    price: string;
+    menuInfo: string;
+    allergy: string;
+    category: string;
+  }
+
   const [menuList, setMenuList] = useRecoilState(menuInputCardState);
+  const [tabActiveState, setTabActiveState] = useState<string>();
+  const [tabItems, SetTabItems] = useState<string[]>([]);
   const [url, setUrl] = useState<string>("");
   const router = useRouter();
+  const [cartList, setCartList] = useState<Object>();
 
   // FIXME: QR 생성 URL 주소 차후에 배포 후 변경 필요
   useEffect(() => {
@@ -17,80 +29,51 @@ const ResultMenu = () => {
 
   // FIXME: 입력된 카테고리 리스트가 매핑 되어야 한다.
   // 횡스크롤이 가능하여야한다.
-  const tabs = ["FOOD", "DRINK", "SNACK"];
-  const [tabActiveState, setTabActiveState] = useState(0);
-  const clickHandler = (idx: React.SetStateAction<number>) => {
-    setTabActiveState(idx);
+  useEffect(() => {
+    let tabs: any[] = [];
+    console.log("화면 마운트 ");
+    for (let i = 1; i < localStorage.length; i++) {
+      const tmpObj = JSON.parse(localStorage.getItem(String(i))!);
+      tabs.push(tmpObj.category);
+    }
+    SetTabItems(tabs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const clickHandler = (categoryName: string) => {
+    setTabActiveState(categoryName);
+    console.log(tabActiveState);
     const objList = [];
     if (localStorage !== null) {
-      for (let i = 1; i <= localStorage.length; i++) {
+      for (let i = 1; i < localStorage.length; i++) {
         const key = String(i);
         const obj = JSON.parse(localStorage.getItem(key)!);
-        objList.push(obj);
+        if (obj.category === categoryName) {
+          objList.push(obj);
+        }
       }
     }
     setMenuList(objList);
+    console.log(menuList);
   };
-  // TODO: FOOD, DRINK, SNACK 세가지에 대해서 작업을 해볼 예정이다.
-  // 해당 리스트의 내용이 출력되는 컴포넌트가 각 태그에 들어가야 한다.
-  // 카테고리 리스트의 갯수만큼 해당 내용이 출력되어야한다.
-  // 기능 구현 후 컴포넌트로 뺄 예정이다.
-  // 횡스크롤이 가능하여야한다.
+
   const handleAddCard = (index: number, menu: string, price: string) => {
     alert("장바구니 담기 완료!");
-    let obj = {
-      menuName: menu,
-      totalPrice: price,
-    };
-    if (!sessionStorage.getItem(String(index))) {
-      sessionStorage.setItem(String(index), JSON.stringify(obj));
-    } else {
-      const tmpObj = JSON.parse(sessionStorage.getItem(String(index))!);
-      const prePrice = tmpObj.totalPrice;
-      const curPrice = String(parseInt(prePrice) + parseInt(price));
-      obj.totalPrice = curPrice;
-      sessionStorage.setItem(String(index), JSON.stringify(obj));
-    }
   };
-
-  const contentObj = {
-    0: (
-      <section>
-        <button>더보기</button>
-        <div className="flex space-x-3 overflow-scroll scrollbar-hide p-3 -ml-3 scroll-smooth">
-          {menuList.map((value, index) => {
-            return (
-              <>
-                <div
-                  className="flex-shrink-0 w-[200px] h-[50px] bg-red-100 cursor-pointer"
-                  onClick={() => handleAddCard(index, value.menu, value.price)}
-                >
-                  <span className="block"> 메뉴명 : {value.menu}</span>
-                  <span className="block"> 가격 : {value.price}</span>
-                </div>
-              </>
-            );
-          })}
-        </div>
-      </section>
-    ),
-    1: <p>DRINK</p>,
-    2: <p>SNACK</p>,
-  };
-
-  const tabList = tabs.map((tab, idx) => (
+  // 차후 횡 스크롤 될 수 있도록 변경
+  const tabList = tabItems.map((value, index) => (
     <li
       className={`${
-        tabActiveState === idx
+        tabActiveState === value
           ? " bg-purple-700 text-white"
           : "bg-gray-200 text-gray-400"
       } w-1/3 duration-200 ease-in-out font-semibold`}
-      key={idx}
+      key={index}
       onClick={() => {
-        clickHandler(idx);
+        clickHandler(value);
       }}
     >
-      {tab}
+      {value}
     </li>
   ));
 
@@ -112,7 +95,23 @@ const ResultMenu = () => {
               <ul className="flex w-full bg-gray-200 pl-6">{tabList}</ul>
             </div>
           </div>
-          <div>{contentObj[tabActiveState]}</div>
+          <div className="flex space-x-3 overflow-scroll scrollbar-hide p-3 -ml-3 scroll-smooth">
+            {menuList.map((value, index) => {
+              return (
+                <>
+                  <div
+                    className="flex-shrink-0 w-[200px] h-[50px] bg-red-100 cursor-pointer"
+                    onClick={() =>
+                      handleAddCard(index, value.menu, value.price)
+                    }
+                  >
+                    <span className="block"> 메뉴명 : {value.menu}</span>
+                    <span className="block"> 가격 : {value.price}</span>
+                  </div>
+                </>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

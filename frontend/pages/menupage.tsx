@@ -90,6 +90,7 @@ const MenuPage: NextPage = () => {
               id="categories"
               onChange={handleCategoryClick}
             >
+              <option className="hidden"></option>
               {menuFiled.map((value, index) =>
                 value.menu !== "" ? (
                   <option key={index} value={value.category}>
