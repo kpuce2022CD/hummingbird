@@ -3,17 +3,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { menuInputCardState } from "../recoil/states";
 
 const MenuList = () => {
-  interface menuPageType {
-    menuList: [
-      {
-        menu: string;
-        price: number;
-        menuInfo: string;
-        allergy: string;
-      }
-    ];
-  }
-
   const [menuList, setMenuList] = useRecoilState(menuInputCardState);
 
   const handleDelete = (index: number) => {
@@ -41,6 +30,7 @@ const MenuList = () => {
             <li>{item.price}</li>
             <li>{item.menuInfo}</li>
             <li>{item.allergy}</li>
+            <li>{item.category}</li>
           </div>
         ))}
       </ul>

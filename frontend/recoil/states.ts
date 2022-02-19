@@ -6,6 +6,7 @@ interface menuInputCardType {
   price: number;
   menuInfo: string;
   allergy: string;
+  category: string;
 }
 const menuInputCardState = atom({
   key: "menuInputCard",
@@ -15,6 +16,7 @@ const menuInputCardState = atom({
       price: "",
       menuInfo: "",
       allergy: "",
+      category: "",
     },
   ],
 });

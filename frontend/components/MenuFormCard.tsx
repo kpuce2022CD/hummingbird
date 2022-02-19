@@ -3,16 +3,20 @@ import { useRecoilState } from "recoil";
 import { menuInputCardState } from "../recoil/states";
 
 const MenuFormCard = () => {
-  const [menuValues, setMenuValues] = useState<{
+  interface IMenuValue {
     menu: string;
     price: string;
     menuInfo: string;
     allergy: string;
-  }>({
+    category: string;
+  }
+
+  const [menuValues, setMenuValues] = useState<IMenuValue>({
     menu: "",
     price: "",
     menuInfo: "",
     allergy: "",
+    category: "",
   });
 
   const [menuCardValues, setMenuCardValues] =
@@ -29,7 +33,13 @@ const MenuFormCard = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setMenuCardValues([...menuCardValues, menuValues]);
-    console.log(menuCardValues);
+    setMenuValues({
+      menu: "",
+      price: "",
+      menuInfo: "",
+      allergy: "",
+      category: "",
+    });
   };
 
   return (
@@ -57,6 +67,12 @@ const MenuFormCard = () => {
           name="allergy"
           placeholder="알러지 정보"
           value={menuValues.allergy}
+          onChange={handleChange}
+        />
+        <input
+          name="category"
+          placeholder="카테고리"
+          value={menuValues.category}
           onChange={handleChange}
         />
         <button className="bg-gray-200" type="submit">

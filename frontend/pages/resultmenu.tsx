@@ -5,23 +5,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { menuInputCardState } from "../recoil/states";
 // 완성된 메뉴판, 손님들이 볼 메뉴판입니다.
 const ResultMenu = () => {
-  // http://localhost:3000/qrpage?menuName=asd
-  // localhost:3000/resultmenu?menuName=asd
-  interface menuPageType {
-    menuList: [
-      {
-        menu: string;
-        price: number;
-        menuInfo: string;
-        allergy: string;
-      }
-    ];
-    obj: {
-      menu: string;
-      price: string;
-    };
-  }
-
   const [menuList, setMenuList] = useRecoilState(menuInputCardState);
   const [url, setUrl] = useState<string>("");
   const router = useRouter();

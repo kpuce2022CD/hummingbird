@@ -8,9 +8,21 @@ import { menuInputCardState } from "../recoil/states";
 import MenuList from "../components/MenuList";
 
 const MenuPage: NextPage = () => {
+  interface ICategoryFilterItems {
+    menu: string;
+    price: string;
+    menuInfo: string;
+    allergy: string;
+    category: string;
+  }
+
   const router = useRouter();
-  const menuFiltered = useRecoilValue(menuInputCardState);
+  const menuFiled = useRecoilValue(menuInputCardState);
   const [menuName, setMenuName] = useState<string>();
+  const [categoryItems, setCategoryItems] = useState<ICategoryFilterItems[]>(
+    []
+  );
+
   const handleChangeMenuName = (event: React.ChangeEvent<HTMLInputElement>) => {
     let menuNameValue = event.target.value;
     setMenuName(menuNameValue);
@@ -20,7 +32,7 @@ const MenuPage: NextPage = () => {
   // 해당 메뉴의 정보를 DB에 저장할 수 있는 API가 연결된다.
   // 현재는 로컬스토리지를 통해 기능을 구현하였다.
   const handleQr = () => {
-    menuFiltered.map((value, index) => {
+    menuFiled.map((value, index) => {
       if (index !== 0) {
         const key = String(index);
         window.localStorage.setItem(key, JSON.stringify(value));
@@ -30,6 +42,17 @@ const MenuPage: NextPage = () => {
       pathname: "/qrpage",
       query: { menuName: menuName },
     });
+  };
+
+  const handleCategoryClick = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
+    let tmpCategoryItems: ICategoryFilterItems[] = [];
+    menuFiled.map((value, index) => {
+      if (value.category === event.target.value) {
+        tmpCategoryItems.push(value);
+      }
+    });
+    setCategoryItems(tmpCategoryItems);
   };
 
   return (
@@ -61,8 +84,29 @@ const MenuPage: NextPage = () => {
         {/* 메뉴판 */}
         <div className="flex bg-blue-100 w-[60%]">
           <div className="m-auto bg-orange-100 w-[414px] h-[618px]">
-            식사류
-            <MenuList />
+            <label htmlFor="categories">메뉴 카테고리</label>
+            <select
+              name="categories"
+              id="categories"
+              onChange={handleCategoryClick}
+            >
+              {menuFiled.map((value, index) =>
+                value.menu !== "" ? (
+                  <option key={index} value={value.category}>
+                    {value.category}
+                  </option>
+                ) : null
+              )}
+            </select>
+            <ul>
+              {categoryItems.map((item, index) => (
+                <div key={index} className="bg-purple-200 m-2">
+                  {/* TODO: */}
+                  <li>{item.menu}</li>
+                  <li>{item.price}</li>
+                </div>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
