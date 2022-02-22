@@ -1,14 +1,17 @@
 package com.hummingbird.backend.category.domain;
 
 import com.hummingbird.backend.menu.domain.Menu;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 @Getter
-@Setter
 @Entity
+@ToString
+@Setter
+@NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +20,8 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "menu_id")
     private Menu menu;
-
 
 }

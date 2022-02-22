@@ -2,7 +2,7 @@ package com.hummingbird.backend.food.service.serviceImpl;
 
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.food.domain.Food;
-import com.hummingbird.backend.menu.domain.Menu;
+import com.hummingbird.backend.food.dto.FoodDto;
 import com.hummingbird.backend.category.repository.CategoryRepository;
 import com.hummingbird.backend.food.repository.FoodRepository;
 import com.hummingbird.backend.food.service.FoodService;
@@ -35,13 +35,16 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Long submit(Food food) {
-        Category category = new Category();
-        Menu menu = new Menu();
-        category.setId(1L);
-        menu.setId(3L);
-        food.setCategory(category);
-//        food.setMenu(menu);
+    public Long submit(FoodDto dto,Long categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        if (category.isEmpty()) {
+            return null;
+        }
+        Food food = new Food();
+        food.setCategory(category.get());
+        food.setName(dto.getName());
+        food.setContent(dto.getContent());
+        food.setPrice(dto.getPrice());
         Food result = foodRepository.save(food);
         return result.getId();
     }

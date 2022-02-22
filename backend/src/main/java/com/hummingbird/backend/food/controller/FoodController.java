@@ -1,6 +1,7 @@
 package com.hummingbird.backend.food.controller;
 
 import com.hummingbird.backend.food.domain.Food;
+import com.hummingbird.backend.food.dto.FoodDto;
 import com.hummingbird.backend.food.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +19,8 @@ public class FoodController {
     }
 
     @PostMapping("/food/new")
-    public Long createFood(@RequestBody Food food){
-        return foodService.submit(food);
+    public Long createFood(@RequestBody FoodDto dto, Long categoryId){
+        return foodService.submit(dto,categoryId);
     }
 
     @PostMapping("/food/update")

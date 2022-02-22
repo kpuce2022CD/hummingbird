@@ -3,18 +3,19 @@ package com.hummingbird.backend.food.domain;
 import com.hummingbird.backend.category.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
+@ToString
 @Getter
 @Setter
 @Entity
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "food_id")
     private Long id;
 
     @Column(name = "name", length = 20)

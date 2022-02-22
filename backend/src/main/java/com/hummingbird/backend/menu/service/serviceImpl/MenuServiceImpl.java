@@ -3,11 +3,15 @@ package com.hummingbird.backend.menu.service.serviceImpl;
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.menu.domain.Menu;
+import com.hummingbird.backend.menu.dto.CreateMenuDto;
+import com.hummingbird.backend.menu.dto.GetMenuDto;
+import com.hummingbird.backend.menu.dto.UpdateMenuDto;
 import com.hummingbird.backend.user.domain.User;
 import com.hummingbird.backend.category.repository.CategoryRepository;
 import com.hummingbird.backend.food.repository.FoodRepository;
 import com.hummingbird.backend.menu.repository.MenuRepository;
 import com.hummingbird.backend.menu.service.MenuService;
+import com.hummingbird.backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,26 +24,32 @@ public class MenuServiceImpl implements MenuService {
     public final MenuRepository menuRepository;
     public final CategoryRepository categoryRepository;
     public final FoodRepository foodRepository;
+    public final UserRepository userRepository;
 
     @Autowired
-    public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository, FoodRepository foodRepository) {
+    public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository, FoodRepository foodRepository, UserRepository userRepository) {
         this.menuRepository = menuRepository;
         this.categoryRepository = categoryRepository;
         this.foodRepository = foodRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Long submit(Menu menu) {
-        User user =new User();
-        user.setId(1L);
-        menu.setUser(user);
+    public Long submit(CreateMenuDto dto,Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            return null;
+        }
+        Menu menu = Menu.builder()
+                .name(dto.getName())
+                .user(user.get())
+                .build();
         Menu result = menuRepository.save(menu);
         return result.getId();
     }
 
     @Override
     public boolean delete(Long id) {
-
 
         Optional<Menu> menu = menuRepository.findById(id);
         if(!menu.isPresent()){
@@ -50,23 +60,18 @@ public class MenuServiceImpl implements MenuService {
         System.out.println("categoryList : "+categoryList.size());
 
         for(int i=0;i<categoryList.size();i++){
-            System.out.println("id : "+categoryList.get(i).getId());
+            //food 삭제
             List<Food> foodList =
                     foodRepository.findByCategory_Id(categoryList.get(i).getId());
             foodRepository.deleteAll(foodList);
-//            if(foodList.size()>0){
-//                for (int j = 0; i < foodList.size(); i++) {
-//                    foodRepository.delete(foodList.get(i));
-//                }
-//            }
-
-
         }
 
+        //category 삭제
         for (int i = 0; i < categoryList.size(); i++) {
             categoryRepository.delete(categoryList.get(i));
         }
 
+        //menu 삭제
         menuRepository.delete(menu.get());
         return true;
     }
@@ -79,23 +84,47 @@ public class MenuServiceImpl implements MenuService {
         }
         Menu menu = optionalMenu.get();
         menu.setName(name);
-        menuRepository.save(menu);
-        return menu.getId();
+//        Menu menu = optionalMenu.get();
+//        UpdateMenuDto dto = UpdateMenuDto
+//                .builder()
+//                .name(name)
+//                .id(menu.getId())
+//                .user(menu.getUser())
+//                .createdDate(menu.getCreatedDate())
+//                        .build();
+
+        return menuRepository.save(menu).getId();
     }
 
     @Override
-    public Menu getMenu(Long id) {
+    public GetMenuDto getMenu(Long id) {
         Optional<Menu> optionalMenu = menuRepository.findById(id);
         if (!optionalMenu.isPresent()) {
             return null;
         }
-        return optionalMenu.get();
+        Menu menu = optionalMenu.get();
+
+        return GetMenuDto.builder()
+                .name(menu.getName())
+                .user(menu.getUser())
+                .id(menu.getId())
+                .build();
     }
 
     @Override
-    public List<Menu> getMenuList() {
+    public List<GetMenuDto> getMenuList() {
         List<Menu> menuList = menuRepository.findAll();
-        return menuList;
+        List<GetMenuDto> dtoList = null;
+
+        for(Menu menu:menuList){
+            GetMenuDto dto = GetMenuDto.builder()
+                    .name(menu.getName())
+                    .user(menu.getUser())
+                    .id(menu.getId())
+                    .build();
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
 
