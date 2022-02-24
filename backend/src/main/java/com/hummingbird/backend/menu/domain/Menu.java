@@ -1,9 +1,13 @@
 package com.hummingbird.backend.menu.domain;
 
+import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
@@ -22,8 +26,10 @@ public class Menu extends BaseTimeEntity{
     private String name;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "menu",cascade = CascadeType.REMOVE)
+    private List<Category> categoryList = new ArrayList<>();
 
 
 
@@ -34,10 +40,9 @@ public class Menu extends BaseTimeEntity{
         this.user = user;
     }
 
-    //    @Column(name = "created_at")
-//    private Date created_at;
-//
-//    @Column(name = "modified_at")
-//    private Date modified_at;
+    public void changeName(String name){
+        this.name = name;
+    }
+
 
 }

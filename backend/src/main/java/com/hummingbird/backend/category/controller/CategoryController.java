@@ -1,8 +1,7 @@
 package com.hummingbird.backend.category.controller;
 
-import com.hummingbird.backend.category.dto.CategoryDto;
+import com.hummingbird.backend.category.dto.CreateCategoryDto;
 import com.hummingbird.backend.category.service.CategoryService;
-import com.hummingbird.backend.category.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +17,7 @@ public class CategoryController {
     }
 
     @PostMapping("/category/new")
-    public Long createCategory(@RequestBody CategoryDto dto,Long menuId){
+    public Long createCategory(@RequestBody CreateCategoryDto dto, Long menuId){
         return categoryService.create(dto,menuId);
     }
 

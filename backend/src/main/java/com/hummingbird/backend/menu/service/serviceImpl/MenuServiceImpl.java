@@ -5,7 +5,6 @@ import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.menu.domain.Menu;
 import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
-import com.hummingbird.backend.menu.dto.UpdateMenuDto;
 import com.hummingbird.backend.user.domain.User;
 import com.hummingbird.backend.category.repository.CategoryRepository;
 import com.hummingbird.backend.food.repository.FoodRepository;
@@ -55,21 +54,21 @@ public class MenuServiceImpl implements MenuService {
         if(!menu.isPresent()){
             return false;
         }
-
-        List<Category> categoryList = categoryRepository.findByMenu_Id(id);
-        System.out.println("categoryList : "+categoryList.size());
-
-        for(int i=0;i<categoryList.size();i++){
-            //food 삭제
-            List<Food> foodList =
-                    foodRepository.findByCategory_Id(categoryList.get(i).getId());
-            foodRepository.deleteAll(foodList);
-        }
-
-        //category 삭제
-        for (int i = 0; i < categoryList.size(); i++) {
-            categoryRepository.delete(categoryList.get(i));
-        }
+//
+//        List<Category> categoryList = categoryRepository.findByMenu_Id(id);
+//        System.out.println("categoryList : "+categoryList.size());
+//
+//        for(int i=0;i<categoryList.size();i++){
+//            //food 삭제
+//            List<Food> foodList =
+//                    foodRepository.findByCategory_Id(categoryList.get(i).getId());
+//            foodRepository.deleteAll(foodList);
+//        }
+//
+//        //category 삭제
+//        for (int i = 0; i < categoryList.size(); i++) {
+//            categoryRepository.delete(categoryList.get(i));
+//        }
 
         //menu 삭제
         menuRepository.delete(menu.get());
@@ -82,16 +81,12 @@ public class MenuServiceImpl implements MenuService {
         if (optionalMenu.isEmpty()) {
             return null;
         }
-        Menu menu = optionalMenu.get();
-        menu.setName(name);
 //        Menu menu = optionalMenu.get();
-//        UpdateMenuDto dto = UpdateMenuDto
-//                .builder()
-//                .name(name)
-//                .id(menu.getId())
-//                .user(menu.getUser())
-//                .createdDate(menu.getCreatedDate())
-//                        .build();
+//        System.out.println("created at : "+menu.getCreatedDate());
+//        menu.setName(name);
+        Menu menu = optionalMenu.get();
+       menu.changeName(name);
+
 
         return menuRepository.save(menu).getId();
     }

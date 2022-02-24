@@ -1,6 +1,7 @@
 package com.hummingbird.backend.category.service.serviceImpl;
 
-import com.hummingbird.backend.category.dto.CategoryDto;
+import com.hummingbird.backend.category.dto.CreateCategoryDto;
+import com.hummingbird.backend.category.dto.GetCategoryDto;
 import com.hummingbird.backend.category.repository.CategoryRepository;
 import com.hummingbird.backend.category.service.CategoryService;
 import com.hummingbird.backend.category.domain.Category;
@@ -28,31 +29,87 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Long create(CategoryDto dto,Long menuId) {
-        Category category = new Category();
+    public Long create(CreateCategoryDto dto, Long menuId) {
+//        Category category = new Category();
         Optional<Menu> optionalMenu = menuRepository.findById(menuId);
+
         if (optionalMenu.isEmpty()) {
             return null;
         }
-        Menu menu = optionalMenu.get();
-        category.setName(dto.getName());
-        category.setMenu(menu);
-        Category result = categoryRepository.save(category);
-        return result.getId();
+        Category category = dto.toEntity(optionalMenu.get());
+//        Menu menu = optionalMenu.get();
+//        category.setName(dto.getName());
+//        category.setMenu(menu);
+//        Category result = categoryRepository.save(category);
+//        return result.getId();
+        return categoryRepository.save(category).getId();
     }
 
     @Override
     public Long update(Long id, String name) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if(!optionalCategory.isPresent()){
+        if(optionalCategory.isEmpty()){
             return null;
         }
-        else{
-            Category category = optionalCategory.get();
-            category.setName(name);
-            categoryRepository.save(category);
-            return category.getId();
+        Category category = optionalCategory.get();
+        category.changeName(name);
+        return categoryRepository.save(category).getId();
+//        else{
+//            Category category = optionalCategory.get();
+//            category.setName(name);
+//            categoryRepository.save(category);
+//            return category.getId();
+//        }
+    }
+
+    @Override
+    public GetCategoryDto getCategory(Long categoryId) {
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+        if (optionalCategory.isEmpty()) {
+            return null;
         }
+        Category category = optionalCategory.get();
+        GetCategoryDto dto = GetCategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .menu(category.getMenu())
+                .build();
+        return dto;
+    }
+
+    @Override
+    public List<GetCategoryDto> getCategoryListByMenu(Long menuId) {
+        Optional<Menu> optionalMenu = menuRepository.findById(menuId);
+        List<GetCategoryDto> dtoList = null;
+        if (optionalMenu.isEmpty()) {
+            return null;
+        }
+//        Menu menu = optionalMenu.get();
+        List<Category> categoryList = categoryRepository.findByMenu_Id(menuId);
+        for (Category category : categoryList) {
+            GetCategoryDto dto = GetCategoryDto.builder()
+                    .name(category.getName())
+                    .id(category.getId())
+                    .menu(category.getMenu())
+                    .build();
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
+    @Override
+    public List<GetCategoryDto> getCategoryList() {
+        List<Category> categoryList = categoryRepository.findAll();
+        List<GetCategoryDto> dtoList = null;
+        for (Category category : categoryList) {
+            GetCategoryDto dto = GetCategoryDto.builder()
+                    .menu(category.getMenu())
+                    .id(category.getId())
+                    .name(category.getName())
+                    .build();
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     @Override
@@ -61,8 +118,8 @@ public class CategoryServiceImpl implements CategoryService {
         if (optionalCategory.isEmpty()) {
             return false;
         }
-        List<Food> foodList = foodRepository.findByCategory_Id(id);
-        foodRepository.deleteAll(foodList);
+//        List<Food> foodList = foodRepository.findByCategory_Id(id);
+//        foodRepository.deleteAll(foodList);
 //
 //        for (int i=0; i < foodList.size(); i++) {
 //            System.out.println(i);

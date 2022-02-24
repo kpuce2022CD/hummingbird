@@ -1,9 +1,8 @@
 package com.hummingbird.backend.food.domain;
 
 import com.hummingbird.backend.category.domain.Category;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.hummingbird.backend.food.dto.UpdateFoodDto;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,8 +10,8 @@ import static javax.persistence.FetchType.LAZY;
 
 @ToString
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +31,18 @@ public class Food {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Builder
+    public Food(Long id, String name, String content, int price, Category category) {
+        this.id = id;
+        this.name = name;
+        this.content = content;
+        this.price = price;
+        this.category = category;
+    }
 
-
+    public void UpdateFood(UpdateFoodDto dto){
+        this.name = dto.getName();
+        this.price = dto.getPrice();
+        this.content = dto.getContent();
+    }
 }

@@ -1,6 +1,5 @@
-package com.hummingbird.backend.category.dto;
+package com.hummingbird.backend.food.dto;
 
-import com.hummingbird.backend.menu.domain.Menu;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class CategoryDto {
-    private Long id;
+public class UpdateFoodDto {
     private String name;
+    private int price;
+    private String content;
 }
