@@ -30,7 +30,7 @@ public class OrderService {
     @Transactional
     public Long order(Long customerId, Long foodId, int count){
 
-        Customer customer = customerRepository.getCustomerById(customerId).orElseThrow(NullPointerException::new);
+        Customer customer = customerRepository.findCustomerById(customerId).orElseThrow(NullPointerException::new);
         Food food = foodRepository.getFoodById(foodId).orElseThrow(NullPointerException::new);
 
         return Long.valueOf(0);
