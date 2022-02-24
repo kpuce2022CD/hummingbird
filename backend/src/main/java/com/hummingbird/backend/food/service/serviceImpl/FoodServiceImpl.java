@@ -89,51 +89,5 @@ public class FoodServiceImpl implements FoodService {
         }
         return dtoList;
     }
-//
-//
-//    public List<Food> getFoodByMenu(Long menuId){
-//        List<Food> foodList = null;
-//        List<Category> categoryList = categoryRepository.findByMenu_Id(menuId);
-//        for (int i=0;i<categoryList.size();i++){
-//            foodList.addAll(foodRepository.findByCategory_Id(categoryList.get(i).getId()));
-//        }
-////        List<Food> foodList = foodRepository.findByMenu_Id(menuId);
-////        System.out.println(foodList.size());
-//        return foodList;
-//    }
-
-//    @Override
-//    public Long update(Long id, String name, String describe, int price) {
-//        Optional<Food> optionalFood = foodRepository.findById(id);
-//        if (optionalFood.isEmpty()) {
-//            return null;
-//        }
-//        Food food = optionalFood.get();
-//        food.setName(name);
-//        food.setContent(describe);
-//        food.setPrice(price);
-//        return food.getId();
-//    }
-
-//    @Override
-//    public int deleteFoodsByMenuId(Long menuId) {
-//        List<Food> foodList = foodRepository.findByMenu_Id(menuId);
-//        int i;
-//        for (i=0; i < foodList.size(); i++) {
-//            foodRepository.delete(foodList.get(i));
-//        }
-//        return i;
-//    }
-
-//    @Override
-//    public int deleteFoodsByCategoryId(Long categoryId) {
-//        List<Food> foodList = foodRepository.findByCategory_Id(categoryId);
-//        int i;
-//        for (i=0; i < foodList.size(); i++) {
-//            foodRepository.delete(foodList.get(i));
-//        }
-//        return i;
-//    }
-
 
 }

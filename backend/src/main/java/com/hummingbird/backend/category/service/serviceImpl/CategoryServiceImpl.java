@@ -118,13 +118,6 @@ public class CategoryServiceImpl implements CategoryService {
         if (optionalCategory.isEmpty()) {
             return false;
         }
-//        List<Food> foodList = foodRepository.findByCategory_Id(id);
-//        foodRepository.deleteAll(foodList);
-//
-//        for (int i=0; i < foodList.size(); i++) {
-//            System.out.println(i);
-//            foodRepository.delete(foodList.get(i));
-//        }
         Category category = optionalCategory.get();
         categoryRepository.delete(category);
         return true;

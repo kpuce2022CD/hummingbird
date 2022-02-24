@@ -54,23 +54,7 @@ public class MenuServiceImpl implements MenuService {
         if(!menu.isPresent()){
             return false;
         }
-//
-//        List<Category> categoryList = categoryRepository.findByMenu_Id(id);
-//        System.out.println("categoryList : "+categoryList.size());
-//
-//        for(int i=0;i<categoryList.size();i++){
-//            //food 삭제
-//            List<Food> foodList =
-//                    foodRepository.findByCategory_Id(categoryList.get(i).getId());
-//            foodRepository.deleteAll(foodList);
-//        }
-//
-//        //category 삭제
-//        for (int i = 0; i < categoryList.size(); i++) {
-//            categoryRepository.delete(categoryList.get(i));
-//        }
 
-        //menu 삭제
         menuRepository.delete(menu.get());
         return true;
     }
@@ -81,9 +65,6 @@ public class MenuServiceImpl implements MenuService {
         if (optionalMenu.isEmpty()) {
             return null;
         }
-//        Menu menu = optionalMenu.get();
-//        System.out.println("created at : "+menu.getCreatedDate());
-//        menu.setName(name);
         Menu menu = optionalMenu.get();
        menu.changeName(name);
 
