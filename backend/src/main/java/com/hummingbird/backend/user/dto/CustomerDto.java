@@ -11,18 +11,13 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerDto {
 
+    private Long id;
+
     @NotEmpty
     private String name;
 
     @NotEmpty
     private String token;
 
-    public CustomerDto(String name) {
-        this.name = name;
-        this.token = name+"token";
-    }
 
-    public Customer toEntity() {
-        return new Customer(this.name);
-    }
 }
