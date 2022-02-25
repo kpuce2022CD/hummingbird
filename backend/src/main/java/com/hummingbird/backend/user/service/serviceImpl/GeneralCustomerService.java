@@ -37,6 +37,11 @@ public class GeneralCustomerService implements UserService {
     }
 
     @Override
+    public Customer getReferenceById(Long id) {
+        return customerRepository.getById(id);
+    }
+
+    @Override
     public void isDuplicatedCustomer(Customer customer) {
         Optional<Customer> customerToCheckDuplicated = customerRepository.findCustomerByToken(customer.getToken());
         if (customerToCheckDuplicated.isPresent()){
