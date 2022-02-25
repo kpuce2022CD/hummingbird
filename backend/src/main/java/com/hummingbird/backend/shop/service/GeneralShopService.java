@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 public class GeneralShopService implements ShopService {
 
 
-    private ShopRepository shopRepository;
+    private final ShopRepository shopRepository;
 
     @Autowired
     public GeneralShopService(ShopRepository shopRepository) {
