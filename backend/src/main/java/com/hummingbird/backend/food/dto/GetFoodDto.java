@@ -6,23 +6,24 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
-@Setter
-@Getter
 public class GetFoodDto {
     private Long id;
     private String name;
     private int price;
     private String content;
-    private Long fileId;
+    private String origFileName;
+    private String fileName;
+    private String filePath;
 
     @Builder
-    public GetFoodDto(Long id, String name, int price, String content, Long fileId) {
+    public GetFoodDto(Long id, String name, int price, String content, String origFileName, String fileName, String filePath) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.content = content;
-        this.fileId = fileId;
+        this.origFileName = origFileName;
+        this.fileName = fileName;
+        this.filePath = filePath;
     }
-
 
 }

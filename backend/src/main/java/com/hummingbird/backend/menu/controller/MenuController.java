@@ -4,10 +4,7 @@ import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
 import com.hummingbird.backend.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class MenuController {
     }
 
     @PostMapping("/menu/new")
-    public Long createMenu(@RequestBody CreateMenuDto dto,Long userId){
+    public Long createMenu(@RequestBody CreateMenuDto dto, @RequestParam("userId") Long userId){
         return menuService.submit(dto,userId);
     }
 

@@ -2,6 +2,7 @@ package com.hummingbird.backend.food.domain;
 
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.food.dto.UpdateFoodDto;
+import com.hummingbird.backend.food.dto.UploadFoodDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,32 +27,45 @@ public class Food {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "fileId")
-    private Long fileId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(name = "origFileName",nullable = false)
+    private String origFileName;
+
+    @Column(name = "file_name",nullable = false)
+    private String fileName;
+
+    @Column(name = "file_path",nullable = false)
+    private String filePath;
+
     @Builder
-    public Food(Long id, String name, String content, int price, Long fileId, Category category) {
+    public Food(Long id, String name, String content, int price, Long fileId, Category category, String origFileName, String fileName, String filePath) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.price = price;
-        this.fileId = fileId;
         this.category = category;
+        this.origFileName = origFileName;
+        this.fileName = fileName;
+        this.filePath = filePath;
     }
 
-
-
-
+    public void UploadImage(UploadFoodDto uploadFoodDto){
+        this.origFileName = uploadFoodDto.getOrigFileName();
+        this.fileName = uploadFoodDto.getFileName();
+        this.filePath = uploadFoodDto.getFilePath();
+    }
 
 
     public void UpdateFood(UpdateFoodDto dto){
         this.name = dto.getName();
         this.price = dto.getPrice();
         this.content = dto.getContent();
-        this.fileId = dto.getFileId();
+        this.origFileName = dto.getOrigFileName();
+        this.fileName = dto.getFileName();
+        this.filePath = dto.getFilePath();
     }
 }

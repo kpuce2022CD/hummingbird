@@ -13,5 +13,7 @@ public class UpdateFoodDto {
     private String name;
     private int price;
     private String content;
-    private Long fileId;
+    private String origFileName;
+    private String fileName;
+    private String filePath;
 }
