@@ -64,6 +64,10 @@ public class Food {
         this.name = dto.getName();
         this.price = dto.getPrice();
         this.content = dto.getContent();
+
+    }
+
+    public void UpdateImage(UploadFoodDto dto){
         this.origFileName = dto.getOrigFileName();
         this.fileName = dto.getFileName();
         this.filePath = dto.getFilePath();

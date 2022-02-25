@@ -1,6 +1,7 @@
 package com.hummingbird.backend.food.controller;
 
 import com.hummingbird.backend.food.dto.CreateFoodDto;
+import com.hummingbird.backend.food.dto.UpdateFoodDto;
 import com.hummingbird.backend.food.dto.UploadFoodDto;
 import com.hummingbird.backend.food.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,17 @@ public class FoodController {
         return foodService.submit(uploadFoodDto,createFoodDto, categoryId);
     }
     @PostMapping("/food/update")
-    public Long updateFood(Long id,String name, String describe, int price){
-//        return foodService.update(id, name, describe, price);
-        return null;
+    public Long updateFood(Long id,UpdateFoodDto dto){
+        return foodService.updateFood(id,dto);
     }
+
+    @PostMapping("/food/imgupdate")
+    public Long updateFoodImage(@RequestParam("files") MultipartFile files,Long id){
+        UploadFoodDto uploadFoodDto = foodService.upload(files);
+        return foodService.updateImage(id,uploadFoodDto);
+    }
+
+
 
     @PostMapping("/food/delete")
     public boolean deleteFood(Long id) {

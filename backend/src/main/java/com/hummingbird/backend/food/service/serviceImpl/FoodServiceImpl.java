@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,15 +79,49 @@ public class FoodServiceImpl implements FoodService {
         if(optionalFood.isEmpty()){
             return false;
         }
-        foodRepository.delete(optionalFood.get());
+
+        Food food = optionalFood.get();
+        UploadFoodDto uploadFoodDto = UploadFoodDto.builder()
+                .origFileName(food.getOrigFileName())
+                .fileName(food.getFileName())
+                .filePath(food.getFilePath())
+                .build();
+
+        File file = new File(uploadFoodDto.getFilePath());
+        if(file.exists()){
+            file.delete();
+        }
+        foodRepository.delete(food);
         return true;
     }
 
     @Override
-    public Long update(Long id, UpdateFoodDto dto) {
+    public Long updateFood(Long id, UpdateFoodDto dto) {
         Optional<Food> optionalFood = foodRepository.findById(id);
         Food food = optionalFood.get();
         food.UpdateFood(dto);
+        return foodRepository.save(food).getId();
+    }
+
+    @Override
+    public Long updateImage(Long id, UploadFoodDto newDto) {
+        Optional<Food> optionalFood = foodRepository.findById(id);
+        if(optionalFood.isEmpty()){
+            return null;
+        }
+        Food food = optionalFood.get();
+        UploadFoodDto origDto = UploadFoodDto.builder()
+                .origFileName(food.getOrigFileName())
+                .fileName(food.getFileName())
+                .filePath(food.getFilePath())
+                .build();
+
+        File file = new File(origDto.getFilePath());
+        if (file.exists()) {
+            file.delete();
+        }
+
+        food.UpdateImage(newDto);
         return foodRepository.save(food).getId();
     }
 
