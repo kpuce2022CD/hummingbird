@@ -15,6 +15,7 @@ public class CreateFoodDto {
     private String name;
     private int price;
     private String content;
+    private Long fileId;
 
     public Food toEntity(Category category) {
         Food food = Food.builder()
@@ -22,6 +23,7 @@ public class CreateFoodDto {
                 .price(price)
                 .content(content)
                 .category(category)
+                .fileId(fileId)
                 .build();
         return food;
     }

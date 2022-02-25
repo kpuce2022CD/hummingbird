@@ -13,13 +13,16 @@ public class GetFoodDto {
     private String name;
     private int price;
     private String content;
+    private Long fileId;
 
     @Builder
-    public GetFoodDto(Long id, String name, int price, String content) {
+    public GetFoodDto(Long id, String name, int price, String content, Long fileId) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.content = content;
+        this.fileId = fileId;
     }
+
 
 }

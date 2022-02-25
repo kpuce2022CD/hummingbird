@@ -26,23 +26,32 @@ public class Food {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "fileId")
+    private Long fileId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
     @Builder
-    public Food(Long id, String name, String content, int price, Category category) {
+    public Food(Long id, String name, String content, int price, Long fileId, Category category) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.price = price;
+        this.fileId = fileId;
         this.category = category;
     }
+
+
+
+
+
 
     public void UpdateFood(UpdateFoodDto dto){
         this.name = dto.getName();
         this.price = dto.getPrice();
         this.content = dto.getContent();
+        this.fileId = dto.getFileId();
     }
 }
