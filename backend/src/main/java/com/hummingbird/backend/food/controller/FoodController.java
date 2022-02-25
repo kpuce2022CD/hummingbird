@@ -29,8 +29,8 @@ public class FoodController {
     @PostMapping("/food/new")
     public Long createFood(@RequestParam("files") MultipartFile files, CreateFoodDto dto, Long categoryId) {
         try {
-            String origFilename = files.getOriginalFilename();
-            String filename = new MD5Generator(origFilename).toString();
+            String origName = files.getOriginalFilename();
+            String name = new MD5Generator(origName).toString();
             /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
             String savePath = System.getProperty("user.dir") + "/files";
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
@@ -41,13 +41,13 @@ public class FoodController {
                     e.getStackTrace();
                 }
             }
-            String filePath = savePath + "/" + filename;
-            files.transferTo(new File(filePath));
+            String path = savePath + "/" + name;
+            files.transferTo(new File(path));
 
             FileDto fileDto = new FileDto();
-            fileDto.setOrigFilename(origFilename);
-            fileDto.setFilename(filename);
-            fileDto.setFilePath(filePath);
+            fileDto.setOrigName(origName);
+            fileDto.setName(name);
+            fileDto.setPath(path);
 
             Long fileId = fileService.saveFile(fileDto);
             dto.setFileId(fileId);

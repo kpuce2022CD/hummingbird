@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -15,23 +12,23 @@ import javax.persistence.Id;
 public class File {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String origFilename;
+    @Column(name = "origName",nullable = false)
+    private String origName;
 
-    @Column(nullable = false)
-    private String filename;
+    @Column(name = "name",nullable = false)
+    private String name;
 
-    @Column(nullable = false)
-    private String filePath;
+    @Column(name = "path",nullable = false)
+    private String path;
 
     @Builder
-    public File(Long id, String origFilename, String filename, String filePath) {
+    public File(Long id, String origName, String name, String path) {
         this.id = id;
-        this.origFilename = origFilename;
-        this.filename = filename;
-        this.filePath = filePath;
+        this.origName = origName;
+        this.name = name;
+        this.path = path;
     }
 }
