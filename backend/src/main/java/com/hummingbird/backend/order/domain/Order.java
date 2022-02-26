@@ -1,7 +1,6 @@
 package com.hummingbird.backend.order.domain;
 
-import com.hummingbird.backend.food.domain.Food;
-import com.hummingbird.backend.order.dto.OrderInfoDto;
+import com.hummingbird.backend.shop.domain.Shop;
 import com.hummingbird.backend.user.domain.Customer;
 import lombok.*;
 
@@ -27,6 +26,10 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status",length = 30, nullable = false)
     private OrderStatus orderStatus;
@@ -38,18 +41,20 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Builder
-    public Order(Long orderId, Customer customer, OrderStatus orderStatus, List<OrderItem> orderItems) {
+    public Order(Long orderId, Customer customer, Shop shop, OrderStatus orderStatus, List<OrderItem> orderItems) {
         this.orderId = orderId;
         this.customer = customer;
+        this.shop = shop;
         this.orderStatus = orderStatus;
         this.orderItems = orderItems;
         this.orderDate = LocalDateTime.now();
     }
 
-    public static Order createOrder(Customer customer){
+    public static Order createOrder(Customer customerReference, Shop shopReference){
         return Order
                 .builder()
-                .customer(customer)
+                .customer(customerReference)
+                .shop(shopReference)
                 .orderStatus(OrderStatus.SEND)
                 .build();
     }
