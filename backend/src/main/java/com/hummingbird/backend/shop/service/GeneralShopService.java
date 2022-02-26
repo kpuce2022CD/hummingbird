@@ -29,6 +29,11 @@ public class GeneralShopService implements ShopService {
     }
 
     @Override
+    public Shop getReferenceById(Long shopId) {
+        return shopRepository.getById(shopId);
+    }
+
+    @Override
     public Shop updateShopInfo(ShopDto shopDto) {
         Shop shop = shopRepository.findShopById(shopDto.getId()).orElseThrow(EntityNotFoundException::new);
         shop.updateShopProfile(shopDto);
