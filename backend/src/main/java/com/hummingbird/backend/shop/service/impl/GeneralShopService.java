@@ -1,13 +1,15 @@
-package com.hummingbird.backend.shop.service;
+package com.hummingbird.backend.shop.service.impl;
 
 import com.hummingbird.backend.shop.domain.Shop;
 import com.hummingbird.backend.shop.dto.ShopDto;
 import com.hummingbird.backend.shop.repository.ShopRepository;
-import com.hummingbird.backend.shop.service.impl.ShopService;
+import com.hummingbird.backend.shop.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
+@Service
 public class GeneralShopService implements ShopService {
 
 

@@ -1,4 +1,4 @@
-package com.hummingbird.backend.shop.service.impl;
+package com.hummingbird.backend.shop.service;
 
 import com.hummingbird.backend.shop.domain.Shop;
 import com.hummingbird.backend.shop.dto.ShopDto;
