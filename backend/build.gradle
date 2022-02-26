@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'application'
+	id "org.asciidoctor.convert" version "1.5.9.2"
 }
 
 group = 'com.hummingbird'
@@ -17,6 +18,18 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+ext {
+	// Snippet 의 생성 위치를 지정
+	snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+	// Snippets 디렉토리를 Input 디렉토리로 설정
+	inputs.dir snippetsDir
+	// 문서 생성 전 테스트가 실행되도록 test 에 종속 설정
+	dependsOn test
 }
 
 dependencies {
@@ -34,20 +47,43 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 
 	//springboot validation
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
 
 	//fcm
 	implementation 'com.google.firebase:firebase-admin:8.1.0'
 
+	// test code 에도 lombok 적용
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	/*
+	https://young-bin.tistory.com/92
+    asciidocker 에 대한 spring-restdocs-asciidocker 의존성 추가
+    Maven 처럼 build/generated-snippets 밑에 생성된 Snippet 을 .adoc 파일이 자동으로
+    가리키도록 하는 설정 추가.
+    operation 블록 매크로 사용 가능
+	*/
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	// Maven 과 같이 test Scope 에 대한 mockMvc 의존성을 추가 (WebClient, Assured 사용가능)
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 test {
 	useJUnitPlatform()
+	// Snippets 디렉토리를 출력으로 작업하도록 설정
+	outputs.dir snippetsDir
 }
+
 bootRun {
 	mainClassName = 'com.hummingbird.backend.BackendApplication'
 }
 
 bootJar {
 	mainClassName = 'com.hummingbird.backend.BackendApplication'
+	// 빌드 전 문서 생성 확인
+	dependsOn asciidoctor
+	// 생성된 문서를 static/docs 에 복사
+	from ("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
 }
