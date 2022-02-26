@@ -2,6 +2,8 @@ package com.hummingbird.backend.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hummingbird.backend.food.domain.Food;
+import com.hummingbird.backend.order.dto.FoodInfoDto;
+import com.hummingbird.backend.order.dto.OrderItemInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,6 +40,16 @@ public class OrderItem {
         this.order = order;
         this.orderPrice = orderPrice;
         this.count = count;
+    }
+
+
+    public OrderItemInfoDto convertToOrderItemInfoDto(){
+        return OrderItemInfoDto
+                .builder()
+                .food(food.convertToFoodInfoDto())
+                .orderPrice(orderPrice)
+                .count(count)
+                .build();
     }
 
 }

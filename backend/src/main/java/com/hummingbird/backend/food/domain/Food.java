@@ -2,6 +2,7 @@ package com.hummingbird.backend.food.domain;
 
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.food.dto.UpdateFoodDto;
+import com.hummingbird.backend.order.dto.FoodInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,5 +45,15 @@ public class Food {
         this.name = dto.getName();
         this.price = dto.getPrice();
         this.content = dto.getContent();
+    }
+
+    public FoodInfoDto convertToFoodInfoDto(){
+        return FoodInfoDto
+                .builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .build();
+
     }
 }
