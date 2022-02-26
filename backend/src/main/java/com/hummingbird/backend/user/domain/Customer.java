@@ -12,7 +12,8 @@ import java.util.List;
 @Getter @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Customer {
+public class Customer extends User {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id", nullable = false)
     private Long id;
@@ -20,22 +21,21 @@ public class Customer {
     @Column(name = "token",nullable = false)
     private String token;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "password",nullable = false)
+    private String password;
+
     @Column(name = "name",nullable = false)
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orders = new ArrayList<>();
-
     @Builder
-    public Customer(String name) {
+    public Customer(String token, String email, String password, String name) {
         //todo add token later
         this.token = name+"token";
+        this.email = email;
+        this.password = password;
         this.name = name;
-    }
-
-    public static Customer toEntity(CustomerDto customerDto) {
-        //todo add token later
-        return new Customer(customerDto.getName());
     }
 }
