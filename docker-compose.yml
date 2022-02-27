@@ -23,7 +23,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      spring.datasource.url: "jdbc:mysql://mysqldb:3306/menucanvas?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+      spring.datasource.url: "jdbc:mysql://mysqldb:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
     volumes:
       - ./backend:/backend
     networks:
@@ -31,16 +31,18 @@ services:
     tty: true
 
   mysqldb:
-    image: mysql:5.7
+    image: mysql:8.0.2
     container_name: mysqldb
     environment:
-      MYSQL_DATABASE: menucanvas
+      MYSQL_DATABASE: test_db
       MYSQL_ROOT_PASSWORD: "0000"
-      MYSQL_ROOT_HOST: "%"
+      CHARACter_SET_SERVER: utf8
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     volumes:
-      - ./db/menucanvas:/var/lib/menucanvas
+      - mysql-data:/var/lib/menucanvas
     ports:
       - 3306:3306
+
     networks:
       - network-tier
     platform: linux/x86_64
@@ -48,3 +50,6 @@ services:
 networks:
   network-tier:
     driver: bridge
+
+volumes:
+  mysql-data:
