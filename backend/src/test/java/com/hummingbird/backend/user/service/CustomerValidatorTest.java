@@ -30,7 +30,7 @@ public class CustomerValidatorTest {
 
     @Test
     @DisplayName("정상적으로 로그인 성공")
-    void isCorrectValidation() {
+    void success() {
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(Customer_REQUEST_DTO);
         assertThat(violations).isEmpty();
@@ -39,7 +39,7 @@ public class CustomerValidatorTest {
 
     @Test
     @DisplayName("이메일 형식이 틀렸을 경우")
-    void isNotValidEmail() {
+    void UnValidEmail() {
         CustomerDto customerDto = CustomerDto
                 .builder()
                 .email("qwer1231@navercom")
@@ -54,7 +54,7 @@ public class CustomerValidatorTest {
 
     @Test
     @DisplayName("비밀 번호 형식이 틀렸을 경우")
-    void isNotValidPassword() {
+    void UnValidPassword() {
         CustomerDto customerDto = CustomerDto
                 .builder()
                 .email("qwer1231@naver.com")
