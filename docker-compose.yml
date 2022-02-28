@@ -36,7 +36,7 @@ services:
     environment:
       MYSQL_DATABASE: test_db
       MYSQL_ROOT_PASSWORD: "0000"
-      MYSQL_ROOT_HOST: %
+      MYSQL_ROOT_HOST: '%'
       CHARACTER_SET_SERVER: utf8
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     volumes:
