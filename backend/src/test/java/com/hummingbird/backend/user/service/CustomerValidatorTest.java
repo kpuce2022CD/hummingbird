@@ -29,7 +29,7 @@ public class CustomerValidatorTest {
     }
 
     @Test
-    @DisplayName("사용자가 정상적인 이메일과 패스워드를 입력한 경우 정상적으로 유효성 검사에 통과한다")
+    @DisplayName("정상적으로 로그인 성공")
     void isCorrectValidation() {
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(Customer_REQUEST_DTO);
@@ -38,7 +38,7 @@ public class CustomerValidatorTest {
     }
 
     @Test
-    @DisplayName("사용자의 이메일 형식이 올바르지 않을 경우 유효성 검사에 실패한다.")
+    @DisplayName("이메일 형식이 틀렸을 경우")
     void isNotValidEmail() {
         CustomerDto customerDto = CustomerDto
                 .builder()
@@ -53,7 +53,7 @@ public class CustomerValidatorTest {
     }
 
     @Test
-    @DisplayName("사용자의 패스워드 형식이 올바르지 않을 경우 유효성 검사에 실패한다.")
+    @DisplayName("비밀 번호 형식이 틀렸을 경우")
     void isNotValidPassword() {
         CustomerDto customerDto = CustomerDto
                 .builder()
