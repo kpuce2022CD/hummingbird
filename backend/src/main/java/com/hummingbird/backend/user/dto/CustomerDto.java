@@ -1,28 +1,40 @@
 package com.hummingbird.backend.user.dto;
 
 import com.hummingbird.backend.user.domain.Customer;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomerDto {
-
     @NotEmpty
     private String name;
 
     @NotEmpty
     private String token;
 
-    public CustomerDto(String name) {
-        this.name = name;
-        this.token = name+"token";
-    }
+    @NotEmpty
+    @Email(regexp =  "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
+            message = "유효 하지 않은 이메일 형식 입니다.")
+    private String email;
 
-    public Customer toEntity() {
-        return new Customer(this.name);
+    @NotEmpty
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$",
+            message = "비밀 번호는 최소 1개의 대소문자, 특수문자, 숫자를 포함한 8자 이상여야 합니다.")
+    private String password;
+
+    public Customer toEntity(PasswordEncoder passwordEncoder) {
+        return Customer.builder()
+                .name(name)
+                .token(token)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .build();
     }
 }

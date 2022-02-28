@@ -11,6 +11,7 @@ import com.hummingbird.backend.food.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Long update(Long id, UpdateFoodDto dto) {
         Optional<Food> optionalFood = foodRepository.findById(id);
-        Food food = optionalFood.get();
+        Food food = optionalFood.orElseThrow(EntityNotFoundException::new);
         food.UpdateFood(dto);
         return foodRepository.save(food).getId();
     }
@@ -89,6 +90,17 @@ public class FoodServiceImpl implements FoodService {
         }
         return dtoList;
     }
+
+    @Override
+    public Food findFoodById(Long foodId) {
+        return foodRepository.findById(foodId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public Food getReferenceById(Long foodId) {
+        return foodRepository.getById(foodId);
+    }
+
 //
 //
 //    public List<Food> getFoodByMenu(Long menuId){

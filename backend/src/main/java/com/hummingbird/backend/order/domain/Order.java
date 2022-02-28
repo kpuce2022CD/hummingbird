@@ -1,5 +1,6 @@
 package com.hummingbird.backend.order.domain;
 
+import com.hummingbird.backend.shop.domain.Shop;
 import com.hummingbird.backend.user.domain.Customer;
 import lombok.*;
 
@@ -25,8 +26,13 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status",length = 30, nullable = false)
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -34,12 +40,22 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+    @Builder
+    public Order(Long orderId, Customer customer, Shop shop, OrderStatus orderStatus, List<OrderItem> orderItems) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.shop = shop;
+        this.orderStatus = orderStatus;
         this.orderItems = orderItems;
+        this.orderDate = LocalDateTime.now();
     }
 
-    @Builder
-    public Order(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public static Order createOrder(Customer customerReference, Shop shopReference){
+        return Order
+                .builder()
+                .customer(customerReference)
+                .shop(shopReference)
+                .orderStatus(OrderStatus.SEND)
+                .build();
     }
 }

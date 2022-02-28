@@ -2,10 +2,8 @@ package com.hummingbird.backend.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hummingbird.backend.food.domain.Food;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.hummingbird.backend.order.dto.OrderItemInfo;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -35,12 +33,12 @@ public class OrderItem {
     @Column(name = "count", nullable = false)
     private int count;
 
-
-    public static OrderItem createOrderItem(Food food, int orderPrice, int count) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setFood(food);
-        orderItem.setOrderPrice(orderPrice);
-        orderItem.setCount(count);
-        return orderItem;
+    @Builder
+    public OrderItem(Food food, Order order, int orderPrice, int count) {
+        this.food = food;
+        this.order = order;
+        this.orderPrice = orderPrice;
+        this.count = count;
     }
+
 }

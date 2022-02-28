@@ -1,16 +1,14 @@
 package com.hummingbird.backend.menu.service.serviceImpl;
 
-import com.hummingbird.backend.category.domain.Category;
-import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.menu.domain.Menu;
 import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
-import com.hummingbird.backend.user.domain.User;
+import com.hummingbird.backend.user.domain.Owner;
 import com.hummingbird.backend.category.repository.CategoryRepository;
 import com.hummingbird.backend.food.repository.FoodRepository;
 import com.hummingbird.backend.menu.repository.MenuRepository;
 import com.hummingbird.backend.menu.service.MenuService;
-import com.hummingbird.backend.user.repository.UserRepository;
+import com.hummingbird.backend.user.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,25 +21,25 @@ public class MenuServiceImpl implements MenuService {
     public final MenuRepository menuRepository;
     public final CategoryRepository categoryRepository;
     public final FoodRepository foodRepository;
-    public final UserRepository userRepository;
+    public final OwnerRepository ownerRepository;
 
     @Autowired
-    public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository, FoodRepository foodRepository, UserRepository userRepository) {
+    public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository, FoodRepository foodRepository, OwnerRepository ownerRepository) {
         this.menuRepository = menuRepository;
         this.categoryRepository = categoryRepository;
         this.foodRepository = foodRepository;
-        this.userRepository = userRepository;
+        this.ownerRepository = ownerRepository;
     }
 
     @Override
     public Long submit(CreateMenuDto dto,Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        Optional<Owner> owner = ownerRepository.findById(userId);
+        if (owner.isEmpty()) {
             return null;
         }
         Menu menu = Menu.builder()
                 .name(dto.getName())
-                .user(user.get())
+                .owner(owner.get())
                 .build();
         Menu result = menuRepository.save(menu);
         return result.getId();
@@ -94,14 +92,14 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public GetMenuDto getMenu(Long id) {
         Optional<Menu> optionalMenu = menuRepository.findById(id);
-        if (!optionalMenu.isPresent()) {
+        if (optionalMenu.isEmpty()) {
             return null;
         }
         Menu menu = optionalMenu.get();
 
         return GetMenuDto.builder()
                 .name(menu.getName())
-                .user(menu.getUser())
+                .owner(menu.getOwner())
                 .id(menu.getId())
                 .build();
     }
@@ -114,7 +112,7 @@ public class MenuServiceImpl implements MenuService {
         for(Menu menu:menuList){
             GetMenuDto dto = GetMenuDto.builder()
                     .name(menu.getName())
-                    .user(menu.getUser())
+                    .owner(menu.getOwner())
                     .id(menu.getId())
                     .build();
             dtoList.add(dto);
