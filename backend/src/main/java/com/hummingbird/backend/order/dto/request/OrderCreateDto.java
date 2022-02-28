@@ -14,8 +14,6 @@ public class OrderCreateDto {
 
     private Long shopId;
 
-    private OrderStatus orderStatus;
-
     private List<OrderItemCreateDto> orderItemList;
 
 }
