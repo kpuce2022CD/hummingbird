@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class FoodInfoDto{
+public class FoodInfo {
     @JsonIgnore
     private Long id;
     private String name;

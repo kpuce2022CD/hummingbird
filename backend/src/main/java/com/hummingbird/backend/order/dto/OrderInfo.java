@@ -1,7 +1,6 @@
 package com.hummingbird.backend.order.dto;
 
 import com.hummingbird.backend.order.domain.OrderStatus;
-import com.hummingbird.backend.order.dto.request.OrderItemCreateDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class OrderInfoDto {
+public class OrderInfo {
 
     private Long orderId;
 
@@ -18,11 +17,11 @@ public class OrderInfoDto {
 
     private OrderStatus orderStatus;
 
-    private List<OrderItemInfoDto> orderItemList;
+    private List<OrderItemInfo> orderItemList;
 
     private int totalPrice;
 
     private LocalDateTime orderDate;
 
-    private ShopInfoDto shopInfo;
+    private ShopInfo shopInfo;
 }

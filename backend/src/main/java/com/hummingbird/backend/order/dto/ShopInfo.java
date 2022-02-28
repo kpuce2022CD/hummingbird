@@ -1,4 +1,5 @@
 package com.hummingbird.backend.order.dto;
 
-public class ShopInfoDto {
+public class ShopInfo {
+
 }

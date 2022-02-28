@@ -7,14 +7,14 @@ import lombok.Getter;
 @Getter
 public class ShopDto {
     private Long id;
-    private String email;
+    private String name;
     private OpenStatus openStatus;
 
     public Shop toEntity(){
         return Shop
                 .builder()
                 .id(this.id)
-                .email(this.email)
+                .name(this.name)
                 .openStatus(this.openStatus)
                 .build();
     }
