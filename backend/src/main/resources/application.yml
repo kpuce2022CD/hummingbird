@@ -16,13 +16,20 @@ spring:
     database: "mysql"
     show-sql: "true"
     hibernate:
-      ddl-auto: "update"
+      ddl-auto: "none"
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  sql:
+    init:
+      schema-locations: classpath:scheme.sql
+      data-locations: classpath:data.sql
+      mode: always
+
 #security:
 #  basic:
 #    enabled: false
