@@ -20,7 +20,7 @@ public class Shop {
     @Column(name = "shop_id")
     private Long id;
 
-    private String email;
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private OpenStatus openStatus;
@@ -29,14 +29,14 @@ public class Shop {
     private Order order;
 
     public void updateShopProfile(ShopDto shopDto){
-        this.email = shopDto.getEmail();
+        this.name = shopDto.getName();
         this.openStatus = shopDto.getOpenStatus();
     }
 
     @Builder
-    public Shop(Long id, String email, OpenStatus openStatus) {
+    public Shop(Long id, String name, OpenStatus openStatus) {
         this.id = id;
-        this.email = email;
+        this.name = name;
         this.openStatus = openStatus;
     }
 }
