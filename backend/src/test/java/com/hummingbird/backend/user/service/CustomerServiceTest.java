@@ -9,20 +9,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import static com.hummingbird.backend.init.DBInit.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
@@ -38,36 +34,26 @@ class CustomerServiceTest{
     @Autowired
     private CustomerRepository customerRepository;
 
-    private CustomerDto customerDto;
     private CustomerDto customerDto1;
+    private CustomerDto customerDto2;
 
-    private Customer customer;
     private Customer customer1;
+    private Customer customer2;
     private Customer customer1Duplicated;
 
     @BeforeEach
     void setting(){
 
-        customerDto = CustomerDto
-                .builder()
-                .name("기현")
-                .token("기현token")
-                .email("qwer123@naver.com")
-                .password("zxcv1234~")
-                .build();
+        customer1 = CUSTOMER_1;
+        customer2 = CUSTOMER_2;
 
-        customerDto1 = CustomerDto
-                .builder()
-                .name("기현1")
-                .token("기현1token")
-                .email("qwer1231@naver.com")
-                .password("zxcv1234~")
-                .build();
-
-        customer = customerDto.toEntity(passwordEncoder);
-        customer1Duplicated = customerDto.toEntity(passwordEncoder);
+        customerDto1 = Customer_REQUEST_DTO;
+        customerDto2 = Customer_DTO_2;
 
         customer1 = customerDto1.toEntity(passwordEncoder);
+        customer1Duplicated = customerDto1.toEntity(passwordEncoder);
+
+        customer2 = customerDto2.toEntity(passwordEncoder);
 
     }
 
@@ -76,15 +62,15 @@ class CustomerServiceTest{
     void testSignUp() throws Exception {
 
         // given
-        customerRepository.save(customer);
+        customerRepository.save(customer1);
 
         // when
-        customerService.isDuplicatedCustomer(customerDto1,passwordEncoder);
-        Long savedCustomerId1 =customerService.signup(customerDto1,passwordEncoder);
+        customerService.isDuplicatedCustomer(customerDto2,passwordEncoder);
+        Long savedCustomerId2 =customerService.signup(customerDto2,passwordEncoder);
 
         // then
         assertAll(
-                () -> assertEquals(customer1.getEmail(), customerRepository.findCustomerById(savedCustomerId1).orElseThrow().getEmail())
+                () -> assertEquals(customer2.getEmail(), customerRepository.findCustomerById(savedCustomerId2).orElseThrow().getEmail())
         );
 
     }
@@ -94,13 +80,13 @@ class CustomerServiceTest{
     void testSignUpFailedDuplicated() throws Exception {
 
         // given
-        customerService.signup(customerDto,passwordEncoder);
+        customerService.signup(customerDto1,passwordEncoder);
 
         // when
 
         // then
         assertAll(
-                () -> assertTrue(customerService.isDuplicatedCustomer(customerDto, passwordEncoder))
+                () -> assertTrue(customerService.isDuplicatedCustomer(customerDto1, passwordEncoder))
         );
 
 
@@ -111,13 +97,13 @@ class CustomerServiceTest{
     void testFindCustomerById() throws Exception {
 
         // given
-        Long savedCustomerId =customerService.signup(customerDto,passwordEncoder);
+        Long savedCustomerId =customerService.signup(customerDto1,passwordEncoder);
 
         // when
         Customer savedCustomer = customerService.findCustomerById(savedCustomerId);
 
         // then
-        Assertions.assertEquals(customer.getEmail(),savedCustomer.getEmail());
+        Assertions.assertEquals(customer1.getEmail(),savedCustomer.getEmail());
 
     }
     @DisplayName("Email 로 회원 조회")
@@ -125,13 +111,13 @@ class CustomerServiceTest{
     void test() throws Exception {
 
         // given
-        customerService.signup(customerDto,passwordEncoder);
+        customerService.signup(customerDto1,passwordEncoder);
 
         // when
-        Customer savedCustomer = customerService.findCustomerByEmail(customerDto.getEmail());
+        Customer savedCustomer = customerService.findCustomerByEmail(customerDto1.getEmail());
 
         // then
-        Assertions.assertEquals(customer.getEmail(),savedCustomer.getEmail());
+        Assertions.assertEquals(customer1.getEmail(),savedCustomer.getEmail());
 
     }
 
@@ -140,13 +126,13 @@ class CustomerServiceTest{
     void testGetReferenceById() throws Exception {
 
         // given
-        Long savedCustomerId =customerService.signup(customerDto,passwordEncoder);
+        Long savedCustomerId =customerService.signup(customerDto1,passwordEncoder);
 
         // when
         Customer savedReferenceCustomer = customerService.getReferenceById(savedCustomerId);
 
         // then
-        Assertions.assertEquals(customer.getEmail(),savedReferenceCustomer.getEmail());
+        Assertions.assertEquals(customer1.getEmail(),savedReferenceCustomer.getEmail());
 
     }
 
@@ -155,10 +141,10 @@ class CustomerServiceTest{
     void testIsValidCustomer() throws Exception {
 
         // given
-        customerService.signup(customerDto,passwordEncoder);
+        customerService.signup(customerDto1,passwordEncoder);
 
         // when
-        boolean isValidCustomer = customerService.isValidCustomer(customerDto,passwordEncoder);
+        boolean isValidCustomer = customerService.isValidCustomer(customerDto1,passwordEncoder);
 
         // then
         assertTrue(isValidCustomer);
