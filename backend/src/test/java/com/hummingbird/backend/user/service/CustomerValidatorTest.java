@@ -21,6 +21,7 @@ public class CustomerValidatorTest {
     private Validator validator;
     // https://url.kr/daj4ub
     // 무작성 쓰지 말 것 테스트 코드도 필수로 작성할 것 검증 안 하니까 잘못된 표현 식임을 몰랐음
+    // status 코드를 잘 정리 해둬서 쉽게 찾음 status 코드 잘 적용할 것
     @BeforeEach
     void setUp() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
