@@ -41,14 +41,4 @@ public class OrderItem {
         this.count = count;
     }
 
-
-    public OrderItemInfo convertToOrderItemInfoDto(){
-        return OrderItemInfo
-                .builder()
-                .food(food.convertToFoodInfoDto())
-                .orderPrice(orderPrice)
-                .count(count)
-                .build();
-    }
-
 }
