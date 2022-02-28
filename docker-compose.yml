@@ -7,7 +7,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
       - ./frontend:/usr/src/app
       - /usr/src/app/node_modules
@@ -36,12 +36,13 @@ services:
     environment:
       MYSQL_DATABASE: test_db
       MYSQL_ROOT_PASSWORD: "0000"
+      MYSQL_ROOT_HOST: %
       CHARACTER_SET_SERVER: utf8
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     volumes:
       - mysql-data:/var/lib/menucanvas
     ports:
-      - 3306:3306
+      - "3306:3306"
 
     networks:
       - network-tier
