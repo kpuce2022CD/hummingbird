@@ -8,5 +8,5 @@ import java.util.List;
 
 
 public interface MenuRepository extends JpaRepository<Menu,Long> {
-    List<Menu> findByUser_Id(@Param(value = "userID") Long userID);
+//    List<Menu> findByUser_Id(@Param(value = "userID") Long userID);
 }
