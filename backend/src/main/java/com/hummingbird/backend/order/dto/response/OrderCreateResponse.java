@@ -1,7 +1,6 @@
 package com.hummingbird.backend.order.dto.response;
 
 import com.hummingbird.backend.order.domain.OrderStatus;
-import com.hummingbird.backend.order.dto.OrderInfoDto;
 import lombok.Builder;
 import lombok.Getter;
 
