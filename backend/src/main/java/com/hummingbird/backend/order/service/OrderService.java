@@ -1,5 +1,6 @@
 package com.hummingbird.backend.order.service;
 
+import com.hummingbird.backend.food.service.FoodService;
 import com.hummingbird.backend.food.service.serviceImpl.FoodServiceImpl;
 import com.hummingbird.backend.order.domain.Order;
 import com.hummingbird.backend.order.domain.OrderItem;
@@ -9,34 +10,36 @@ import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
 import com.hummingbird.backend.order.repository.OrderRepository;
 import com.hummingbird.backend.shop.domain.Shop;
-import com.hummingbird.backend.shop.service.impl.GeneralShopService;
+import com.hummingbird.backend.shop.service.ShopService;
 import com.hummingbird.backend.user.domain.Customer;
-import com.hummingbird.backend.user.service.serviceImpl.GeneralCustomerService;
+import com.hummingbird.backend.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final GeneralShopService generalShopService;
     private final OrderItemRepository orderItemRepository;
-    private final GeneralCustomerService generalCustomerService;
-    private final FoodServiceImpl foodService;
+    private final UserService userService;
+    private final ShopService shopService;
+    private final FoodService foodService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, GeneralShopService generalShopService, OrderItemRepository orderItemRepository, GeneralCustomerService generalCustomerService, FoodServiceImpl foodService) {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, UserService userService, ShopService shopService, FoodServiceImpl foodService) {
         this.orderRepository = orderRepository;
-        this.generalShopService = generalShopService;
         this.orderItemRepository = orderItemRepository;
-        this.generalCustomerService = generalCustomerService;
+        this.userService = userService;
+        this.shopService = shopService;
         this.foodService = foodService;
     }
-
 
     /**
      * 주문
@@ -46,8 +49,8 @@ public class OrderService {
 
         OrderCreateDto orderCreateDto = orderCreateRequest.getOrderInfoDto();
 
-        Customer customerReference = generalCustomerService.getReferenceById(orderCreateDto.getCustomerId());
-        Shop shopReference = generalShopService.getReferenceById(orderCreateDto.getShopId());
+        Customer customerReference = userService.getReferenceById(orderCreateDto.getCustomerId());
+        Shop shopReference = shopService.getReferenceById(orderCreateDto.getShopId());
         Order newOrder = Order.createOrder(customerReference,shopReference);
         orderRepository.save(newOrder);
 
