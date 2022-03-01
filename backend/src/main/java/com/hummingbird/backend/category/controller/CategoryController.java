@@ -5,6 +5,7 @@ import com.hummingbird.backend.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,7 +18,7 @@ public class CategoryController {
     }
 
     @PostMapping("/category/new")
-    public Long createCategory(@RequestBody CreateCategoryDto dto, Long menuId){
+    public Long createCategory(@RequestBody CreateCategoryDto dto, @RequestParam("menuId") Long menuId){
         return categoryService.create(dto,menuId);
     }
 

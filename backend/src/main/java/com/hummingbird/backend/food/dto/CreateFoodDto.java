@@ -9,8 +9,6 @@ import lombok.Setter;
 
 @Data
 @NoArgsConstructor
-@Setter
-@Getter
 public class CreateFoodDto {
     private String name;
     private int price;

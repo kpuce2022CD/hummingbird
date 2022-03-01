@@ -7,8 +7,6 @@ import lombok.Setter;
 
 @Data
 @NoArgsConstructor
-@Setter
-@Getter
 public class UpdateFoodDto {
     private String name;
     private int price;
