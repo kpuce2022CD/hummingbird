@@ -3,6 +3,7 @@ package com.hummingbird.backend.food.domain;
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.food.dto.UpdateFoodDto;
 import com.hummingbird.backend.food.dto.UploadFoodDto;
+import com.hummingbird.backend.order.dto.FoodInfo;
 import lombok.*;
 
 import javax.persistence.*;
