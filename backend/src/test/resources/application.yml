@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: "backend"
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://localhost:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+    username: "root"
+    password: "0000"
+    hikari:
+      idleTimeout: 10000
+      connection-timeout: 10000
+      validation-timeout: 10000
+      maxLifetime: 580000
+  #    password: "ce19f003"
+  jpa:
+    database: "mysql"
+    show-sql: "true"
+    hibernate:
+      ddl-auto: "update"
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+#security:
+#  basic:
+#    enabled: false
+project:
+  properties:
+    fcm_private_key_path: "oder-canvas-firebase-adminsdk-xeoff-b3e5bb9530.json"
+    firebase-create-scoped: "https://www.googleapis.com/auth/firebase.messaging"
+    firebase-multicast-message-size: 500
