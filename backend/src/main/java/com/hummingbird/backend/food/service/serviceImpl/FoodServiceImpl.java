@@ -61,6 +61,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
 
+
     @Override
     public Long submit(UploadFoodDto uploadFoodDto,CreateFoodDto createFoodDto, Long categoryId) {
         Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
@@ -125,43 +126,57 @@ public class FoodServiceImpl implements FoodService {
         food.UpdateImage(newDto);
         return foodRepository.save(food).getId();
     }
-
-    @Override
-    public List<GetFoodDto> getFoodList() {
-        List<Food> foodList = foodRepository.findAll();
-        List<GetFoodDto> dtoList = new ArrayList<>();
-        for (Food food : foodList) {
-            GetFoodDto dto = GetFoodDto.builder()
-                    .name(food.getName())
-                    .id(food.getId())
-                    .price(food.getPrice())
-                    .content(food.getContent())
-                    .build();
-            dtoList.add(dto);
-        }
-
-        return dtoList;
-    }
+//
+//    @Override
+//    public List<GetFoodDto> getFoodList() {
+//        List<Food> foodList = foodRepository.findAll();
+//        List<GetFoodDto> dtoList = new ArrayList<>();
+//        for (Food food : foodList) {
+//            GetFoodDto dto = GetFoodDto.builder()
+//                    .name(food.getName())
+//                    .id(food.getId())
+//                    .price(food.getPrice())
+//                    .content(food.getContent())
+//                    .build();
+//            dtoList.add(dto);
+//        }
+//
+//        return dtoList;
+//    }
 
     @Override
     public List<GetFoodDto> getFoodListByCategory(Long categoryId) {
         List<Food> foodList = foodRepository.findByCategory_Id(categoryId);
         List<GetFoodDto> dtoList = new ArrayList<>();
         for (Food food : foodList) {
-            GetFoodDto dto = GetFoodDto.builder()
-                    .name(food.getName())
-                    .id(food.getId())
-                    .price(food.getPrice())
-                    .content(food.getContent())
-                    .build();
+            GetFoodDto dto = food.convertToGetFoodDto();
             dtoList.add(dto);
         }
         return dtoList;
     }
 
     @Override
-    public Food findFoodById(Long foodId) {
-        return foodRepository.findById(foodId).orElseThrow(EntityNotFoundException::new);
+    public List<GetFoodDto> getFood(Long id) {
+        List<GetFoodDto> result = new ArrayList<>();
+        Food food = foodRepository.getFoodById(id).orElseThrow();
+        GetFoodDto dto = food.convertToGetFoodDto();
+        result.add(dto);
+        return result;
+    }
+
+
+
+    @Override
+    public List<GetFoodDto> getFoodListByMenu(Long id){
+        List<GetFoodDto> dtoList = new ArrayList<>();
+        List<Category> categoryList = categoryRepository.findByMenu_Id(id);
+        for(Category category:categoryList){
+            List<Food> foodList = foodRepository.findByCategory_Id(category.getId());
+            for(Food food: foodList){
+                dtoList.add(food.convertToGetFoodDto());
+            }
+        }
+        return dtoList;
     }
 
     @Override
@@ -169,18 +184,7 @@ public class FoodServiceImpl implements FoodService {
         return foodRepository.getById(foodId);
     }
 
-//
-//
-//    public List<Food> getFoodByMenu(Long menuId){
-//        List<Food> foodList = null;
-//        List<Category> categoryList = categoryRepository.findByMenu_Id(menuId);
-//        for (int i=0;i<categoryList.size();i++){
-//            foodList.addAll(foodRepository.findByCategory_Id(categoryList.get(i).getId()));
-//        }
-////        List<Food> foodList = foodRepository.findByMenu_Id(menuId);
-////        System.out.println(foodList.size());
-//        return foodList;
-//    }
+
 
 //    @Override
 //    public Long update(Long id, String name, String describe, int price) {

@@ -1,6 +1,7 @@
 package com.hummingbird.backend.food.domain;
 
 import com.hummingbird.backend.category.domain.Category;
+import com.hummingbird.backend.food.dto.GetFoodDto;
 import com.hummingbird.backend.food.dto.UpdateFoodDto;
 import com.hummingbird.backend.food.dto.UploadFoodDto;
 import com.hummingbird.backend.order.dto.FoodInfo;
@@ -82,5 +83,17 @@ public class Food {
                 .price(price)
                 .build();
 
+    }
+
+    public GetFoodDto convertToGetFoodDto(){
+        return GetFoodDto.builder()
+                .id(id)
+                .name(name)
+                .content(content)
+                .fileName(fileName)
+                .filePath(filePath)
+                .price(price)
+                .origFileName(origFileName)
+                .build();
     }
 }
