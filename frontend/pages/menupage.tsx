@@ -7,14 +7,17 @@ import { ImPlus } from "react-icons/im";
 import styled from "styled-components";
 import Link from "next/link";
 
+import MenuModal from "../components/MenuModal";
+
+interface ICategoryFilterItems {
+  menu: string;
+  price: string;
+  menuInfo: string;
+  allergy: string;
+  category: string;
+}
 const MenuPage: NextPage = () => {
-  interface ICategoryFilterItems {
-    menu: string;
-    price: string;
-    menuInfo: string;
-    allergy: string;
-    category: string;
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   const router = useRouter();
   const handleQr = () => {
@@ -45,8 +48,8 @@ const MenuPage: NextPage = () => {
             </MenuEditSideMenu>
             <MenuEditContent>
               <div className="menuedit-content__header">
-                <p>정보 수정</p>
-                <EditPlusBtn />
+                <p>메뉴 추가</p>
+                <EditPlusBtn onClick={() => setModalOpen(true)} />
               </div>
             </MenuEditContent>
           </MenuEditWrap>
@@ -57,6 +60,8 @@ const MenuPage: NextPage = () => {
           </MenuPreContent>
         </MenuPre>
       </Wrapper>
+      {modalOpen && <MenuModal setModalOpen={setModalOpen} />
+      }
     </div>
   );
 };
