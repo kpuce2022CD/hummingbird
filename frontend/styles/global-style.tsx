@@ -28,6 +28,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	max-width: 1440px;
+	margin: auto;
 }
 ol, ul {
 	list-style: none;
@@ -44,6 +46,15 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+:root{
+	--color-orange : #fa4a0c;
+	--color-gray : #e1e1e1;
+	--color-mid-gray : #eeeeee;
+	--color-light-gray : #f6f6f9;
+
+}
 `;
+
 
 export default GlobalStyle;
