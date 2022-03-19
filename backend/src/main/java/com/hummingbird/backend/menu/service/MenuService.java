@@ -13,7 +13,7 @@ public interface MenuService {
     boolean delete(Long id); //삭제
     Long update(Long id,String name); //수정
     GetMenuDto getMenu(Long id); //id로 메뉴 가져오기
-    List<GetMenuDto> getMenuList(); //메뉴 전체 가져오기
+    List<GetMenuDto> getMenuList(Long id); //메뉴 전체 가져오기
 
 
 

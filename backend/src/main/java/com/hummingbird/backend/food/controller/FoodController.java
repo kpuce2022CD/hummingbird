@@ -39,19 +39,19 @@ public class FoodController {
 //        return null;
 //    }
 
-    @GetMapping(path="/food/get",params = "id")
-    public List<GetFoodDto> getFoodList(
-            @RequestParam(required = true) Long id,
-            @RequestParam(required = false,defaultValue = "0") int type){ // 푸드 리스트 가져오기 (1 -> 카테고리, 2->메뉴, 타입 없으면 음식)
+    @GetMapping("/food/get")
+    public GetFoodDto getFood(Long id){ // 푸드 리스트 가져오기 (1 -> 카테고리, 2->메뉴, 타입 없으면 음식)
+        return foodService.getFood(id);
+    }
 
-        switch (type){
-            case 1:
-                return foodService.getFoodListByCategory(id);
-            case 2:
-                return foodService.getFoodListByMenu(id);
-            default:
-                return foodService.getFood(id);
-        }
+    @GetMapping("/food/get/category")
+    public List<GetFoodDto> getFoodByCategory(Long id){
+        return foodService.getFoodListByCategory(id);
+    }
+
+    @GetMapping("/food/get/menu")
+    public List<GetFoodDto> getFoodByMenu(Long id){
+        return foodService.getFoodListByMenu(id);
     }
 
 

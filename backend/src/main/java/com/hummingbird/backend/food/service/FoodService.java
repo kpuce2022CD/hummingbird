@@ -17,7 +17,7 @@ public interface FoodService {
     UploadFoodDto upload(MultipartFile files); //이미지 업로드
     List<GetFoodDto> getFoodListByMenu(Long id);
     List<GetFoodDto> getFoodListByCategory(Long id);
-    List<GetFoodDto> getFood(Long id);
+    GetFoodDto getFood(Long id);
     Food getReferenceById(Long foodId);
 
 //    int deleteFoodsByMenuId(Long menuId);

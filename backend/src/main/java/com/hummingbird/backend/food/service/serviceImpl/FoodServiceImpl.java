@@ -156,12 +156,9 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public List<GetFoodDto> getFood(Long id) {
-        List<GetFoodDto> result = new ArrayList<>();
+    public GetFoodDto getFood(Long id) {
         Food food = foodRepository.getFoodById(id).orElseThrow();
-        GetFoodDto dto = food.convertToGetFoodDto();
-        result.add(dto);
-        return result;
+        return food.convertToGetFoodDto();
     }
 
 

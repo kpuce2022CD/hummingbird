@@ -12,6 +12,7 @@ import com.hummingbird.backend.user.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,34 +73,36 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public GetMenuDto getMenu(Long id) {
-        Optional<Menu> optionalMenu = menuRepository.findById(id);
-        if (optionalMenu.isEmpty()) {
-            return null;
-        }
-        Menu menu = optionalMenu.get();
-
-        return GetMenuDto.builder()
-                .name(menu.getName())
-                .owner(menu.getOwner())
-                .id(menu.getId())
-                .build();
+        Menu menu = menuRepository.findById(id).orElseThrow();
+        return menu.convertToGetMenuDto();
     }
 
     @Override
-    public List<GetMenuDto> getMenuList() {
-        List<Menu> menuList = menuRepository.findAll();
-        List<GetMenuDto> dtoList = null;
-
-        for(Menu menu:menuList){
-            GetMenuDto dto = GetMenuDto.builder()
-                    .name(menu.getName())
-                    .owner(menu.getOwner())
-                    .id(menu.getId())
-                    .build();
-            dtoList.add(dto);
+    public List<GetMenuDto> getMenuList(Long id) { //user id로 메뉴 가져오기
+        List<GetMenuDto> dtoList = new ArrayList<>();
+        Owner owner = ownerRepository.findOwnerById(id).orElseThrow();
+        List<Menu> menuList = menuRepository.findAllByOwner(owner);
+        for (Menu menu : menuList) {
+            dtoList.add(menu.convertToGetMenuDto());
         }
         return dtoList;
     }
+
+//    @Override
+//    public List<GetMenuDto> getMenuList() {
+//        List<Menu> menuList = menuRepository.findAll();
+//        List<GetMenuDto> dtoList = null;
+//
+//        for(Menu menu:menuList){
+//            GetMenuDto dto = GetMenuDto.builder()
+//                    .name(menu.getName())
+//                    .owner(menu.getOwner())
+//                    .id(menu.getId())
+//                    .build();
+//            dtoList.add(dto);
+//        }
+//        return dtoList;
+//    }
 
 
 
