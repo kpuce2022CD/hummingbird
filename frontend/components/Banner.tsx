@@ -12,7 +12,11 @@ const Banner = () => {
         <button className="bg-red-100 p-3 rounded-xl" onClick={() => router.push("/menupage")}>
           메뉴만들기
         </button>
+        <div>
+          <img src="" alt="휴대폰 두개 겹쳐진 이미지"/>
+        </div>
       </div>
+
     </div>
   );
 };
