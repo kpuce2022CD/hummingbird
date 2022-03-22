@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class FoodController {
 
-    private FoodService foodService;
+    private final FoodService foodService;
 
     @Autowired
     public FoodController(FoodService foodService) {
