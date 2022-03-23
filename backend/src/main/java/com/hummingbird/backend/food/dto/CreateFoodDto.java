@@ -2,17 +2,21 @@ package com.hummingbird.backend.food.dto;
 
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.food.domain.Food;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@NoArgsConstructor
 public class CreateFoodDto {
     private String name;
     private int price;
     private String content;
+
+    @Builder
+    public CreateFoodDto(String name, int price, String content) {
+        this.name = name;
+        this.price = price;
+        this.content = content;
+    }
 
     public Food toEntity(Category category) {
         Food food = Food.builder()

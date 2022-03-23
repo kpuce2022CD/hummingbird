@@ -18,9 +18,7 @@ import static javax.persistence.FetchType.*;
 
 @Getter
 @Entity
-@Setter
-@NoArgsConstructor
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +51,6 @@ public class Menu extends BaseTimeEntity {
         return GetMenuDto.builder()
                 .name(name)
                 .id(id)
-                .owner(owner)
                 .build();
     }
 

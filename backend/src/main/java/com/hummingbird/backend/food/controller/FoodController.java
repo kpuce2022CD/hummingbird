@@ -6,12 +6,11 @@ import com.hummingbird.backend.food.dto.UpdateFoodDto;
 import com.hummingbird.backend.food.dto.UploadFoodDto;
 import com.hummingbird.backend.food.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -26,11 +25,14 @@ public class FoodController {
 
     //create
     @PostMapping("/food/new")
-    public Long createFood(@RequestParam("files") MultipartFile files, CreateFoodDto createFoodDto, Long categoryId) {
+    public Long createFood(@RequestPart("dto") CreateFoodDto dto,
+                           @RequestPart("file") MultipartFile file) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 //        Long fileId = foodService.upload(fileService.uploadFile(files));
-        UploadFoodDto uploadFoodDto = foodService.upload(files);
+        //현재 페이지의 카테고리 아이디 받아오기
+        Long categoryId = 1L; //임시값
+        UploadFoodDto uploadFoodDto = foodService.upload(file);
 //        dto.setFileId(fileId);
-        return foodService.submit(uploadFoodDto,createFoodDto, categoryId);
+        return foodService.submit(uploadFoodDto,dto, categoryId);
     }
 
     //read
@@ -40,39 +42,40 @@ public class FoodController {
 //    }
 
     @GetMapping("/food/get")
-    public GetFoodDto getFood(Long id){ // 푸드 리스트 가져오기 (1 -> 카테고리, 2->메뉴, 타입 없으면 음식)
-        return foodService.getFood(id);
+    public GetFoodDto getFood(Long foodId){ // 푸드 아이디로 푸드 가져오기
+        return foodService.getFood(foodId);
     }
 
     @GetMapping("/food/get/category")
-    public List<GetFoodDto> getFoodByCategory(Long id){
-        return foodService.getFoodListByCategory(id);
+    public List<GetFoodDto> getFoodByCategory(Long categoryId){ //카테고리 아이디로 푸드 가져오기
+        return foodService.getFoodListByCategory(categoryId);
     }
 
     @GetMapping("/food/get/menu")
-    public List<GetFoodDto> getFoodByMenu(Long id){
-        return foodService.getFoodListByMenu(id);
+    public List<GetFoodDto> getFoodByMenu(Long menuId){ //메뉴 아이디로 푸드 가져오기
+        return foodService.getFoodListByMenu(menuId);
     }
 
 
     //update
     @PostMapping("/food/update")
-    public Long updateFood(Long id,UpdateFoodDto dto){
-        return foodService.updateFood(id,dto);
+    public Long updateFood(@RequestParam("foodId") Long foodId,
+                           @RequestBody UpdateFoodDto dto){
+        return foodService.updateFood(foodId,dto);
     }
 
     @PostMapping("/food/imgupdate")
-    public Long updateFoodImage(@RequestParam("files") MultipartFile files,Long id){
+    public Long updateFoodImage(@RequestParam("files") MultipartFile files,Long foodId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UploadFoodDto uploadFoodDto = foodService.upload(files);
-        return foodService.updateImage(id,uploadFoodDto);
+        return foodService.updateImage(foodId,uploadFoodDto);
     }
 
 
 
     //delete
     @PostMapping("/food/delete")
-    public boolean deleteFood(Long id) {
-        return foodService.delete(id);
+    public boolean deleteFood(Long foodId) {
+        return foodService.delete(foodId);
     }
 
 //    @PostMapping("/food/menu")

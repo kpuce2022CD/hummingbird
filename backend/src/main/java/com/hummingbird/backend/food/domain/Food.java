@@ -11,10 +11,10 @@ import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
-@ToString
+
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,6 +93,14 @@ public class Food {
                 .fileName(fileName)
                 .filePath(filePath)
                 .price(price)
+                .origFileName(origFileName)
+                .build();
+    }
+
+    public UploadFoodDto converToUploadFoodDto(){
+        return UploadFoodDto.builder()
+                .filePath(filePath)
+                .fileName(fileName)
                 .origFileName(origFileName)
                 .build();
     }

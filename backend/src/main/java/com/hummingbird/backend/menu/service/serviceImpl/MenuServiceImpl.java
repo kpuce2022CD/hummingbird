@@ -49,25 +49,15 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean delete(Long id) {
 
-        Optional<Menu> menu = menuRepository.findById(id);
-        if(!menu.isPresent()){
-            return false;
-        }
-
-        menuRepository.delete(menu.get());
+        Menu menu = menuRepository.findById(id).orElseThrow();
+        menuRepository.delete(menu);
         return true;
     }
 
     @Override
-    public Long update(Long id,String name) {
-        Optional<Menu> optionalMenu = menuRepository.findById(id);
-        if (optionalMenu.isEmpty()) {
-            return null;
-        }
-        Menu menu = optionalMenu.get();
-       menu.changeName(name);
-
-
+    public Long update(Long menuId, String menuName) {
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
+       menu.changeName(menuName);
         return menuRepository.save(menu).getId();
     }
 
