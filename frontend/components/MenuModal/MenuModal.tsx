@@ -30,6 +30,7 @@ const MenuModal = ({ setModalOpen }: Props) => {
         },
       });
       console.log(response);
+      setModalOpen(false);
     } catch (err) {
       console.log("error", err);
     }
