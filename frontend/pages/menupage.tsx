@@ -17,7 +17,7 @@ interface ICategoryFilterItems {
   category: string;
 }
 const MenuPage: NextPage = () => {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
 
   const router = useRouter();
   const handleQr = () => {
@@ -43,7 +43,9 @@ const MenuPage: NextPage = () => {
           <MenuEditWrap>
             <MenuEditSideMenu>
               <li>
-                <Link href={""}><DocumentIcon /></Link>
+                <Link href={""}>
+                  <DocumentIcon />
+                </Link>
               </li>
             </MenuEditSideMenu>
             <MenuEditContent>
@@ -60,8 +62,7 @@ const MenuPage: NextPage = () => {
           </MenuPreContent>
         </MenuPre>
       </Wrapper>
-      {modalOpen && <MenuModal setModalOpen={setModalOpen} />
-      }
+      {modalOpen && <MenuModal setModalOpen={setModalOpen} />}
     </div>
   );
 };
@@ -72,22 +73,21 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
-`
+`;
 
 const MenuInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 40%;
-
-`
+`;
 
 const MenuInputWrap = styled.div`
   margin-bottom: 20px;
   padding: 20px 20px 0px 20px;
-  p { 
-      font-size: 0.825rem;
-      color: gray;
-    }
+  p {
+    font-size: 0.825rem;
+    color: gray;
+  }
 
   div {
     display: flex;
@@ -102,50 +102,49 @@ const MenuInputWrap = styled.div`
     border-bottom: 1px solid black;
   }
 
-  input:focus{
+  input:focus {
     outline: none;
   }
-  
+
   button {
-    color : var(--color-orange);
+    color: var(--color-orange);
     font-size: 1.25rem;
     font-weight: 700;
   }
-`
+`;
 const MenuEditWrap = styled.div`
   display: flex;
   height: 100vh;
-
-`
+`;
 
 const DocumentIcon = styled(IoDocumentTextOutline)`
   font-size: 32px;
   color: white;
-`
+`;
 
 const MenuEditSideMenu = styled.ul`
   background-color: var(--color-gray);
   width: 42px;
-  padding: 0px 20px;    
-  display : flex;
+  padding: 0px 20px;
+  display: flex;
   flex-direction: column;
   align-items: center;
 
   li {
     padding: 20px 0px;
   }
-`
+`;
 
 const MenuEditContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding : 20px 20px 0px 10px;
+  padding: 20px 20px 0px 10px;
   margin-right: 20px;
   border-top-right-radius: 20px;
   background-color: var(--color-light-gray);
 
-  .menuedit-content__header{
+  .menuedit-content__header {
     display: flex;
     justify-content: space-between;
 
@@ -154,7 +153,7 @@ const MenuEditContent = styled.div`
       line-height: 42px;
     }
   }
-`
+`;
 
 const EditPlusBtn = styled(ImPlus)`
   background-color: white;
@@ -162,8 +161,9 @@ const EditPlusBtn = styled(ImPlus)`
   font-size: 42px;
   padding: 12px;
   /* #19 */
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-`
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+`;
 
 const MenuPre = styled.div`
   width: 60%;
@@ -171,8 +171,6 @@ const MenuPre = styled.div`
   justify-content: center;
   padding-top: 55px;
   background-color: var(--color-mid-gray);
-`
+`;
 
-const MenuPreContent = styled.div`
-
-`
+const MenuPreContent = styled.div``;
