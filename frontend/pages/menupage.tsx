@@ -2,117 +2,177 @@ import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Nav from "../components/Nav";
-import MenuFormCard from "../components/MenuFormCard";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { menuInputCardState } from "../recoil/states";
-import MenuList from "../components/MenuList";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { ImPlus } from "react-icons/im";
+import styled from "styled-components";
+import Link from "next/link";
 
+import MenuModal from "../components/MenuModal";
+
+interface ICategoryFilterItems {
+  menu: string;
+  price: string;
+  menuInfo: string;
+  allergy: string;
+  category: string;
+}
 const MenuPage: NextPage = () => {
-  interface ICategoryFilterItems {
-    menu: string;
-    price: string;
-    menuInfo: string;
-    allergy: string;
-    category: string;
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   const router = useRouter();
-  const menuFiled = useRecoilValue(menuInputCardState);
-  const [menuName, setMenuName] = useState<string>();
-  const [categoryItems, setCategoryItems] = useState<ICategoryFilterItems[]>(
-    []
-  );
-
-  const handleChangeMenuName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let menuNameValue = event.target.value;
-    setMenuName(menuNameValue);
-  };
-
-  // FIXME: 차후 서버와 API 통신이 발생하는 곳
-  // 해당 메뉴의 정보를 DB에 저장할 수 있는 API가 연결된다.
-  // 현재는 로컬스토리지를 통해 기능을 구현하였다.
   const handleQr = () => {
-    menuFiled.map((value, index) => {
-      if (index !== 0) {
-        const key = String(index);
-        window.localStorage.setItem(key, JSON.stringify(value));
-      }
-    });
     router.push({
       pathname: "/qrpage",
-      query: { menuName: menuName },
     });
-  };
-
-  const handleCategoryClick = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value);
-    let tmpCategoryItems: ICategoryFilterItems[] = [];
-    menuFiled.map((value, index) => {
-      if (value.category === event.target.value) {
-        tmpCategoryItems.push(value);
-      }
-    });
-    setCategoryItems(tmpCategoryItems);
   };
 
   return (
     <div>
       <Nav />
-      <div className="flex justify-between h-[730px]">
-        {/* 좌측 메뉴 수정 */}
-        <div className="bg-red-100 w-[40%]">
-          <h1>메뉴판명</h1>
-          <input
-            onChange={handleChangeMenuName}
-            placeholder="상호명을 입력해주세요"
-          ></input>
-          <button className="bg-gray-200" onClick={() => handleQr()}>
-            저장(QR로 저장되는 버튼)
-          </button>
-          <div className="flex bg-yellow-100">
-            <div className="bg-orange-100 w-full">
-              <div className="flex justify-between">
-                <h2 className="inline-block">정보수정창</h2>
-                <button className="bg-gray-300">+</button>
-              </div>
-              <div className="bg-purple-100">메뉴 수정 정보수정창</div>
-              <MenuFormCard />
-              <MenuList />
+      <Wrapper>
+        <MenuInfoWrap>
+          {/* 메뉴 입력 창 */}
+          <MenuInputWrap>
+            <p>메뉴판 명</p>
+            <div>
+              <input placeholder="메뉴명을 입력해주세요"></input>
+              <button>저장</button>
             </div>
-          </div>
-        </div>
-        {/* 메뉴판 */}
-        <div className="flex bg-blue-100 w-[60%]">
-          <div className="m-auto bg-orange-100 w-[414px] h-[618px]">
-            <label htmlFor="categories">메뉴 카테고리</label>
-            <select
-              name="categories"
-              id="categories"
-              onChange={handleCategoryClick}
-            >
-              <option className="hidden"></option>
-              {menuFiled.map((value, index) =>
-                value.menu !== "" ? (
-                  <option key={index} value={value.category}>
-                    {value.category}
-                  </option>
-                ) : null
-              )}
-            </select>
-            <ul>
-              {categoryItems.map((item, index) => (
-                <div key={index} className="bg-purple-200 m-2">
-                  {/* TODO: */}
-                  <li>{item.menu}</li>
-                  <li>{item.price}</li>
-                </div>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+          </MenuInputWrap>
+          {/* 정보수정 창 */}
+          <MenuEditWrap>
+            <MenuEditSideMenu>
+              <li>
+                <Link href={""}><DocumentIcon /></Link>
+              </li>
+            </MenuEditSideMenu>
+            <MenuEditContent>
+              <div className="menuedit-content__header">
+                <p>메뉴 추가</p>
+                <EditPlusBtn onClick={() => setModalOpen(true)} />
+              </div>
+            </MenuEditContent>
+          </MenuEditWrap>
+        </MenuInfoWrap>
+        <MenuPre>
+          <MenuPreContent>
+            {/* 메뉴 주문 들어가면 각 페이지별로 나올 부분 */}
+          </MenuPreContent>
+        </MenuPre>
+      </Wrapper>
+      {modalOpen && <MenuModal setModalOpen={setModalOpen} />
+      }
     </div>
   );
 };
 
 export default MenuPage;
+
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100vh;
+`
+
+const MenuInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+
+`
+
+const MenuInputWrap = styled.div`
+  margin-bottom: 20px;
+  padding: 20px 20px 0px 20px;
+  p { 
+      font-size: 0.825rem;
+      color: gray;
+    }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  input {
+    flex: 1;
+    padding: 5px 0px;
+    margin-right: 20px;
+    border-bottom: 1px solid black;
+  }
+
+  input:focus{
+    outline: none;
+  }
+  
+  button {
+    color : var(--color-orange);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+`
+const MenuEditWrap = styled.div`
+  display: flex;
+  height: 100vh;
+
+`
+
+const DocumentIcon = styled(IoDocumentTextOutline)`
+  font-size: 32px;
+  color: white;
+`
+
+const MenuEditSideMenu = styled.ul`
+  background-color: var(--color-gray);
+  width: 42px;
+  padding: 0px 20px;    
+  display : flex;
+  flex-direction: column;
+  align-items: center;
+
+  li {
+    padding: 20px 0px;
+  }
+`
+
+const MenuEditContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding : 20px 20px 0px 10px;
+  margin-right: 20px;
+  border-top-right-radius: 20px;
+  background-color: var(--color-light-gray);
+
+  .menuedit-content__header{
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      font-weight: 700;
+      line-height: 42px;
+    }
+  }
+`
+
+const EditPlusBtn = styled(ImPlus)`
+  background-color: white;
+  border-radius: 50%;
+  font-size: 42px;
+  padding: 12px;
+  /* #19 */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+`
+
+const MenuPre = styled.div`
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  padding-top: 55px;
+  background-color: var(--color-mid-gray);
+`
+
+const MenuPreContent = styled.div`
+
+`
