@@ -4,7 +4,7 @@ import * as S from "./style";
 
 interface IMenuItem {
   name: string;
-  price: number;
+  price: string;
   content: string;
 }
 interface Props {
@@ -14,11 +14,11 @@ interface Props {
 const MenuModal = ({ setModalOpen }: Props) => {
   const [inputs, setInputs] = useState<IMenuItem>({
     name: "",
-    price: 0,
+    price: "0",
     content: "",
   });
   const [img, setImg] = useState<File | null>(null);
-  const CreateMenu = async (fd: FormData) => {
+  const addNewMenu = async (fd: FormData) => {
     try {
       const response = await axios.post("http://localhost:8080/food/new", fd, {
         headers: {
@@ -26,7 +26,7 @@ const MenuModal = ({ setModalOpen }: Props) => {
           "Access-Control-Allow-Origin": "*",
         },
         params: {
-          id: 1,
+          id: 7,
         },
       });
       console.log(response);
@@ -43,7 +43,6 @@ const MenuModal = ({ setModalOpen }: Props) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
-    console.log(inputs);
   };
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,8 +55,10 @@ const MenuModal = ({ setModalOpen }: Props) => {
     if (img !== null) {
       fd.append("file", img);
     }
-    fd.append("dto", JSON.stringify(inputs));
-    CreateMenu(fd);
+    const json = JSON.stringify(inputs);
+    const blob = new Blob([json], { type: "application/json" });
+    fd.append("dto", blob);
+    addNewMenu(fd);
   };
   return (
     <S.ModalWrap>

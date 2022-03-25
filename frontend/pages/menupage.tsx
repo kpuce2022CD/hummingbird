@@ -35,7 +35,7 @@ const MenuPage: NextPage = () => {
           <MenuInputWrap>
             <p>메뉴판 명</p>
             <div>
-              <input placeholder="메뉴명을 입력해주세요"></input>
+              <input placeholder="메뉴판명을 입력해주세요"></input>
               <button>저장</button>
             </div>
           </MenuInputWrap>
