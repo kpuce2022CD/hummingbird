@@ -6,11 +6,17 @@ import com.hummingbird.backend.category.dto.GetCategoryDto;
 import java.util.List;
 
 public interface CategoryService {
-    Long create(CreateCategoryDto category, Long menuId);
-    Long update(Long id,String name);
+    //create
+    Long create(CreateCategoryDto dto, Long menuId);
+
+    //read
     GetCategoryDto getCategory(Long categoryId);
     List<GetCategoryDto> getCategoryListByMenu(Long menuId);
-    List<GetCategoryDto> getCategoryList();
+
+    //update
+    Long update(Long categoryId,String categoryName);
+
+    //delete
     boolean delete(Long id);
 
 

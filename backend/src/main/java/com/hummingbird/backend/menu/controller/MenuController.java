@@ -1,5 +1,4 @@
 package com.hummingbird.backend.menu.controller;
-import com.hummingbird.backend.menu.domain.Menu;
 import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
 import com.hummingbird.backend.menu.service.MenuService;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @SuppressWarnings("ALL")
+@CrossOrigin("*")
 @RestController
 public class MenuController {
 
@@ -19,30 +19,36 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    //create
     @PostMapping("/menu/new")
-    public Long createMenu(@RequestBody CreateMenuDto dto, @RequestParam("userId") Long userId){
-        return menuService.submit(dto,userId);
+    public Long createMenu(@RequestBody CreateMenuDto dto){
+        //owner id 받아오기
+        Long ownerId = 1L; //임시값
+        return menuService.submit(dto,ownerId);
     }
 
+    //read
+    @GetMapping( "/menu/get/owner") //owner 아이디로 조회
+    public List<GetMenuDto> getMenuByOwner(Long ownerId){
+        return menuService.getMenuList(ownerId);
+    }
+
+    @GetMapping( "/menu/get") //메뉴 아이디로 조회
+    public GetMenuDto getMenu(Long menuId){
+        return menuService.getMenu(menuId);
+    }
+
+    //update
     @PostMapping("/menu/update")
-    public Long updateMenu(Long id,String name){
-        //update 로직
-        return menuService.update(id, name);
+    public Long updateMenu(Long menuId,String updateName){
+        return menuService.update(menuId, updateName);
     }
 
+    //delete
     @PostMapping("/menu/delete")
-    public boolean deleteMenu(Long id){
-        return menuService.delete(id);
+    public boolean deleteMenu(Long menuId){
+        return menuService.delete(menuId);
     }
 
-    @GetMapping("/menu/get")
-    public GetMenuDto getMenu(Long id){
-        return menuService.getMenu(id);
-    }
-
-    @GetMapping("/menu/all")
-    public List<GetMenuDto> getMenuAll(){
-        return menuService.getMenuList();
-    }
 
 }

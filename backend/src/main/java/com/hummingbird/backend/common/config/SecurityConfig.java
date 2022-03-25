@@ -10,12 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity // Spring Security를 활성화한다는 의미의 어노테이션
-public class Security extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity security) throws Exception {
-        security.httpBasic().disable();
-        security.csrf().disable();
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic().disable();
+        http.csrf().disable();
 
     }
     @Bean

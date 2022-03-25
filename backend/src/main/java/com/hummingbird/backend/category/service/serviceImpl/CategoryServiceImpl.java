@@ -12,6 +12,7 @@ import com.hummingbird.backend.menu.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,15 +29,12 @@ public class CategoryServiceImpl implements CategoryService {
         this.menuRepository = menuRepository;
     }
 
+    //create
     @Override
     public Long create(CreateCategoryDto dto, Long menuId) {
 //        Category category = new Category();
-        Optional<Menu> optionalMenu = menuRepository.findById(menuId);
-
-        if (optionalMenu.isEmpty()) {
-            return null;
-        }
-        Category category = dto.toEntity(optionalMenu.get());
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
+        Category category = dto.toEntity(menu);
 //        Menu menu = optionalMenu.get();
 //        category.setName(dto.getName());
 //        category.setMenu(menu);
@@ -45,81 +43,56 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(category).getId();
     }
 
-    @Override
-    public Long update(Long id, String name) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if(optionalCategory.isEmpty()){
-            return null;
-        }
-        Category category = optionalCategory.get();
-        category.changeName(name);
-        return categoryRepository.save(category).getId();
-//        else{
-//            Category category = optionalCategory.get();
-//            category.setName(name);
-//            categoryRepository.save(category);
-//            return category.getId();
-//        }
-    }
 
+
+    //read
     @Override
     public GetCategoryDto getCategory(Long categoryId) {
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-        if (optionalCategory.isEmpty()) {
-            return null;
-        }
-        Category category = optionalCategory.get();
-        GetCategoryDto dto = GetCategoryDto.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .menu(category.getMenu())
-                .build();
-        return dto;
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+       return category.converToGetCategoryDto();
     }
 
     @Override
     public List<GetCategoryDto> getCategoryListByMenu(Long menuId) {
-        Optional<Menu> optionalMenu = menuRepository.findById(menuId);
-        List<GetCategoryDto> dtoList = null;
-        if (optionalMenu.isEmpty()) {
-            return null;
-        }
-//        Menu menu = optionalMenu.get();
-        List<Category> categoryList = categoryRepository.findByMenu_Id(menuId);
+        Menu menu= menuRepository.findById(menuId).orElseThrow();
+        List<GetCategoryDto> dtoList = new ArrayList<>();
+        List<Category> categoryList = categoryRepository.findByMenu_Id(menu.getId());
         for (Category category : categoryList) {
-            GetCategoryDto dto = GetCategoryDto.builder()
-                    .name(category.getName())
-                    .id(category.getId())
-                    .menu(category.getMenu())
-                    .build();
+            GetCategoryDto dto = category.converToGetCategoryDto();
             dtoList.add(dto);
         }
         return dtoList;
     }
 
+    //update
     @Override
-    public List<GetCategoryDto> getCategoryList() {
-        List<Category> categoryList = categoryRepository.findAll();
-        List<GetCategoryDto> dtoList = null;
-        for (Category category : categoryList) {
-            GetCategoryDto dto = GetCategoryDto.builder()
-                    .menu(category.getMenu())
-                    .id(category.getId())
-                    .name(category.getName())
-                    .build();
-            dtoList.add(dto);
-        }
-        return dtoList;
+    public Long update(Long categoryId, String categoryName) {
+        Category category= categoryRepository.findById(categoryId).orElseThrow();
+        category.changeName(categoryName);
+        return categoryRepository.save(category).getId();
     }
 
+    //delete
     @Override
     public boolean delete(Long id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isEmpty()) {
-            return false;
-        }
-        Category category = optionalCategory.get();
+        Category category = categoryRepository.findById(id).orElseThrow();
         categoryRepository.delete(category);
         return true;
     }
+
+    //    @Override
+//    public List<GetCategoryDto> getCategoryList() {
+//        List<Category> categoryList = categoryRepository.findAll();
+//        List<GetCategoryDto> dtoList = null;
+//        for (Category category : categoryList) {
+//            GetCategoryDto dto = GetCategoryDto.builder()
+//                    .menu(category.getMenu())
+//                    .id(category.getId())
+//                    .name(category.getName())
+//                    .build();
+//            dtoList.add(dto);
+//        }
+//        return dtoList;
+//    }
+
 }

@@ -1,9 +1,12 @@
 package com.hummingbird.backend.menu.domain;
 
 import com.hummingbird.backend.category.domain.Category;
+import com.hummingbird.backend.common.domain.BaseTimeEntity;
+import com.hummingbird.backend.menu.dto.GetMenuDto;
 import com.hummingbird.backend.user.domain.Owner;
 import com.hummingbird.backend.user.domain.User;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -15,15 +18,15 @@ import static javax.persistence.FetchType.*;
 
 @Getter
 @Entity
-@Setter
-@NoArgsConstructor
-public class Menu extends BaseTimeEntity{
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Menu extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name",length = 20)
     private String name;
+
 
     @ManyToOne(fetch = LAZY)
     private Owner owner;
@@ -42,6 +45,13 @@ public class Menu extends BaseTimeEntity{
 
     public void changeName(String name){
         this.name = name;
+    }
+
+    public GetMenuDto convertToGetMenuDto(){
+        return GetMenuDto.builder()
+                .name(name)
+                .id(id)
+                .build();
     }
 
 

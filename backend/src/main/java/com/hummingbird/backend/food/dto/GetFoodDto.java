@@ -5,7 +5,6 @@ import com.hummingbird.backend.food.domain.Food;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
 public class GetFoodDto {
     private Long id;
     private String name;
