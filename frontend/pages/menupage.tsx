@@ -5,6 +5,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { ImPlus } from "react-icons/im";
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 
 import Nav from "../components/Nav";
 import MenuModal from "../components/MenuModal";
@@ -27,10 +28,6 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
       pathname: "/qrpage",
     });
   };
-
-  useEffect(() => {
-    console.log(foodGetData);
-  }, []);
 
   return (
     <div>
@@ -60,7 +57,39 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
                 <EditPlusBtn onClick={() => setModalOpen(true)} />
               </div>
               {/* 추가된 메뉴가 나올 부분 */}
-              <div></div>
+              <FoodCardWrap>
+                {foodGetData.map((val, idx) => (
+                  <FoodCard key={idx}>
+                    <div className="foodcard-top">
+                      <Image
+                        src="/images/image2.png"
+                        alt="음식 사진"
+                        width="64"
+                        height="64"
+                      />
+                      <div className="foodcard_top__content">
+                        <p className="foodcard_top__name">{val.name}</p>
+                        <ul className="foodcard_top__list">
+                          <li>
+                            <span>가격</span>
+                            {val.price}
+                          </li>
+                          <li>
+                            <span>알레르기 정보</span>
+                            연어, 토마토
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="foodcard_btm">
+                      <ul>
+                        <li>메뉴 소개</li>
+                        <li>{val.content}</li>
+                      </ul>
+                    </div>
+                  </FoodCard>
+                ))}
+              </FoodCardWrap>
             </MenuEditContent>
           </MenuEditWrap>
         </MenuInfoWrap>
@@ -100,7 +129,7 @@ const Wrapper = styled.div`
 const MenuInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 30%;
 `;
 
 const MenuInputWrap = styled.div`
@@ -188,7 +217,7 @@ const EditPlusBtn = styled(ImPlus)`
 `;
 
 const MenuPre = styled.div`
-  width: 60%;
+  width: 70%;
   display: flex;
   justify-content: center;
   padding-top: 55px;
@@ -196,3 +225,64 @@ const MenuPre = styled.div`
 `;
 
 const MenuPreContent = styled.div``;
+
+const FoodCardWrap = styled.div``;
+
+const FoodCard = styled.div`
+  margin: 11px 0 30px 16px;
+  padding: 15px;
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.04);
+  background-color: #fff;
+  border-radius: 20px;
+
+  .foodcard-top {
+    display: flex;
+  }
+  Image {
+  }
+
+  .foodcard_top__content {
+    margin-left: 10px;
+    flex: 1;
+  }
+
+  .foodcard_top__name {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .foodcard_top__list {
+    margin-left: 10px;
+    margin-top: 10px;
+
+    li {
+      font-size: 13px;
+      margin-left: auto;
+      color: gray;
+      margin-bottom: 5px;
+
+      :last-child {
+        margin: 0;
+      }
+      span {
+        display: inline-block;
+        width: 100px;
+        color: #000;
+      }
+    }
+  }
+
+  .foodcard_btm {
+    margin-top: 10px;
+    font-size: 13px;
+
+    li {
+      margin-bottom: 5px;
+      :last-child {
+        color: gray;
+        margin: 0;
+      }
+    }
+  }
+`;
