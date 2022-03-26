@@ -124,6 +124,8 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
+  box-sizing: content-box;
+  overflow: hidden;
 `;
 
 const MenuInfoWrap = styled.div`
@@ -176,7 +178,7 @@ const DocumentIcon = styled(IoDocumentTextOutline)`
 const MenuEditSideMenu = styled.ul`
   background-color: var(--color-gray);
   width: 42px;
-  padding: 0px 20px;
+  padding: 0px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,7 +192,7 @@ const MenuEditContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 20px 20px 0px 10px;
+  padding: 20px 0px 0px 10px;
   margin-right: 20px;
   border-top-right-radius: 20px;
   background-color: var(--color-light-gray);
@@ -198,8 +200,9 @@ const MenuEditContent = styled.div`
   .menuedit-content__header {
     display: flex;
     justify-content: space-between;
-
+    margin: 0px 16px;
     p {
+      font-size: 18px;
       font-weight: 700;
       line-height: 42px;
     }
@@ -226,10 +229,20 @@ const MenuPre = styled.div`
 
 const MenuPreContent = styled.div``;
 
-const FoodCardWrap = styled.div``;
+const FoodCardWrap = styled.div`
+  margin-top: 20px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const FoodCard = styled.div`
-  margin: 11px 0 30px 16px;
+  margin: 11px 16px 30px 16px;
   padding: 15px;
   box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.04);
   background-color: #fff;
@@ -281,6 +294,7 @@ const FoodCard = styled.div`
       margin-bottom: 5px;
       :last-child {
         color: gray;
+        line-height: 16px;
         margin: 0;
       }
     }
