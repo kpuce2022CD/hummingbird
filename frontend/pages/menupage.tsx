@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import Nav from "../components/Nav";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { ImPlus } from "react-icons/im";
 import styled from "styled-components";
 import Link from "next/link";
 
+import Nav from "../components/Nav";
 import MenuModal from "../components/MenuModal";
+import axios from "axios";
 
-interface ICategoryFilterItems {
-  menu: string;
-  price: string;
-  menuInfo: string;
-  allergy: string;
-  category: string;
+interface Props {
+  foodGetData: {
+    name: string;
+    price: number;
+    content: string;
+  }[];
 }
-const MenuPage: NextPage = () => {
+
+const MenuPage: NextPage<Props> = ({ foodGetData }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const router = useRouter();
@@ -25,6 +27,10 @@ const MenuPage: NextPage = () => {
       pathname: "/qrpage",
     });
   };
+
+  useEffect(() => {
+    console.log(foodGetData);
+  }, []);
 
   return (
     <div>
@@ -53,6 +59,8 @@ const MenuPage: NextPage = () => {
                 <p>메뉴 추가</p>
                 <EditPlusBtn onClick={() => setModalOpen(true)} />
               </div>
+              {/* 추가된 메뉴가 나올 부분 */}
+              <div></div>
             </MenuEditContent>
           </MenuEditWrap>
         </MenuInfoWrap>
@@ -66,6 +74,20 @@ const MenuPage: NextPage = () => {
     </div>
   );
 };
+
+export async function getStaticProps() {
+  try {
+    const response = await axios.get("http://localhost:3000/api/getFood");
+    const data = response.data;
+    return {
+      props: {
+        foodGetData: data,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 export default MenuPage;
 
