@@ -4,12 +4,12 @@ import styled from 'styled-components';
 const Info = () => {
   return (
     <div className="">
+        <StyledLine></StyledLine>
         <StyledSection>
             <StyledH1>
                 오더캔버스는 무엇인가요?
             </StyledH1>
         </StyledSection>
-        <StyledLine></StyledLine>
         <StyledSection>
             <div>
                 <img src="" alt="예시 이미지1"/>
@@ -58,7 +58,7 @@ const StyledSection = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 3rem;
+    margin: 5rem;
 `;
 
 const StyledLine = styled.div`
@@ -68,6 +68,7 @@ const StyledLine = styled.div`
     border-top:2px solid #E4E4E4;
     width:50%;
     margin: auto;
+    margin-top:30px;
 `;
 
 const StyledH1 = styled.h1`
