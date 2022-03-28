@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Info = () => {
   return (
-    <div className="">
+    <div>
         <StyledLine></StyledLine>
         <StyledSection>
             <StyledH1>

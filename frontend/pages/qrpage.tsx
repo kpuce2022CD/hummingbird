@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
+import styled from "styled-components";
 import Nav from "../components/Nav";
 
 interface qrpageType {
@@ -47,38 +48,139 @@ const QrPage: NextPage = () => {
   return (
     <div>
       <Nav />
-      <div className="flex">
-        <div className="bg-red-100">
+      <Theme>
+        <LeftSection>
           <div>
-            <span>슬로건1</span>
-            <span>슬로건2</span>
-            <ul>
-              <li>리스트1</li>
-              <li>리스트2</li>
-              <li>리스트3</li>
-            </ul>
-            <button className="bg-gray-100" onClick={() => onImageDownload()}>
+            <StyledH1>앱을 다운 로드 받을 필요 없이<br/>QR 하나로 주문까지!</StyledH1>
+            <StyledDesc>하단 ‘저장 하기’를 누른 후 매장 내잘 보이는 곳에 부착해주세요.</StyledDesc>
+            <StyledList>
+              <StyledItem>테이블 모서리</StyledItem>
+              <StyledItem>테이블 위의 작은 팻말</StyledItem>
+              <StyledItem>웨이팅이 있는 매장 입구</StyledItem>
+            </StyledList>
+            <StyledBtn onClick={() => onImageDownload()}>
               저장히기
-            </button>
+            </StyledBtn>
           </div>
-        </div>
-        <div className="flex bg-blue-100">
-          <div className="bg-yellow-100">
-            <span>메뉴 QR 코드</span>
-            <span>subtitle</span>
-            <div>
-              QRcode
+        </LeftSection>
+        <RightSection>
+          <SideSection>
+            <StyledH2>메뉴 QR 코드</StyledH2>
+            <Desc>핸드폰 카메라로 스캔하시면<br/>메뉴를 보실 수 있습니다.</Desc>
+            {/* FIXME: QR 코드 크기에 따른 주황색 border 조정 필요 */}
+            <StyledQr>
               {/* FIXME:  영어만 되는 문제점 존재*/}
-              <div>
+              <StyledInner>
                 <QRCode value={url} id="QRCode" />
-              </div>
-            </div>
-          </div>
+              </StyledInner>
+            </StyledQr>
+          </SideSection>
           <div>아이폰 사진</div>
-        </div>
-      </div>
+        </RightSection>
+      </Theme>
     </div>
   );
 };
+
+const Theme = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: auto;
+`;
+
+const LeftSection = styled.div`
+  display: block;
+  flex-grow: 1;
+  margin:3rem;
+  background: white;
+`;
+
+const SideSection =styled.div`
+  border-radius: 20px 0px 0px 20px;
+  box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
+  background-color: #f6f6f9;
+  padding:1rem;
+`;
+
+const RightSection = styled.div`
+  display: block;
+  flex-grow: 1;
+  margin:3rem;
+  background: white;
+`;
+
+const StyledH1 = styled.h1`
+    display: block;
+    margin: 30px;
+    padding: 3px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #fa4a0c;
+`;
+
+const StyledH2 = styled.h2`
+  display: block;
+  padding: 3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const StyledDesc= styled.div`
+    display: block;
+    padding: 3px;
+    margin: 15px;
+    font-weight: 500;
+    font-size:1.2rem;
+`;
+
+const Desc= styled.div`
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    font-size:1.5rem;
+`;
+
+const StyledList = styled.ul`
+  margin: 13px;
+`;
+
+const StyledItem = styled.li`
+  display: block;
+  padding: 3px;
+  margin: 15px;
+  font-weight: 500;
+  font-size:1.2rem;
+`;
+const StyledBtn = styled.button`
+    padding: 40px;
+    padding-top:15px;
+    padding-bottom:15px;    
+    background: #FA4A0C;
+    border-radius: 25px;
+    margin: 30px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+`;
+
+const StyledQr = styled.div`
+  display:block;
+  overflow: hidden;
+  width: 300px;
+  height: 300px;
+  margin: 3rem;
+  padding: 5px;
+  justify-content: center;
+  border: 5px solid #FA4A0C;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+`;
+
+const StyledInner = styled.span`
+  display: block;
+  position: absolute;
+  object-fit: cover;
+`;
 
 export default QrPage;
