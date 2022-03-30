@@ -11,12 +11,14 @@ import Nav from "../components/Nav";
 import MenuModal from "../components/MenuModal";
 import axios from "axios";
 
+interface IFoodData {
+  name: string;
+  price: number;
+  content: string;
+}
+
 interface Props {
-  foodGetData: {
-    name: string;
-    price: number;
-    content: string;
-  }[];
+  foodGetData: IFoodData[];
 }
 
 const MenuPage: NextPage<Props> = ({ foodGetData }) => {
@@ -29,6 +31,12 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
     });
   };
 
+  const sideList = ["카테고리", "음식"];
+  const [menuWrapState, setMenuWrapState] = useState<string>("카테고리");
+
+  const handleSideMenuClick = (type: string) => {
+    setMenuWrapState(type);
+  };
   return (
     <div>
       <Nav />
@@ -45,51 +53,63 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
           {/* 정보수정 창 */}
           <MenuEditWrap>
             <MenuEditSideMenu>
-              <li>
-                <Link href={""}>
-                  <DocumentIcon />
-                </Link>
-              </li>
+              {sideList.map((val, idx) => (
+                <li key={idx} onClick={() => handleSideMenuClick(val)}>
+                  {val}
+                </li>
+              ))}
             </MenuEditSideMenu>
             <MenuEditContent>
-              <div className="menuedit-content__header">
-                <p>메뉴 추가</p>
-                <EditPlusBtn onClick={() => setModalOpen(true)} />
-              </div>
+              {menuWrapState === "음식" ? (
+                <div className="menuedit-content__header">
+                  <p>음식 추가</p>
+                  <EditPlusBtn onClick={() => setModalOpen(true)} />
+                </div>
+              ) : (
+                <div className="menuedit-content__header">
+                  <p>카테고리 추가</p>
+                  <EditPlusBtn onClick={() => setModalOpen(true)} />
+                </div>
+              )}
+
               {/* 추가된 메뉴가 나올 부분 */}
-              <FoodCardWrap>
-                {foodGetData.map((val, idx) => (
-                  <FoodCard key={idx}>
-                    <div className="foodcard-top">
-                      <Image
-                        src="/images/image2.png"
-                        alt="음식 사진"
-                        width="64"
-                        height="64"
-                      />
-                      <div className="foodcard_top__content">
-                        <p className="foodcard_top__name">{val.name}</p>
-                        <ul className="foodcard_top__list">
-                          <li>
-                            <span>가격</span>
-                            {val.price}
-                          </li>
-                          <li>
-                            <span>알레르기 정보</span>
-                            연어, 토마토
-                          </li>
+              {menuWrapState === "음식" ? (
+                <FoodCardWrap>
+                  {foodGetData.map((val, idx) => (
+                    <FoodCard key={idx}>
+                      <div className="foodcard-top">
+                        <Image
+                          src="/images/image2.png"
+                          alt="음식 사진"
+                          width="64"
+                          height="64"
+                        />
+                        <div className="foodcard_top__content">
+                          <p className="foodcard_top__name">{val.name}</p>
+                          <ul className="foodcard_top__list">
+                            <li>
+                              <span>가격</span>
+                              {val.price}
+                            </li>
+                            <li>
+                              <span>알레르기 정보</span>
+                              연어, 토마토
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="foodcard_btm">
+                        <ul>
+                          <li>메뉴 소개</li>
+                          <li>{val.content}</li>
                         </ul>
                       </div>
-                    </div>
-                    <div className="foodcard_btm">
-                      <ul>
-                        <li>메뉴 소개</li>
-                        <li>{val.content}</li>
-                      </ul>
-                    </div>
-                  </FoodCard>
-                ))}
-              </FoodCardWrap>
+                    </FoodCard>
+                  ))}
+                </FoodCardWrap>
+              ) : (
+                <CategoryWrap>카테고리임</CategoryWrap>
+              )}
             </MenuEditContent>
           </MenuEditWrap>
         </MenuInfoWrap>
@@ -99,14 +119,18 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
           </MenuPreContent>
         </MenuPre>
       </Wrapper>
-      {modalOpen && <MenuModal setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
+      )}
     </div>
   );
 };
 
 export async function getStaticProps() {
   try {
-    const response = await axios.get("http://localhost:3000/api/getFood");
+    const response = await axios.get<IFoodData>(
+      "http://localhost:3000/api/getFood"
+    );
     const data = response.data;
     return {
       props: {
@@ -177,7 +201,7 @@ const DocumentIcon = styled(IoDocumentTextOutline)`
 
 const MenuEditSideMenu = styled.ul`
   background-color: var(--color-gray);
-  width: 42px;
+  width: 100px;
   padding: 0px 10px;
   display: flex;
   flex-direction: column;
@@ -300,3 +324,5 @@ const FoodCard = styled.div`
     }
   }
 `;
+
+export const CategoryWrap = styled(FoodCardWrap)``;

@@ -9,9 +9,10 @@ interface IMenuItem {
 }
 interface Props {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  type: string;
 }
 
-const MenuModal = ({ setModalOpen }: Props) => {
+const MenuModal = ({ setModalOpen, type }: Props) => {
   const [inputs, setInputs] = useState<IMenuItem>({
     name: "",
     price: "0",
@@ -65,42 +66,46 @@ const MenuModal = ({ setModalOpen }: Props) => {
     <S.ModalWrap>
       <S.Modal>
         <S.ModalCloseBtn onClick={() => setModalOpen(false)}>X</S.ModalCloseBtn>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="file"
-            id="file"
-            name="file"
-            accept="image/png, image/jpeg"
-            className="file__input"
-            onChange={handleImgChange}
-          />
-          <input
-            className="name__input"
-            name="name"
-            placeholder="메뉴명을 입력해주세요."
-            maxLength={20}
-            onChange={handleChange}
-          />
-          <input
-            className="price__input"
-            name="price"
-            placeholder="가격을 입력해주세요."
-            maxLength={20}
-            onChange={handleChange}
-          />
-          <textarea
-            className="content__input"
-            name="content"
-            rows={7}
-            cols={10}
-            maxLength={200}
-            placeholder="메뉴 상세를 입력해주세요."
-            onChange={handleChange}
-          />
-          <button className="submit__btn" type="submit">
-            제출하기
-          </button>
-        </form>
+        {type === "음식" ? (
+          <form onSubmit={handleSubmit}>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="image/png, image/jpeg"
+              className="file__input"
+              onChange={handleImgChange}
+            />
+            <input
+              className="name__input"
+              name="name"
+              placeholder="메뉴명을 입력해주세요."
+              maxLength={20}
+              onChange={handleChange}
+            />
+            <input
+              className="price__input"
+              name="price"
+              placeholder="가격을 입력해주세요."
+              maxLength={20}
+              onChange={handleChange}
+            />
+            <textarea
+              className="content__input"
+              name="content"
+              rows={7}
+              cols={10}
+              maxLength={200}
+              placeholder="메뉴 상세를 입력해주세요."
+              onChange={handleChange}
+            />
+            <button className="submit__btn" type="submit">
+              제출하기
+            </button>
+          </form>
+        ) : (
+          <div>카테고리</div>
+        )}
       </S.Modal>
     </S.ModalWrap>
   );
