@@ -23,19 +23,21 @@ interface Props {
 
 const MenuPage: NextPage<Props> = ({ foodGetData }) => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [menuWrapState, setMenuWrapState] = useState("카테고리");
+  const [tabClicked, setTabClicked] = useState(0);
+  const sideList = ["카테고리", "음식"];
   const router = useRouter();
+
   const handleQr = () => {
     router.push({
       pathname: "/qrpage",
     });
   };
 
-  const sideList = ["카테고리", "음식"];
-  const [menuWrapState, setMenuWrapState] = useState<string>("카테고리");
-
-  const handleSideMenuClick = (type: string) => {
+  const handleSideMenuClick = (type: string, idx: number) => {
     setMenuWrapState(type);
+    setTabClicked(idx);
+    console.log(tabClicked);
   };
   return (
     <div>
@@ -52,11 +54,16 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
           </MenuInputWrap>
           {/* 정보수정 창 */}
           <MenuEditWrap>
+            {/* 사이드 메뉴가 나오는 부분 */}
             <MenuEditSideMenu>
               {sideList.map((val, idx) => (
-                <li key={idx} onClick={() => handleSideMenuClick(val)}>
+                <SideList
+                  className={`${tabClicked === idx ? "tap__active" : "tap"}`}
+                  key={idx}
+                  onClick={() => handleSideMenuClick(val, idx)}
+                >
                   {val}
-                </li>
+                </SideList>
               ))}
             </MenuEditSideMenu>
             <MenuEditContent>
@@ -108,6 +115,7 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
                   ))}
                 </FoodCardWrap>
               ) : (
+                // TODO: 카테고리가 나올 페이지
                 <CategoryWrap>카테고리임</CategoryWrap>
               )}
             </MenuEditContent>
@@ -207,8 +215,19 @@ const MenuEditSideMenu = styled.ul`
   flex-direction: column;
   align-items: center;
 
-  li {
-    padding: 20px 0px;
+  .tap {
+    font-weight: 400;
+  }
+  .tap__active {
+    font-weight: 700;
+  }
+`;
+
+const SideList = styled.li`
+  padding: 20px 0px;
+  cursor: pointer;
+  :hover {
+    font-weight: 700;
   }
 `;
 
