@@ -19,6 +19,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     content: "",
   });
   const [img, setImg] = useState<File | null>(null);
+
   const addNewMenu = async (fd: FormData) => {
     try {
       const response = await axios.post("http://localhost:8080/food/new", fd, {
@@ -37,7 +38,27 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     }
   };
 
-  const handleChange = (
+  const addNewCategory = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/categpry/new",
+        {
+          name: "test category1",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFoodChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
@@ -51,7 +72,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     setImg(e.target.files ? e.target.files[0] : null);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFoodSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData();
     if (img !== null) {
@@ -62,12 +83,22 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     fd.append("dto", blob);
     addNewMenu(fd);
   };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+
+  const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    addNewCategory();
+  };
+
   return (
     <S.ModalWrap>
       <S.Modal>
         <S.ModalCloseBtn onClick={() => setModalOpen(false)}>X</S.ModalCloseBtn>
         {type === "음식" ? (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleFoodSubmit}>
             <input
               type="file"
               id="file"
@@ -81,14 +112,14 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
               name="name"
               placeholder="메뉴명을 입력해주세요."
               maxLength={20}
-              onChange={handleChange}
+              onChange={handleFoodChange}
             />
             <input
               className="price__input"
               name="price"
               placeholder="가격을 입력해주세요."
               maxLength={20}
-              onChange={handleChange}
+              onChange={handleFoodChange}
             />
             <textarea
               className="content__input"
@@ -97,14 +128,25 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
               cols={10}
               maxLength={200}
               placeholder="메뉴 상세를 입력해주세요."
-              onChange={handleChange}
+              onChange={handleFoodChange}
             />
-            <button className="submit__btn" type="submit">
+            <S.SummitBtn className="submit__btn" type="submit">
               제출하기
-            </button>
+            </S.SummitBtn>
           </form>
         ) : (
-          <div>카테고리</div>
+          <S.CateForm onSubmit={handleCategorySubmit}>
+            <input
+              onChange={handleCategoryChange}
+              className="cate__input"
+              name="category"
+              placeholder="카테고리명을 입력해주세요"
+            ></input>
+            <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>
+            <S.SummitBtn className="submit__btn" type="submit">
+              제출하기
+            </S.SummitBtn>
+          </S.CateForm>
         )}
       </S.Modal>
     </S.ModalWrap>
