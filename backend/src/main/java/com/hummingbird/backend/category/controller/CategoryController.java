@@ -21,9 +21,8 @@ public class CategoryController {
 
     //create
     @PostMapping("/category/new")
-    public Long createCategory(@RequestBody CreateCategoryDto dto){
-        //현재 페이지의 menuId 받아오기
-        Long menuId = 1L; //임시값
+    public Long createCategory(@RequestPart("categoryDto") CreateCategoryDto dto,
+                               @RequestPart("menuId") Long menuId){
         return categoryService.create(dto,menuId);
     }
 
