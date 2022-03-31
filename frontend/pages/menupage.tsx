@@ -112,9 +112,13 @@ export async function getStaticProps() {
       props: {
         foodGetData: data,
       },
+      fallback: false,
     };
   } catch (err) {
     console.log(err);
+    return {
+      notFound: true,
+    };
   }
 }
 
