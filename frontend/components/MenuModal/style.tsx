@@ -50,21 +50,44 @@ export const Modal = styled.div`
     display: block;
     width: 100%;
     padding: 5px;
+    margin-bottom: 12px;
     border: 1px solid gray;
     border-radius: 10px;
     resize: none;
     outline: none;
   }
+`;
 
-  .submit__btn {
+export const CateForm = styled.form`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .cate__input {
+    flex: none;
     display: block;
-    height: 24px;
     width: 100%;
-    font-weight: 700;
-    border-radius: 10px;
-    color: var(--color-orange);
-    margin-top: 12px;
+    padding: 5px 0px 5px 5px;
+    margin: 20px 0px;
+    border-bottom: 1px solid gray;
+    outline: none;
   }
+
+  p {
+    color: gray;
+  }
+`;
+
+export const SummitBtn = styled.button`
+  display: block;
+  height: 24px;
+  width: 100%;
+  font-weight: 700;
+  border-radius: 10px;
+  color: var(--color-orange);
+  margin-top: auto;
+  margin-bottom: 12px;
 `;
 export const ModalCloseBtn = styled.button`
   width: 100%;
