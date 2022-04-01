@@ -11,12 +11,14 @@ import Nav from "../components/Nav";
 import MenuModal from "../components/MenuModal";
 import axios from "axios";
 
+interface IFoodData {
+  name: string;
+  price: number;
+  content: string;
+}
+
 interface Props {
-  foodGetData: {
-    name: string;
-    price: number;
-    content: string;
-  }[];
+  foodGetData: IFoodData[];
 }
 
 const foodGetData = [
@@ -96,14 +98,22 @@ const foodGetData = [
 
 const MenuPage: NextPage<Props> = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [menuWrapState, setMenuWrapState] = useState("카테고리");
+  const [tabClicked, setTabClicked] = useState(0);
+  const sideList = ["카테고리", "음식"];
   const router = useRouter();
+
   const handleQr = () => {
     router.push({
       pathname: "/qrpage",
     });
   };
 
+  const handleSideMenuClick = (type: string, idx: number) => {
+    setMenuWrapState(type);
+    setTabClicked(idx);
+    console.log(tabClicked);
+  };
   return (
     <div>
       <Nav />
@@ -119,52 +129,70 @@ const MenuPage: NextPage<Props> = () => {
           </MenuInputWrap>
           {/* 정보수정 창 */}
           <MenuEditWrap>
+            {/* 사이드 메뉴가 나오는 부분 */}
             <MenuEditSideMenu>
-              <li>
-                <Link href={""}>
-                  <DocumentIcon />
-                </Link>
-              </li>
+              {sideList.map((val, idx) => (
+                <SideList
+                  className={`${tabClicked === idx ? "tap__active" : "tap"}`}
+                  key={idx}
+                  onClick={() => handleSideMenuClick(val, idx)}
+                >
+                  {val}
+                </SideList>
+              ))}
             </MenuEditSideMenu>
             <MenuEditContent>
-              <div className="menuedit-content__header">
-                <p>메뉴 추가</p>
-                <EditPlusBtn onClick={() => setModalOpen(true)} />
-              </div>
+              {menuWrapState === "음식" ? (
+                <div className="menuedit-content__header">
+                  <p>음식 추가</p>
+                  <EditPlusBtn onClick={() => setModalOpen(true)} />
+                </div>
+              ) : (
+                <div className="menuedit-content__header">
+                  <p>카테고리 추가</p>
+                  <EditPlusBtn onClick={() => setModalOpen(true)} />
+                </div>
+              )}
+
               {/* 추가된 메뉴가 나올 부분 */}
-              <FoodCardWrap>
-                {foodGetData.map((val, idx) => (
-                  <FoodCard key={idx}>
-                    <div className="foodcard-top">
-                      <Image
-                        src="/images/image2.png"
-                        alt="음식 사진"
-                        width="64"
-                        height="64"
-                      />
-                      <div className="foodcard_top__content">
-                        <p className="foodcard_top__name">{val.name}</p>
-                        <ul className="foodcard_top__list">
-                          <li>
-                            <span>가격</span>
-                            {val.price}
-                          </li>
-                          <li>
-                            <span>알레르기 정보</span>
-                            연어, 토마토
-                          </li>
+              {menuWrapState === "음식" ? (
+                <FoodCardWrap>
+                  {foodGetData.map((val, idx) => (
+                    <FoodCard key={idx}>
+                      <div className="foodcard-top">
+                        <Image
+                          src="/images/image2.png"
+                          alt="음식 사진"
+                          width="64"
+                          height="64"
+                        />
+                        <div className="foodcard_top__content">
+                          <p className="foodcard_top__name">{val.name}</p>
+                          <ul className="foodcard_top__list">
+                            <li>
+                              <span>가격</span>
+                              {val.price}
+                            </li>
+                            <li>
+                              <span>알레르기 정보</span>
+                              연어, 토마토
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="foodcard_btm">
+                        <ul>
+                          <li>메뉴 소개</li>
+                          <li>{val.content}</li>
                         </ul>
                       </div>
-                    </div>
-                    <div className="foodcard_btm">
-                      <ul>
-                        <li>메뉴 소개</li>
-                        <li>{val.content}</li>
-                      </ul>
-                    </div>
-                  </FoodCard>
-                ))}
-              </FoodCardWrap>
+                    </FoodCard>
+                  ))}
+                </FoodCardWrap>
+              ) : (
+                // TODO: 카테고리가 나올 페이지
+                <CategoryWrap>카테고리임</CategoryWrap>
+              )}
             </MenuEditContent>
           </MenuEditWrap>
         </MenuInfoWrap>
@@ -174,7 +202,9 @@ const MenuPage: NextPage<Props> = () => {
           </MenuPreContent>
         </MenuPre>
       </Wrapper>
-      {modalOpen && <MenuModal setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
+      )}
     </div>
   );
 };
@@ -238,14 +268,25 @@ const DocumentIcon = styled(IoDocumentTextOutline)`
 
 const MenuEditSideMenu = styled.ul`
   background-color: var(--color-gray);
-  width: 42px;
+  width: 100px;
   padding: 0px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  li {
-    padding: 20px 0px;
+  .tap {
+    font-weight: 400;
+  }
+  .tap__active {
+    font-weight: 700;
+  }
+`;
+
+const SideList = styled.li`
+  padding: 20px 0px;
+  cursor: pointer;
+  :hover {
+    font-weight: 700;
   }
 `;
 
@@ -361,3 +402,5 @@ const FoodCard = styled.div`
     }
   }
 `;
+
+export const CategoryWrap = styled(FoodCardWrap)``;
