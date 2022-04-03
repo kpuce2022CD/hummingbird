@@ -75,6 +75,7 @@ dependencies {
 	//querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 test {
