@@ -1,10 +1,7 @@
 package com.hummingbird.backend.user.service.serviceImpl;
 
-import com.hummingbird.backend.user.domain.Customer;
 import com.hummingbird.backend.user.domain.Owner;
-import com.hummingbird.backend.user.repository.CustomerRepository;
 import com.hummingbird.backend.user.repository.OwnerRepository;
-import com.hummingbird.backend.user.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +34,7 @@ public class GeneralOwnerService {
     }
 
     public void isDuplicatedCustomer(Owner owner) {
-        Optional<Owner> ownerToCheckDuplicated = ownerRepository.findOwnerByToken(owner.getToken());
+        Optional<Owner> ownerToCheckDuplicated = ownerRepository.findOwnerByEmail(owner.getEmail());
         if (ownerToCheckDuplicated.isPresent()){
             log.info("{}은 이미 존재하는 회원입니다.",owner.getName());
             throw new IllegalStateException("이미 존재하는 회원입니다.");
