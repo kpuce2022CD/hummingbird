@@ -97,57 +97,66 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     <S.ModalWrap>
       <S.Modal>
         <S.ModalCloseBtn onClick={() => setModalOpen(false)}>X</S.ModalCloseBtn>
-        {type === "음식" ? (
-          <form onSubmit={handleFoodSubmit}>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept="image/png, image/jpeg"
-              className="file__input"
-              onChange={handleImgChange}
-            />
-            <input
-              className="name__input"
-              name="name"
-              placeholder="메뉴명을 입력해주세요."
-              maxLength={20}
-              onChange={handleFoodChange}
-            />
-            <input
-              className="price__input"
-              name="price"
-              placeholder="가격을 입력해주세요."
-              maxLength={20}
-              onChange={handleFoodChange}
-            />
-            <textarea
-              className="content__input"
-              name="content"
-              rows={7}
-              cols={10}
-              maxLength={200}
-              placeholder="메뉴 상세를 입력해주세요."
-              onChange={handleFoodChange}
-            />
-            <S.SummitBtn className="submit__btn" type="submit">
-              제출하기
-            </S.SummitBtn>
-          </form>
-        ) : (
-          <S.CateForm onSubmit={handleCategorySubmit}>
-            <input
-              onChange={handleCategoryChange}
-              className="cate__input"
-              name="category"
-              placeholder="카테고리명을 입력해주세요"
-            ></input>
-            <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>
-            <S.SummitBtn className="submit__btn" type="submit">
-              제출하기
-            </S.SummitBtn>
-          </S.CateForm>
-        )}
+        {(() => {
+          switch (type) {
+            case "음식":
+              return (
+                <form onSubmit={handleFoodSubmit}>
+                  <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    accept="image/png, image/jpeg"
+                    className="file__input"
+                    onChange={handleImgChange}
+                  />
+                  <input
+                    className="name__input"
+                    name="name"
+                    placeholder="메뉴명을 입력해주세요."
+                    maxLength={20}
+                    onChange={handleFoodChange}
+                  />
+                  <input
+                    className="price__input"
+                    name="price"
+                    placeholder="가격을 입력해주세요."
+                    maxLength={20}
+                    onChange={handleFoodChange}
+                  />
+                  <textarea
+                    className="content__input"
+                    name="content"
+                    rows={7}
+                    cols={10}
+                    maxLength={200}
+                    placeholder="메뉴 상세를 입력해주세요."
+                    onChange={handleFoodChange}
+                  />
+                  <S.SummitBtn className="submit__btn" type="submit">
+                    제출하기
+                  </S.SummitBtn>
+                </form>
+              );
+            case "카테고리":
+              return (
+                <S.CateForm onSubmit={handleCategorySubmit}>
+                  <input
+                    onChange={handleCategoryChange}
+                    className="cate__input"
+                    name="category"
+                    placeholder="카테고리명을 입력해주세요"
+                  ></input>
+                  <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>
+                  <S.SummitBtn className="submit__btn" type="submit">
+                    제출하기
+                  </S.SummitBtn>
+                </S.CateForm>
+              );
+            default:
+              return null;
+          }
+        })()}
       </S.Modal>
     </S.ModalWrap>
   );
