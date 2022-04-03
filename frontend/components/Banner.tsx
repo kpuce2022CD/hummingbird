@@ -1,8 +1,10 @@
 import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-
-
+import Image from 'next/image'
+import mypic from '../public/img/foodTable.jpg'
+import bannerPic from '../public/img/bannerPic.jpg'
+import twoPhone from '../public/img/GroupPhone.jpg'
 
 const Banner = () => {
   const router = useRouter();
@@ -16,39 +18,48 @@ const Banner = () => {
           <StyledBtn onClick={() => router.push("/menupage")}>
             메뉴만들기
           </StyledBtn>
-          <div>
-            <img src="" alt="휴대폰 두개 겹쳐진 이미지"/>
-          </div>
+          <StyledImg>
+            <Image
+              src={twoPhone}
+              alt="휴대폰 두개 겹친 이미지"
+              width="100%"
+              height="100%"
+              layout="responsive"
+            />
+          </StyledImg>
         </ThemeSection>
-
     </Themediv>
-    // <div>
-    //   <BgImg></BgImg>
-    // </div>
   );
 };
 
-const BgImg = styled.div`
+const BgImg = styled.img`
   backgorund-image: url("img/foodTable.jpg"); 
-  background-repeat: no-repeat;
-	background-size: cover;
-  width:100px;
-  height:100px;
+  width:100%;
+  opacity:0.5;
+`;
+
+const StyledBanner = styled.div`
+  display: absolute;
 `;
 
 const Themediv = styled.div`
     display: flex;
+    justify-items: center;
     margin: auto;
     height: 550px;
     padding: 3px;
-    text-align:center;
     background: grey;
+    text-align:center;
     color: white;
 `;
 
 const ThemeSection = styled.div`
     display: flex-colum;
     margin: auto;
+    width:100%;
+    height:100%;
+    background-image: url('/img/bannerPic.jpg');
+    background-size: cover;
 `;
 
 const StyledH1 = styled.h1`
@@ -80,6 +91,16 @@ const StyledBtn = styled.button`
     border-radius: 25px;
     margin: 30px;
     font-weight: bold;
+`;
+
+const StyledImg = styled.div`
+    display: span;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: auto;
+    width: 350px;
+    height:350px;
 `;
 
 export default Banner;
