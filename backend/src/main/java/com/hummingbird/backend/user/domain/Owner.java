@@ -19,6 +19,9 @@ public class Owner extends User{
     @Column(name = "email",nullable = false)
     private String email;
 
+    @Column(name = "password",nullable = false)
+    private String password;
+
 
     @Builder
     public Owner(String email, String name) {
