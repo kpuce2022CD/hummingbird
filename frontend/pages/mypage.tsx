@@ -1,42 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 
-import Nav from "../../components/Nav";
-import AdminMenu from "../../components/AdminMenu/AdminMenu";
-import { type } from "os";
-import axios from "axios";
-
+import Nav from "../components/Nav";
+import AdminMenu from "../components/AdminMenu/AdminMenu";
 const MyPage: NextPage = () => {
   const [adminContent, setAdminContent] = useState("menu");
-  const router = useRouter();
-  const { ownerid } = router.query;
-  const getMenuUseOwnerId = async (ownerid: string | string[] | undefined) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/menu/get/owner",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            ownerId: ownerid,
-          },
-        }
-      );
-
-      console.log(response);
-    } catch (err) {
-      console.log("error", err);
-    }
-  };
-
-  useEffect(() => {
-    console.log(ownerid);
-    getMenuUseOwnerId(ownerid);
-  }, []);
 
   return (
     <>
@@ -84,7 +53,6 @@ const SideList = styled.div`
   background-color: #fff;
   box-shadow: rgba(149, 157, 165, 0.2) 5px 0px 3px 0px;
 `;
-export default MyPage;
 
 const SideItem = styled.ol`
   h2 {
@@ -104,3 +72,4 @@ const AdminContentWrap = styled.div`
   padding: 20px;
   flex: 1;
 `;
+export default MyPage;
