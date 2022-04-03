@@ -21,7 +21,82 @@ interface Props {
   foodGetData: IFoodData[];
 }
 
-const MenuPage: NextPage<Props> = ({ foodGetData }) => {
+const foodGetData = [
+  {
+    name: "토마토 연어 구이",
+    price: 9000,
+    content:
+      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
+  },
+  {
+    name: "계란 오이 정식",
+    price: 7000,
+    content:
+      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
+  },
+  {
+    name: "토마토 연어 구이",
+    price: 9000,
+    content:
+      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
+  },
+  {
+    name: "계란 오이 정식",
+    price: 7000,
+    content:
+      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
+  },
+  {
+    name: "토마토 연어 구이",
+    price: 9000,
+    content:
+      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
+  },
+  {
+    name: "계란 오이 정식",
+    price: 7000,
+    content:
+      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
+  },
+  {
+    name: "토마토 연어 구이",
+    price: 9000,
+    content:
+      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
+  },
+  {
+    name: "계란 오이 정식",
+    price: 7000,
+    content:
+      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
+  },
+  {
+    name: "토마토 연어 구이",
+    price: 9000,
+    content:
+      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
+  },
+  {
+    name: "계란 오이 정식",
+    price: 7000,
+    content:
+      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
+  },
+  {
+    name: "토마토 연어 구이",
+    price: 9000,
+    content:
+      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
+  },
+  {
+    name: "계란 오이 정식",
+    price: 7000,
+    content:
+      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
+  },
+];
+
+const MenuPage: NextPage<Props> = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
   const [tabClicked, setTabClicked] = useState(0);
@@ -133,22 +208,6 @@ const MenuPage: NextPage<Props> = ({ foodGetData }) => {
     </div>
   );
 };
-
-export async function getStaticProps() {
-  try {
-    const response = await axios.get<IFoodData>(
-      "http://localhost:3000/api/getFood"
-    );
-    const data = response.data;
-    return {
-      props: {
-        foodGetData: data,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 export default MenuPage;
 
