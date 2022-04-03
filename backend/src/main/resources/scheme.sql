@@ -7,44 +7,45 @@ drop table if exists test_db.order_item;
 drop table if exists test_db.orders;
 drop table if exists test_db.owner;
 drop table if exists test_db.shop;
+drop table if exists test_db.hibernate_sequence;
 SET foreign_key_checks = 1;
 
 create table if not exists test_db.customer
 (
-    customer_id bigint auto_increment
+    id bigint auto_increment
         primary key,
     email       varchar(255) not null,
     name        varchar(255) not null,
     password    varchar(255) not null,
-    token       varchar(255) not null
+    token    varchar(255) not null
 );
 
-create table if not exists test_db.hibernate_sequence
+create table test_db.hibernate_sequence
 (
     next_val bigint null
 );
 
-create table if not exists test_db.owner
+create table test_db.owner
 (
-    owner_id bigint auto_increment
+    id bigint auto_increment
         primary key,
     name     varchar(255) not null,
-    token    varchar(255) not null
+    email    varchar(255) not null
 );
 
-create table if not exists test_db.menu
+create table test_db.menu
 (
     id             bigint auto_increment
         primary key,
     created_date   datetime(6) null,
     modified_date  datetime(6) null,
     name           varchar(20) null,
-    owner_owner_id bigint      null,
+    owner_id bigint      null,
     constraint FK2r2kviwck220ivsufn5584tn0
-        foreign key (owner_owner_id) references test_db.owner (owner_id)
+        foreign key (owner_id) references test_db.owner (id)
 );
 
-create table if not exists test_db.category
+create table test_db.category
 (
     id      bigint auto_increment
         primary key,
@@ -54,7 +55,7 @@ create table if not exists test_db.category
         foreign key (menu_id) references test_db.menu (id)
 );
 
-create table if not exists test_db.food
+create table test_db.food
 (
     id          bigint auto_increment
         primary key,
@@ -66,7 +67,7 @@ create table if not exists test_db.food
         foreign key (category_id) references test_db.category (id)
 );
 
-create table if not exists test_db.shop
+create table test_db.shop
 (
     shop_id     bigint auto_increment
         primary key,
@@ -74,7 +75,7 @@ create table if not exists test_db.shop
     open_status varchar(255) null
 );
 
-create table if not exists test_db.orders
+create table test_db.orders
 (
     order_id     bigint auto_increment
         primary key,
@@ -83,12 +84,12 @@ create table if not exists test_db.orders
     customer_id  bigint      null,
     shop_id      bigint      null,
     constraint FK624gtjin3po807j3vix093tlf
-        foreign key (customer_id) references test_db.customer (customer_id),
+        foreign key (customer_id) references test_db.customer (id),
     constraint FKqn03kko0738sehaal2gr2uxl6
         foreign key (shop_id) references test_db.shop (shop_id)
 );
 
-create table if not exists test_db.order_item
+create table test_db.order_item
 (
     order_item_id bigint not null
         primary key,
