@@ -19,8 +19,9 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     content: "",
   });
   const [img, setImg] = useState<File | null>(null);
+  const [menuName, setMenuName] = useState<string>("");
 
-  const addNewMenu = async (fd: FormData) => {
+  const addNewFood = async (fd: FormData) => {
     try {
       const response = await axios.post("http://localhost:8080/food/new", fd, {
         headers: {
@@ -58,6 +59,27 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     }
   };
 
+  const addNewMenu = async (menuName: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/menu/new",
+        {
+          name: "test menu1",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      console.log(response);
+      setModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleFoodChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -81,7 +103,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     const json = JSON.stringify(inputs);
     const blob = new Blob([json], { type: "application/json" });
     fd.append("dto", blob);
-    addNewMenu(fd);
+    addNewFood(fd);
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +113,16 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
   const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     addNewCategory();
+  };
+
+  const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setMenuName(e.target.value);
+  };
+
+  const handleMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    addNewMenu(menuName);
   };
 
   return (
@@ -148,6 +180,20 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
                     placeholder="카테고리명을 입력해주세요"
                   ></input>
                   <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>
+                  <S.SummitBtn className="submit__btn" type="submit">
+                    제출하기
+                  </S.SummitBtn>
+                </S.CateForm>
+              );
+            case "메뉴판":
+              return (
+                <S.CateForm onSubmit={handleMenuSubmit}>
+                  <input
+                    onChange={handleMenuChange}
+                    className="cate__input"
+                    name="category"
+                    placeholder="메뉴판명을 입력해주세요"
+                  ></input>
                   <S.SummitBtn className="submit__btn" type="submit">
                     제출하기
                   </S.SummitBtn>

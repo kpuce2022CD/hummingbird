@@ -11,6 +11,7 @@ const EditPlusBtn = () => {
 };
 
 const Btn = styled(ImPlus)`
+  display: inline-block;
   background-color: white;
   border-radius: 50%;
   font-size: 42px;

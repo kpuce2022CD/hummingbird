@@ -71,4 +71,5 @@ const SideItem = styled.ol`
 
 const AdminContentWrap = styled.div`
   padding: 20px;
+  flex: 1;
 `;
