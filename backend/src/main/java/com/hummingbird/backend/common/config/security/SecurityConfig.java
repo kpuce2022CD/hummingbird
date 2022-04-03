@@ -1,4 +1,4 @@
-package com.hummingbird.backend.common.config;
+package com.hummingbird.backend.common.config.security;
 
 import com.hummingbird.backend.common.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;
