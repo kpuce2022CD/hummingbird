@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import type { NextPage } from "next";
 
-import Nav from "../components/Nav";
-import AdminMenu from "../components/AdminMenu/AdminMenu";
+import Nav from "../../components/Nav";
+import AdminMenu from "../../components/AdminMenu/AdminMenu";
 const MyPage: NextPage = () => {
   const [adminContent, setAdminContent] = useState("menu");
 

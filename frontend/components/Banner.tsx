@@ -15,7 +15,12 @@ const Banner = () => {
         </span>
         <button
           className="bg-red-100 p-3 rounded-xl"
-          onClick={() => router.push("/mypage")}
+          onClick={() => {
+            router.push({
+              pathname: "/mypage/[ownerid]",
+              query: { ownerid: 1 },
+            });
+          }}
         >
           메뉴만들기
         </button>
