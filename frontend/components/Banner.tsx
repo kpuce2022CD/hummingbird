@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Image from 'next/image'
-import twoPhone from '../public/img/GroupPhone.jpg'
+import twoPhone from '../public/img/GroupPhone.svg'
 
 const Banner = () => {
   const router = useRouter();
@@ -46,7 +46,7 @@ const ThemeSection = styled.div`
     margin: 0 0 544.9px;
     padding: 0;
     object-fit: contain;
-    background-image: url('/img/bannerPic.jpg');
+    background-image: url('/img/bannerPic.svg');
     background-size: cover;
 `; 
 
@@ -87,8 +87,8 @@ const StyledImg = styled.div`
     align-items: center;
     padding: 20px;
     margin: auto;
-    width: 350px;
-    height:350px;
+    max-width: 450px;
+    max-height:450px;
 `;
 
 export default Banner;

@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import React from "react";
 import styled from 'styled-components';
-import easyMenuPhone1 from '../public/img/info/easyMenu.jpg'
-import easyMenuPhone2 from '../public/img/info/easyMenu2.jpg'
-import paymentPhone from '../public/img/info/Payment.jpg'
-import CheckMac from '../public/img/info/checkMac.jpg'
+import easyMenuPhone1 from '../public/img/info/easyMenu.svg'
+import easyMenuPhone2 from '../public/img/info/easyMenu2.svg'
+import paymentPhone from '../public/img/info/Payment.svg'
+import CheckMac from '../public/img/info/checkMac.svg'
 
 const Info = () => {
   return (
