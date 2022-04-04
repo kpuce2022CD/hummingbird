@@ -31,12 +31,10 @@ const Info = () => {
                         <Image
                         src={easyMenuPhone2}
                         alt="메뉴판 띄운 아이폰 이미지1"
-                        max-width="300px"
                         layout="responsive"
                         />
                     </Img>
                 </StyledImg>
-
                 <Contents>
                     <StyledSubT>간단하게 스마트 메뉴판을 만들어보세요</StyledSubT>
                     <StyledH2>쉽고 간단한 메뉴판 만들기</StyledH2>
@@ -44,8 +42,8 @@ const Info = () => {
                         메뉴 정보만 적어도 오더캔버스가 뚝딱 만들어드립니다.</StyledDesc>
                 </Contents>
             </StyledSection>
-            <StyledSection>
 
+            <StyledSection>
                 <Contents>
                     <StyledSubT>점원 없이 주문을 받아보세요.</StyledSubT>
                     <StyledH2>손님의 주문과 결제를 한번에</StyledH2>
@@ -57,23 +55,20 @@ const Info = () => {
                         <Image
                         src={paymentPhone}
                         alt="주문하는 아이폰 이미지"
-                        max-width="300px"
-                        max-height='300px'
                         layout="responsive"
                         />
                     </Img2>
                 </StyledImg>
             </StyledSection>
+
             <StyledSection>
                 <StyledImg>
                     <Image
                     src={CheckMac}
                     alt="주문 확인하는 맥북 페이지"
-                    max-width="250px"
                     layout="responsive"
                     />
                 </StyledImg>
-
                 <Contents>
                     <StyledSubT>고객의 주문을 간편하게 확인하세요.</StyledSubT>
                     <StyledH2>접수된 주문 확인하기</StyledH2>
@@ -81,7 +76,6 @@ const Info = () => {
                         주문도 결제도 오더캔버스가 함께합니다.</StyledDesc>
                 </Contents>
             </StyledSection>
-
         </EasySection>
     </div>
   );
