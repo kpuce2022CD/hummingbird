@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-@CrossOrigin("*")
+
 @RestController
 public class MenuController {
 
