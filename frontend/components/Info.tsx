@@ -37,27 +37,28 @@ const Info = () => {
                     </Img>
                 </StyledImg>
 
-                <div>
+                <Contents>
                     <StyledSubT>간단하게 스마트 메뉴판을 만들어보세요</StyledSubT>
                     <StyledH2>쉽고 간단한 메뉴판 만들기</StyledH2>
                     <StyledDesc>손님들께 제공할 메뉴판을 만들어보세요.<br/>
                         메뉴 정보만 적어도 오더캔버스가 뚝딱 만들어드립니다.</StyledDesc>
-                </div>
+                </Contents>
             </StyledSection>
             <StyledSection>
 
-                <div>
+                <Contents>
                     <StyledSubT>점원 없이 주문을 받아보세요.</StyledSubT>
                     <StyledH2>손님의 주문과 결제를 한번에</StyledH2>
                     <StyledDesc>손님의 주문과 결제를 온라인으로 해결해요.<br/>
                         언택트 시대에 걸맞는 메뉴판 서비스를 제공합니다.</StyledDesc>
-                </div>
+                </Contents>
                 <StyledImg>
                     <Img>
                         <Image
                         src={paymentPhone}
                         alt="주문하는 아이폰 이미지"
-                        max-height="150px"
+                        max-width="300px"
+                        max-height='300px'
                         layout="responsive"
                         />
                     </Img>
@@ -73,12 +74,12 @@ const Info = () => {
                     />
             </StyledImg>
 
-                <div>
+                <Contents>
                     <StyledSubT>고객의 주문을 간편하게 확인하세요.</StyledSubT>
                     <StyledH2>접수된 주문 확인하기</StyledH2>
                     <StyledDesc>결제가 된 주문을 오더캔버스의 주문표를 통해 확인하세요.<br/>
                         주문도 결제도 오더캔버스가 함께합니다.</StyledDesc>
-                </div>
+                </Contents>
             </StyledSection>
 
         </EasySection>
@@ -86,17 +87,9 @@ const Info = () => {
   );
 };
 
-const StyledSection = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5rem;
-    object-fit: contain;
-`;
-
 const StyledLine = styled.div`
     display: block;
-    align-items:center;
+    align-content:center;
     text-align: center;
     border-top:2px solid #E4E4E4;
     width:50%;
@@ -110,25 +103,38 @@ const EasySection = styled.div`
     margin:auto;
 `;
 
+const StyledSection = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+    padding 5rem;
+`;
+
 const StyledImg = styled.div`
     display: table;
     table-layout: fixed;
     justify-content: center;
     align-items: center;
-    margin: 59px 0 582px;
+    margin: 59px 0 58px;
     padding: 20px;
     width: 50%;
     max-height: 450px;
-    border: 10px solid black;
     object-fit: scale-down;
     overflow: hidden;
 `;
 
+
+
 const Img = styled.div`
     display: table-cell;
     vertical-align: middle;
-    min-width:320px;
+    max-width:320px;
     max-height: 450px;
+`;
+
+const Contents = styled.div`
+    margin: auto;
 `;
 
 const StyledH1 = styled.h1`
