@@ -2,8 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Image from 'next/image'
-import mypic from '../public/img/foodTable.jpg'
-import bannerPic from '../public/img/bannerPic.jpg'
 import twoPhone from '../public/img/GroupPhone.jpg'
 
 const Banner = () => {
@@ -32,22 +30,10 @@ const Banner = () => {
   );
 };
 
-const BgImg = styled.img`
-  backgorund-image: url("img/foodTable.jpg"); 
-  width:100%;
-  opacity:0.5;
-`;
-
-const StyledBanner = styled.div`
-  display: absolute;
-`;
-
 const Themediv = styled.div`
     display: flex;
     justify-items: center;
-    margin: auto;
     height: 550px;
-    padding: 3px;
     background: grey;
     text-align:center;
     color: white;
@@ -55,12 +41,14 @@ const Themediv = styled.div`
 
 const ThemeSection = styled.div`
     display: flex-colum;
-    margin: auto;
     width:100%;
     height:100%;
+    margin: 0 0 544.9px;
+    padding: 0;
+    object-fit: contain;
     background-image: url('/img/bannerPic.jpg');
     background-size: cover;
-`;
+`; 
 
 const StyledH1 = styled.h1`
     display: block;
@@ -74,7 +62,7 @@ const StyledH1 = styled.h1`
 const Subdiv = styled.div`
     font-weight:bold;
     margin: 15px;
-
+    margin-top: 100px;
 `;
 
 const StyledDesc= styled.div`

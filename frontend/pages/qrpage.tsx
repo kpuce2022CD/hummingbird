@@ -173,6 +173,7 @@ const StyledQr = styled.div`
   margin: 3rem;
   padding: 5px;
   justify-content: center;
+  align-items: center;
   border: 5px solid #FA4A0C;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 `;
