@@ -1,4 +1,4 @@
-package com.hummingbird.backend.menu.service;
+package com.hummingbird.backend.common.config.security.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

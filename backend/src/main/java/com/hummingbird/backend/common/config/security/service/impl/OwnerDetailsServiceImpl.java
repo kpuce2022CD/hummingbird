@@ -1,9 +1,9 @@
-package com.hummingbird.backend.menu.service.serviceImpl;
+package com.hummingbird.backend.common.config.security.service.impl;
 
-import com.hummingbird.backend.menu.service.OwnerDetailsService;
+import com.hummingbird.backend.common.config.security.service.OwnerAuthenticationContext;
+import com.hummingbird.backend.common.config.security.service.OwnerDetailsService;
 import com.hummingbird.backend.user.domain.Owner;
 import com.hummingbird.backend.user.repository.OwnerRepository;
-import com.hummingbird.backend.user.service.OwnerAuthenticationContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
