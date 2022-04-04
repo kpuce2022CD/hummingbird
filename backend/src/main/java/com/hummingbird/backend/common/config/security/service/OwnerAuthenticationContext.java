@@ -1,16 +1,18 @@
-package com.hummingbird.backend.user.service;
+package com.hummingbird.backend.common.config.security.service;
 
 import com.hummingbird.backend.user.domain.Owner;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
+@Getter
 public class OwnerAuthenticationContext extends User {
-    private Owner owner;
+    private final Owner owner;
 
     public OwnerAuthenticationContext(Owner owner, List<GrantedAuthority> roles) {
-        super(owner.getName(), owner.getPassword(), roles);
+        super(owner.getEmail(), owner.getPassword(), roles);
         this.owner = owner;
     }
 }
