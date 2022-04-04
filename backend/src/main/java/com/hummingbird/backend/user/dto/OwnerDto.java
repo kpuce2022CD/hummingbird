@@ -27,10 +27,13 @@ public class OwnerDto {
             message = "비밀 번호는 최소 1개의 대소문자, 특수문자, 숫자를 포함한 8자 이상여야 합니다.")
     private String password;
 
+    private String businessRegistrationNumber;
+
     public Owner toEntity(PasswordEncoder passwordEncoder) {
         return Owner.builder()
                 .name(name)
                 .email(email)
+                .businessRegistrationNumber(businessRegistrationNumber)
                 .build();
     }
 }

@@ -31,7 +31,8 @@ create table test_db.owner
         primary key,
     name     varchar(255) not null,
     email    varchar(255) not null,
-    password varchar(255) not null
+    password varchar(255) not null,
+    business_registration_number varchar(255) not null
 );
 
 create table test_db.menu

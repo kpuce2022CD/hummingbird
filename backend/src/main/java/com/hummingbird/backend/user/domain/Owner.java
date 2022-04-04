@@ -22,14 +22,21 @@ public class Owner extends User{
     @Column(name = "password",nullable = false)
     private String password;
 
+    @Column(name = "business_registration_number",nullable = false)
+    private String businessRegistrationNumber;
+
 
     @Builder
-    public Owner(String email, String name) {
+    public Owner(String email, String name, String businessRegistrationNumber) {
         this.email = email;
         this.name = name;
+        this.businessRegistrationNumber = businessRegistrationNumber;
     }
 
     public static Owner toEntity(OwnerDto ownerDto) {
-        return new Owner(ownerDto.getEmail(),ownerDto.getName());
+        return new Owner(ownerDto.getEmail(),
+                ownerDto.getName(),
+                ownerDto.getBusinessRegistrationNumber()
+        );
     }
 }
