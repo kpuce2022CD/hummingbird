@@ -53,7 +53,7 @@ const Info = () => {
                         언택트 시대에 걸맞는 메뉴판 서비스를 제공합니다.</StyledDesc>
                 </Contents>
                 <StyledImg>
-                    <Img>
+                    <Img2>
                         <Image
                         src={paymentPhone}
                         alt="주문하는 아이폰 이미지"
@@ -61,7 +61,7 @@ const Info = () => {
                         max-height='300px'
                         layout="responsive"
                         />
-                    </Img>
+                    </Img2>
                 </StyledImg>
             </StyledSection>
             <StyledSection>
@@ -72,7 +72,7 @@ const Info = () => {
                     max-width="250px"
                     layout="responsive"
                     />
-            </StyledImg>
+                </StyledImg>
 
                 <Contents>
                     <StyledSubT>고객의 주문을 간편하게 확인하세요.</StyledSubT>
@@ -124,10 +124,14 @@ const StyledImg = styled.div`
     overflow: hidden;
 `;
 
-
-
 const Img = styled.div`
     display: table-cell;
+    vertical-align: middle;
+    max-width:320px;
+    max-height: 450px;
+`;
+
+const Img2 = styled.div`
     vertical-align: middle;
     max-width:320px;
     max-height: 450px;
