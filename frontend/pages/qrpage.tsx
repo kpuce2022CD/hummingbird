@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import styled from "styled-components";
 import Nav from "../components/Nav";
+import ImageNext from 'next/image'
+
 
 interface qrpageType {
   queryString: string;
