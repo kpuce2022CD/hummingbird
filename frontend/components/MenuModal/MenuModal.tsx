@@ -29,7 +29,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
           "Access-Control-Allow-Origin": "*",
         },
         params: {
-          id: 7,
+          categoryId: 1,
         },
       });
       console.log(response);
@@ -102,7 +102,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     }
     const json = JSON.stringify(inputs);
     const blob = new Blob([json], { type: "application/json" });
-    fd.append("dto", blob);
+    fd.append("foodDto", blob);
     addNewFood(fd);
   };
 
