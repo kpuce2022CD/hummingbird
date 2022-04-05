@@ -1,15 +1,27 @@
 package com.hummingbird.backend.common.config.security;
 
 import com.hummingbird.backend.common.config.properties.CorsProperties;
+import com.hummingbird.backend.common.config.security.entrypoint.OwnerLoginAuthenticationEntryPoint;
+import com.hummingbird.backend.common.config.security.handler.OwnerAccessDeniedHandler;
+import com.hummingbird.backend.common.config.security.handler.OwnerAuthenticationFailureHandler;
+import com.hummingbird.backend.common.config.security.handler.OwnerAuthenticationSuccessHandler;
+import com.hummingbird.backend.common.config.security.provider.OwnerAuthenticationProvider;
+import com.hummingbird.backend.common.config.security.service.OwnerDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,35 +34,55 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsProperties corsProperties;
+    private final OwnerDetailsService ownerDetailsService;
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(OwnerAuthenticationProvider());
+    }
+
+    @Bean
+    public AuthenticationProvider OwnerAuthenticationProvider() {
+        return new OwnerAuthenticationProvider(ownerDetailsService,getPasswordEncoder());
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception{
-        web.ignoring().antMatchers("/static/css/**", "/static/js/**", "*.ico"); // 나중에 수정
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 
         // swagger
         web.ignoring().antMatchers(
                 "/v2/api-docs", "/configuration/ui", "/swagger-resources",
-                "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**");
+                "/configuration/security", "/swagger-ui.html/**", "/webjars/**","/swagger/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
+                    .cors()
                 .and()
-                .formLogin().disable()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll(); //cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
-
-
+                    .csrf().disable()
+                    .formLogin().disable()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(new OwnerLoginAuthenticationEntryPoint())
+                    .accessDeniedHandler(ownerAccessDeniedHandler())
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/api/owner/login").permitAll()
+                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()//cors를 검증 하는 option 함수의 경우 별도의 filter 없이 허용
+                    // todo 인증 권한 설정 바꾸기
+                    .antMatchers("/**").permitAll();
+        http
+                    .apply(new OwnerLoginConfigurer<>())
+                    .ownerSuccessHandler(authenticationSuccessHandler())
+                    .ownerFailureHandler(authenticationFailureHandler())
+                    .loginProcessingUrl("/api/owner/login")
+                    .setAuthenticationManager(authenticationManagerBean());
     }
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource(){
@@ -67,6 +99,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return corsConfigurationSource;
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+        return new OwnerAuthenticationProvider(ownerDetailsService,getPasswordEncoder());
+    }
 
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return new OwnerAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler(){
+        return new OwnerAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new OwnerAccessDeniedHandler();
+    }
+
+    @Bean
+    public AccessDeniedHandler ownerAccessDeniedHandler(){
+        return new OwnerAccessDeniedHandler();
+    }
 }
 
