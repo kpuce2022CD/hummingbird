@@ -15,12 +15,12 @@ public abstract class BaseTimeEntity {
 
     // 생성 시간 자동 저장
     @CreatedDate
-    @Column(name = "create_at", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = false, updatable = false)
     protected LocalDateTime createdTime;
 
     // 마지막 수정 시간 자동 저장
     @LastModifiedDate
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "modified_date", nullable = false)
     protected LocalDateTime modifiedTime;
 
 }

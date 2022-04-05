@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 import static com.hummingbird.backend.user.controller.CustomerController.*;
 
+
 @RestController
 @RequestMapping(CUSTOMER_API_URI)
 public class CustomerController {

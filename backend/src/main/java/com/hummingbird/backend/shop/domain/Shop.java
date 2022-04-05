@@ -2,6 +2,7 @@ package com.hummingbird.backend.shop.domain;
 
 import com.hummingbird.backend.order.domain.Order;
 import com.hummingbird.backend.shop.dto.ShopDto;
+import com.hummingbird.backend.user.domain.Owner;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,10 @@ public class Shop {
 
     @OneToOne(mappedBy = "shop", fetch = LAZY)
     private Order order;
+
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "owner_id")
+    private Owner Owner;
 
     public void updateShopProfile(ShopDto shopDto){
         this.name = shopDto.getName();
