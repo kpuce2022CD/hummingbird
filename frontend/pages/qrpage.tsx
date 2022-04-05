@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import styled from "styled-components";
 import Nav from "../components/Nav";
-import ImageNext from 'next/image'
-
+import ImageNext from "next/image";
 
 interface qrpageType {
   queryString: string;
@@ -53,22 +52,30 @@ const QrPage: NextPage = () => {
       <Theme>
         <LeftSection>
           <div>
-            <StyledH1>앱을 다운 로드 받을 필요 없이<br/>QR 하나로 주문까지!</StyledH1>
-            <StyledDesc>하단 ‘저장 하기’를 누른 후 매장 내잘 보이는 곳에 부착해주세요.</StyledDesc>
+            <StyledH1>
+              앱을 다운 로드 받을 필요 없이
+              <br />
+              QR 하나로 주문까지!
+            </StyledH1>
+            <StyledDesc>
+              하단 ‘저장 하기’를 누른 후 매장 내잘 보이는 곳에 부착해주세요.
+            </StyledDesc>
             <StyledList>
               <StyledItem>테이블 모서리</StyledItem>
               <StyledItem>테이블 위의 작은 팻말</StyledItem>
               <StyledItem>웨이팅이 있는 매장 입구</StyledItem>
             </StyledList>
-            <StyledBtn onClick={() => onImageDownload()}>
-              저장히기
-            </StyledBtn>
+            <StyledBtn onClick={() => onImageDownload()}>저장히기</StyledBtn>
           </div>
         </LeftSection>
         <RightSection>
           <SideSection>
             <StyledH2>메뉴 QR 코드</StyledH2>
-            <Desc>핸드폰 카메라로 스캔하시면<br/>메뉴를 보실 수 있습니다.</Desc>
+            <Desc>
+              핸드폰 카메라로 스캔하시면
+              <br />
+              메뉴를 보실 수 있습니다.
+            </Desc>
             {/* FIXME: QR 코드 크기에 따른 주황색 border 조정 필요 */}
             <StyledQr>
               {/* FIXME:  영어만 되는 문제점 존재*/}
@@ -77,7 +84,7 @@ const QrPage: NextPage = () => {
               </StyledInner>
             </StyledQr>
           </SideSection>
-            
+
           <div>아이폰 사진</div>
         </RightSection>
       </Theme>
@@ -94,32 +101,32 @@ const Theme = styled.div`
 const LeftSection = styled.div`
   display: block;
   flex-grow: 1;
-  margin:3rem;
+  margin: 3rem;
   background: white;
 `;
 
-const SideSection =styled.div`
+const SideSection = styled.div`
   border-radius: 20px 0px 0px 20px;
   box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
   background-color: #f6f6f9;
-  padding:1rem;
+  padding: 1rem;
 `;
 
 const RightSection = styled.div`
   display: block;
   flex-grow: 1;
-  margin:3rem;
+  margin: 3rem;
   background: white;
 `;
 
 const StyledH1 = styled.h1`
-    display: block;
-    margin: 30px;
-    padding: 3px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-    color: #fa4a0c;
+  display: block;
+  margin: 30px;
+  padding: 3px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fa4a0c;
 `;
 
 const StyledH2 = styled.h2`
@@ -130,19 +137,19 @@ const StyledH2 = styled.h2`
   text-align: center;
 `;
 
-const StyledDesc= styled.div`
-    display: block;
-    padding: 3px;
-    margin: 15px;
-    font-weight: 500;
-    font-size:1.2rem;
+const StyledDesc = styled.div`
+  display: block;
+  padding: 3px;
+  margin: 15px;
+  font-weight: 500;
+  font-size: 1.2rem;
 `;
 
-const Desc= styled.div`
-    display: block;
-    text-align: center;
-    font-weight: 500;
-    font-size:1.5rem;
+const Desc = styled.div`
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
 `;
 
 const StyledList = styled.ul`
@@ -154,22 +161,22 @@ const StyledItem = styled.li`
   padding: 3px;
   margin: 15px;
   font-weight: 500;
-  font-size:1.2rem;
+  font-size: 1.2rem;
 `;
 const StyledBtn = styled.button`
-    padding: 40px;
-    padding-top:15px;
-    padding-bottom:15px;    
-    background: #FA4A0C;
-    border-radius: 25px;
-    margin: 30px;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  padding: 40px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: #fa4a0c;
+  border-radius: 25px;
+  margin: 30px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 `;
 
 const StyledQr = styled.div`
-  display:block;
+  display: block;
   overflow: hidden;
   width: 300px;
   height: 300px;
@@ -177,7 +184,7 @@ const StyledQr = styled.div`
   padding: 5px;
   justify-content: center;
   align-items: center;
-  border: 5px solid #FA4A0C;
+  border: 5px solid #fa4a0c;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 `;
 
