@@ -68,7 +68,7 @@ const StyledBtn2 = styled.button`
     padding-top:15px;
     padding-bottom:15px;    
     border-radius: 15px;
-    border: 5px bold white;
+    border: 2px solid #fff;
     font-weight: bold;
 `;
 
