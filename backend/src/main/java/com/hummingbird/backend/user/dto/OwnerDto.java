@@ -33,6 +33,7 @@ public class OwnerDto {
         return Owner.builder()
                 .name(name)
                 .email(email)
+                .password(passwordEncoder.encode(password))
                 .businessRegistrationNumber(businessRegistrationNumber)
                 .build();
     }
