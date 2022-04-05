@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import EditPlusBtn from "../EditPlusBtn";
 import MenuModal from "../MenuModal";
+import { useRouter } from "next/router";
 
 const AdminMenu = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
+  const { ownerid } = router.query;
 
   return (
     <div>

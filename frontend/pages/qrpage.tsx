@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import Nav from "../components/Nav";
+import Image from "next/image";
 
 interface qrpageType {
   queryString: string;
