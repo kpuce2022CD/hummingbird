@@ -1,6 +1,5 @@
 package com.hummingbird.backend.user.dto;
 
-import com.hummingbird.backend.user.domain.Customer;
 import com.hummingbird.backend.user.domain.Owner;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,11 +13,9 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OwnerDto {
-    @NotEmpty
-    private String name;
 
     @NotEmpty
-    private String token;
+    private String name;
 
     @NotEmpty
     @Email(regexp =  "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
@@ -26,16 +23,18 @@ public class OwnerDto {
     private String email;
 
     @NotEmpty
-    @Pattern(regexp = "(?=^.{8,32}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$",
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$",
             message = "비밀 번호는 최소 1개의 대소문자, 특수문자, 숫자를 포함한 8자 이상여야 합니다.")
     private String password;
 
-
+    private String businessRegistrationNumber;
 
     public Owner toEntity(PasswordEncoder passwordEncoder) {
         return Owner.builder()
                 .name(name)
-                .token(token)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .businessRegistrationNumber(businessRegistrationNumber)
                 .build();
     }
 }

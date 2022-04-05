@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-@CrossOrigin("*")
+
 @RestController
 public class MenuController {
 
@@ -21,9 +21,8 @@ public class MenuController {
 
     //create
     @PostMapping("/menu/new")
-    public Long createMenu(@RequestBody CreateMenuDto dto){
-        //owner id 받아오기
-        Long ownerId = 1L; //임시값
+    public Long createMenu(@RequestPart("menuDto") CreateMenuDto dto,
+                           @RequestPart("ownerId") Long ownerId){
         return menuService.submit(dto,ownerId);
     }
 

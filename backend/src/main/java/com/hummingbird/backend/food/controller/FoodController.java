@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-@CrossOrigin("*")
+
 @RestController
 public class FoodController {
 
@@ -26,11 +26,11 @@ public class FoodController {
 
     //create
     @PostMapping("/food/new")
-    public Long createFood(@RequestPart("dto") CreateFoodDto dto,
-                           @RequestPart("file") MultipartFile file) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public Long createFood(@RequestPart("foodDto") CreateFoodDto dto,
+                           @RequestPart("file") MultipartFile file,
+                           @RequestPart("categoryId") Long categoryId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 //        Long fileId = foodService.upload(fileService.uploadFile(files));
         //현재 페이지의 카테고리 아이디 받아오기
-        Long categoryId = 1L; //임시값
         UploadFoodDto uploadFoodDto = foodService.upload(file);
 //        dto.setFileId(fileId);
         return foodService.submit(uploadFoodDto,dto, categoryId);
