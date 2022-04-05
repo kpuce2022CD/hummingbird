@@ -13,8 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class OwnerAuthenticationProvider implements AuthenticationProvider {
 
-    private OwnerDetailsService ownerDetailsService;
-    private PasswordEncoder passwordEncoder;
+    private final OwnerDetailsService ownerDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
