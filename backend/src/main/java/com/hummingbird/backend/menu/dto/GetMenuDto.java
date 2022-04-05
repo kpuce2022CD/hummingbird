@@ -2,7 +2,6 @@ package com.hummingbird.backend.menu.dto;
 
 import com.hummingbird.backend.menu.domain.Menu;
 import com.hummingbird.backend.user.domain.Owner;
-import com.hummingbird.backend.user.domain.User;
 import lombok.*;
 
 

@@ -1,42 +1,44 @@
 package com.hummingbird.backend.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hummingbird.backend.order.domain.Order;
-import com.hummingbird.backend.user.dto.CustomerDto;
 import com.hummingbird.backend.user.dto.OwnerDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter @Setter
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Owner extends User{
+public class Owner {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "owner_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "token",nullable = false)
-    private String token;
 
     @Column(name = "name",nullable = false)
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orders = new ArrayList<>();
+    @Column(name = "email",nullable = false)
+    private String email;
+
+    @Column(name = "password",nullable = false)
+    private String password;
+
+    @Column(name = "business_registration_number",nullable = false)
+    private String businessRegistrationNumber;
+
 
     @Builder
-    public Owner(String token, String name) {
-        //todo add token later
-        this.token = name+"token";
+    public Owner(String email, String name, String businessRegistrationNumber,String password) {
+        this.email = email;
         this.name = name;
+        this.businessRegistrationNumber = businessRegistrationNumber;
+        this.password = password;
     }
 
     public static Owner toEntity(OwnerDto ownerDto) {
-        //todo add token later
-        return new Owner(ownerDto.getToken(),ownerDto.getName());
+        return new Owner(ownerDto.getEmail(),
+                ownerDto.getName(),
+                ownerDto.getBusinessRegistrationNumber(),
+                ownerDto.getPassword()
+        );
     }
 }
