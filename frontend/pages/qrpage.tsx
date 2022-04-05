@@ -75,6 +75,7 @@ const QrPage: NextPage = () => {
               </StyledInner>
             </StyledQr>
           </SideSection>
+            
           <div>아이폰 사진</div>
         </RightSection>
       </Theme>

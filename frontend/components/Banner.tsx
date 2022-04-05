@@ -34,7 +34,6 @@ const Themediv = styled.div`
     display: flex;
     justify-items: center;
     height: 550px;
-    background: grey;
     text-align:center;
     color: white;
 `;

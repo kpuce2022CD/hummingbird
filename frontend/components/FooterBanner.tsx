@@ -23,7 +23,6 @@ const Themediv = styled.div`
     justify-items: center;
     padding-top: 5rem;
     height: 550px;
-    background: grey;
     text-align:center;
     color: white;
 `;
@@ -34,7 +33,7 @@ const ThemeSection = styled.div`
     height:100%;
     padding: 10px;
     object-fit: contain;
-    background-image: {url('/img/FooterBanner.svg')};
+    background-image: url('/img/FooterBanner.svg');
     background-size: cover;
 `; 
 
