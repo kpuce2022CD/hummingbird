@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface OwnerRepository extends JpaRepository<Owner,Long> {
     Optional<Owner> findOwnerById(Long id);
-    Optional<Owner> findOwnerByToken(String token);
+    Optional<Owner> findOwnerByEmail(String email);
 }

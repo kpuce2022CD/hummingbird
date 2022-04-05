@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-@CrossOrigin("*")
+
 @RestController
 public class FoodController {
 
