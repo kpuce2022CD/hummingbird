@@ -4,16 +4,16 @@ import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.common.domain.BaseTimeEntity;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
 import com.hummingbird.backend.user.domain.Owner;
-import com.hummingbird.backend.user.domain.User;
-import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 
 @Getter

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Owner extends User{
+public class Owner {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -27,16 +27,18 @@ public class Owner extends User{
 
 
     @Builder
-    public Owner(String email, String name, String businessRegistrationNumber) {
+    public Owner(String email, String name, String businessRegistrationNumber,String password) {
         this.email = email;
         this.name = name;
         this.businessRegistrationNumber = businessRegistrationNumber;
+        this.password = password;
     }
 
     public static Owner toEntity(OwnerDto ownerDto) {
         return new Owner(ownerDto.getEmail(),
                 ownerDto.getName(),
-                ownerDto.getBusinessRegistrationNumber()
+                ownerDto.getBusinessRegistrationNumber(),
+                ownerDto.getPassword()
         );
     }
 }
