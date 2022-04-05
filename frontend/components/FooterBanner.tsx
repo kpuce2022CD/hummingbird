@@ -21,6 +21,7 @@ const FooterBanner = () => {
 const Themediv = styled.div`
     display: flex;
     justify-items: center;
+    padding-top: 5rem;
     height: 550px;
     background: grey;
     text-align:center;
