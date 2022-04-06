@@ -8,13 +8,19 @@ import AdminMenu from "../../components/AdminMenu/AdminMenu";
 import { type } from "os";
 import axios from "axios";
 
+type Menu = {
+  id: number;
+  name: string;
+};
+
 const MyPage: NextPage = () => {
   const [adminContent, setAdminContent] = useState("menu");
   const router = useRouter();
   const { ownerid } = router.query;
+  const [menuList, setMenuList] = useState<Menu[] | undefined>();
   const getMenuUseOwnerId = async (ownerid: string | string[] | undefined) => {
     try {
-      const response = await axios.post(
+      const response = await axios.get<Menu[]>(
         "http://localhost:8080/menu/get/owner",
         {
           headers: {
@@ -26,17 +32,15 @@ const MyPage: NextPage = () => {
           },
         }
       );
-
-      console.log(response);
+      setMenuList(response.data);
     } catch (err) {
       console.log("error", err);
     }
   };
 
   useEffect(() => {
-    console.log(ownerid);
     getMenuUseOwnerId(ownerid);
-  }, []);
+  }, [ownerid]);
 
   return (
     <>
@@ -61,7 +65,7 @@ const MyPage: NextPage = () => {
               case "profile":
                 return <div>회원정보</div>;
               case "menu":
-                return <AdminMenu />;
+                return <AdminMenu menuList={menuList} />;
               default:
                 return null;
             }

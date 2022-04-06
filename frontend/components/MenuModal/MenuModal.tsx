@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as S from "./style";
 
@@ -10,9 +11,10 @@ interface IMenuItem {
 interface Props {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
+  menuId?: number | undefined;
 }
 
-const MenuModal = ({ setModalOpen, type }: Props) => {
+const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   const [inputs, setInputs] = useState<IMenuItem>({
     name: "",
     price: "0",
@@ -20,7 +22,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
   });
   const [img, setImg] = useState<File | null>(null);
   const [menuName, setMenuName] = useState<string>("");
-
+  const router = useRouter();
   const addNewFood = async (fd: FormData) => {
     try {
       const response = await axios.post("http://localhost:8080/food/new", fd, {
@@ -29,7 +31,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
           "Access-Control-Allow-Origin": "*",
         },
         params: {
-          id: 7,
+          categoryId: 1,
         },
       });
       console.log(response);
@@ -80,6 +82,30 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     }
   };
 
+  const updateMenu = async (updateName: string, menuId: number | undefined) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/menu/update",
+        {
+          params: {
+            menuId: menuId,
+            updateName: updateName,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      console.log(response);
+      setModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleFoodChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -102,7 +128,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     }
     const json = JSON.stringify(inputs);
     const blob = new Blob([json], { type: "application/json" });
-    fd.append("dto", blob);
+    fd.append("foodDto", blob);
     addNewFood(fd);
   };
 
@@ -120,9 +146,26 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     setMenuName(e.target.value);
   };
 
-  const handleMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+  const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     addNewMenu(menuName);
+  };
+
+  const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    // updateMenu(menuName, menuId);
+  };
+
+  const handleMenuFoodEdit = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    router.push({
+      pathname: "/menupage",
+      query: {
+        menuId: menuId,
+      },
+    });
   };
 
   return (
@@ -187,7 +230,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
               );
             case "메뉴판":
               return (
-                <S.CateForm onSubmit={handleMenuSubmit}>
+                <S.CateForm onSubmit={handleNewMenuSubmit}>
                   <input
                     onChange={handleMenuChange}
                     className="cate__input"
@@ -197,6 +240,30 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
                   <S.SummitBtn className="submit__btn" type="submit">
                     제출하기
                   </S.SummitBtn>
+                </S.CateForm>
+              );
+            case "메뉴판수정":
+              return (
+                <S.CateForm onSubmit={handleUpdateMenuSubmit}>
+                  <input
+                    onChange={handleMenuChange}
+                    className="cate__input"
+                    name="category"
+                    placeholder="수정할 메뉴판명을 입력해주세요"
+                  ></input>
+                  <p>
+                    * 메뉴판 이름 수정 시에 입력한 메뉴판 명으로 변경됩니다.
+                  </p>
+                  <p>
+                    * 해당 메뉴판의 메뉴를 수정하시고 싶으시면 메뉴 구성
+                    수정하기를 눌러주세요.
+                  </p>
+                  <S.ButtonWrap>
+                    <S.Button>메뉴판 이름 수정하기</S.Button>
+                    <S.Button onClick={(e) => handleMenuFoodEdit(e)}>
+                      메뉴 구성 수정하기
+                    </S.Button>
+                  </S.ButtonWrap>
                 </S.CateForm>
               );
             default:
