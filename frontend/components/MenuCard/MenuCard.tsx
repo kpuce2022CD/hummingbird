@@ -27,7 +27,7 @@ const MenuCard = ({ id, name }: Props) => {
     },
   ];
 
-  const addNewCategory = async (id: number) => {
+  const deleteMenuDelete = async (id: number) => {
     console.log(id);
     try {
       const response = await axios.post("http://localhost:8080/menu/delete", {
@@ -58,10 +58,13 @@ const MenuCard = ({ id, name }: Props) => {
       }
       case "edit": {
         console.log("edit");
+        setModalOpen(true);
+        setMenuWrapState("메뉴판수정");
         break;
       }
       case "delete": {
         console.log("delete");
+        // FIXME: menu/delete API가 정상 작동 후에 수정 예정
         break;
       }
       default:
@@ -91,7 +94,11 @@ const MenuCard = ({ id, name }: Props) => {
         ))}
       </S.ButtonWrap>
       {modalOpen && (
-        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
+        <MenuModal
+          setModalOpen={setModalOpen}
+          type={menuWrapState}
+          menuId={id}
+        />
       )}
     </S.CardWrap>
   );
