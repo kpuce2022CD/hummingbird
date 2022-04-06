@@ -48,9 +48,3 @@ export const Button = styled.button`
     border: 1px solid #fff;
   }
 `;
-
-export const QrBtn = styled(Button)``;
-
-export const DeleteBtn = styled(Button)``;
-
-export const EditBtn = styled(Button)``;

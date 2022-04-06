@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import MenuModal from "../MenuModal";
 import * as S from "./style";
@@ -10,6 +11,21 @@ type Props = {
 const MenuCard = ({ id, name }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("");
+  const router = useRouter();
+  const btnList = [
+    {
+      value: "qr",
+      content: "QR 코드 만들기",
+    },
+    {
+      value: "edit",
+      content: "메뉴판 수정하기",
+    },
+    {
+      value: "delete",
+      content: "메뉴판 삭제하기",
+    },
+  ];
 
   const addNewCategory = async (id: number) => {
     console.log(id);
@@ -28,10 +44,32 @@ const MenuCard = ({ id, name }: Props) => {
     }
   };
 
-  const handleMenuDelete = (id: number) => {
-    console.log("click!");
-    addNewCategory(id);
+  const handleBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const target = e.target as Element;
+
+    switch (target.id) {
+      case "qr": {
+        router.push({
+          pathname: "/qrpage",
+          query: { menuId: id },
+        });
+        break;
+      }
+      case "edit": {
+        console.log("edit");
+        break;
+      }
+      case "delete": {
+        console.log("delete");
+        break;
+      }
+      default:
+        console.log("err!");
+        break;
+    }
   };
+
   return (
     <S.CardWrap>
       <ul>
@@ -44,12 +82,13 @@ const MenuCard = ({ id, name }: Props) => {
           </p>
         </S.CardSubTitle>
       </ul>
+      {/* TODO: map으로 반복문 만들고 event delegation을 통해 중복 이벤트 제거 */}
       <S.ButtonWrap>
-        <S.QrBtn className="qr">QR 코드 만들기</S.QrBtn>
-        <S.DeleteBtn className="edit">메뉴판 수정하기</S.DeleteBtn>
-        <S.EditBtn className="delete" onClick={() => handleMenuDelete(id)}>
-          메뉴판 삭제하기
-        </S.EditBtn>
+        {btnList.map((val, idx) => (
+          <S.Button key={idx} id={val.value} onClick={(e) => handleBtnClick(e)}>
+            {val.content}
+          </S.Button>
+        ))}
       </S.ButtonWrap>
       {modalOpen && (
         <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
