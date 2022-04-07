@@ -32,9 +32,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
       const data = {
         menuName : menuName,
         ownerId : "1",
-
       }
-      JSON.stringify(data)
       const response = await axios.post(
           "http://localhost:8080/menu/new",
           data,
@@ -60,7 +58,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
       }
       const response = await axios.post(
           "http://localhost:8080/menu/update",
-          JSON.stringify(data),
+          data,
           {
             headers: {
               "Content-Type": "application/json",
@@ -113,7 +111,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
       // fd.append('menuId',"1")
       const response = await axios.post(
           "http://localhost:8080/category/new",
-          JSON.stringify(data),
+          data,
           {
             headers: {
               "Content-Type": "application/json",

@@ -27,7 +27,7 @@ public class MenuController {
         CreateMenuDto dto = CreateMenuDto.builder()
                 .name((String) data.get("menuName"))
                 .build();
-        return menuService.submit(dto, Long.parseLong((String)data.get("ownerId")));
+        return menuService.submit(dto, Long.parseLong(((String) data.get("ownerId"))));
     }
 
     //read
