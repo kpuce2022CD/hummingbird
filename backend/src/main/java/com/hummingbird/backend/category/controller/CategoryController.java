@@ -6,6 +6,7 @@ import com.hummingbird.backend.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -22,9 +23,11 @@ public class CategoryController {
 
     //create
     @PostMapping("/category/new")
-    public Long createCategory(@RequestPart("categoryDto") CreateCategoryDto dto,
-                               @RequestPart("menuId") Long menuId){
-        return categoryService.create(dto,menuId);
+    public Long createCategory(@RequestBody HashMap<String, Object> data){
+        CreateCategoryDto dto = CreateCategoryDto.builder()
+                .name((String) data.get("categoryName"))
+                .build();
+        return categoryService.create(dto,new Long((int)data.get("menuId")));
     }
 
     //read
