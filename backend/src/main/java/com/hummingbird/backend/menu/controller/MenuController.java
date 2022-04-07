@@ -3,8 +3,10 @@ import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
 import com.hummingbird.backend.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -20,10 +22,12 @@ public class MenuController {
     }
 
     //create
-    @PostMapping("/menu/new")
-    public Long createMenu(@RequestPart("menuDto") CreateMenuDto dto,
-                           @RequestPart("ownerId") Long ownerId){
-        return menuService.submit(dto,ownerId);
+    @PostMapping(value = "/menu/new")
+    public Long createMenu(@RequestBody HashMap<String, Object> body){
+        CreateMenuDto dto = CreateMenuDto.builder()
+                .name((String) body.get("menuName"))
+                .build();
+        return menuService.submit(dto, new Long((int)body.get("ownerId")));
     }
 
     //read

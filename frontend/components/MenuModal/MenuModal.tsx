@@ -24,6 +24,125 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   const [menuName, setMenuName] = useState<string>("");
   const router = useRouter();
 
+  //menu
+
+  const addNewMenu = async (menuName: string) => {
+    try {
+      const data = {
+        menuName : menuName,
+        ownerId : 1,
+
+      }
+      JSON.stringify(data)
+      const response = await axios.post(
+          "http://localhost:8080/menu/new",
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+      );
+      console.log(response);
+      setModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateMenu = async (updateName: string, menuId: number | undefined) => {
+    try {
+      const response = await axios.post(
+          "http://localhost:8080/menu/update",
+          {
+            params: {
+              menuId: menuId,
+              updateName: updateName,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+      );
+      console.log(response);
+      setModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setMenuName(e.target.value);
+  };
+
+  const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    addNewMenu(menuName);
+  };
+
+  const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    // updateMenu(menuName, menuId);
+  };
+
+  const handleMenuFoodEdit = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    router.push({
+      pathname: "/menupage",
+      query: {
+        menuId: menuId,
+      },
+    });
+  };
+
+  //category
+
+  const addNewCategory = async (fd : FormData) => {
+    try {
+      fd.append('menuId',"1")
+      const response = await axios.post(
+          "http://localhost:8080/category/new",
+          fd,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCategoryChange = (
+      e:
+          | React.ChangeEvent<HTMLInputElement>
+          | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    const fd = new FormData();
+    console.log(inputs['categoryName'])
+    fd.append('categoryName',inputs['categoryName'])
+    addNewCategory(fd);
+  };
+
+  //food
+
   const addNewFood = async (fd: FormData) => {
     console.log(fd.get('foodName'))
     try {
@@ -40,70 +159,6 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
       setModalOpen(false);
     } catch (err) {
       console.log("error", err);
-    }
-  };
-
-  const addNewCategory = async (fd : FormData) => {
-    try {
-      fd.append('menuId',"1")
-      const response = await axios.post(
-        "http://localhost:8080/category/new",
-        fd,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const addNewMenu = async (menuName: string) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/menu/new",
-        {
-          name: "test menu1",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log(response);
-      setModalOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const updateMenu = async (updateName: string, menuId: number | undefined) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/menu/update",
-        {
-          params: {
-            menuId: menuId,
-            updateName: updateName,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log(response);
-      setModalOpen(false);
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -134,56 +189,6 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     // const blob = new Blob([json], { type: "application/json" });
     // fd.append("foodDto", blob);
     addNewFood(fd);
-  };
-
-  const handleCategoryChange = (
-      e:
-          | React.ChangeEvent<HTMLInputElement>
-          | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
-
-  // const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //
-  //   console.log(e.target.value);
-  // };
-
-  const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    const fd = new FormData();
-    console.log(inputs['categoryName'])
-    fd.append('categoryName',inputs['categoryName'])
-    addNewCategory(fd);
-  };
-
-  const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    setMenuName(e.target.value);
-  };
-
-  const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    addNewMenu(menuName);
-  };
-
-  const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    // updateMenu(menuName, menuId);
-  };
-
-  const handleMenuFoodEdit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    router.push({
-      pathname: "/menupage",
-      query: {
-        menuId: menuId,
-      },
-    });
   };
 
   return (
