@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import * as S from "./style";
 
@@ -10,9 +11,10 @@ interface IMenuItem {
 interface Props {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
+  menuId?: number | undefined;
 }
 
-const MenuModal = ({ setModalOpen, type }: Props) => {
+const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   const [inputs, setInputs] = useState<IMenuItem>({
     name: "",
     price: "0",
@@ -20,38 +22,105 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
   });
   const [img, setImg] = useState<File | null>(null);
   const [menuName, setMenuName] = useState<string>("");
+  const [categoryName, setCategoryName] = useState<string>("");
+  const router = useRouter();
 
-  const addNewFood = async (fd: FormData) => {
+  //menu
+
+  const addNewMenu = async (menuName: string) => {
     try {
-      const response = await axios.post("http://localhost:8080/food/new", fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Access-Control-Allow-Origin": "*",
-        },
-        params: {
-          id: 7,
-        },
-      });
+      const data = {
+        menuName : menuName,
+        ownerId : 1,
+
+      }
+      JSON.stringify(data)
+      const response = await axios.post(
+          "http://localhost:8080/menu/new",
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+      );
       console.log(response);
       setModalOpen(false);
     } catch (err) {
-      console.log("error", err);
+      console.log(err);
     }
   };
 
-  const addNewCategory = async () => {
+  const updateMenu = async (updateName: string, menuId: number | undefined) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/categpry/new",
-        {
-          name: "test category1",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+          "http://localhost:8080/menu/update",
+          {
+            params: {
+              menuId: menuId,
+              updateName: updateName,
+            },
           },
-        }
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+      );
+      console.log(response);
+      setModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setMenuName(e.target.value);
+  };
+
+  const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    addNewMenu(menuName);
+  };
+
+  const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    // updateMenu(menuName, menuId);
+  };
+
+  const handleMenuFoodEdit = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    router.push({
+      pathname: "/menupage",
+      query: {
+        menuId: menuId,
+      },
+    });
+  };
+
+  //category
+
+  const addNewCategory = async (categroyName: string) => {
+    try {
+      const data = {
+        categoryName : categroyName,
+        menuId : 1
+      }
+      // fd.append('menuId',"1")
+      const response = await axios.post(
+          "http://localhost:8080/category/new",
+          JSON.stringify(data),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
       );
       console.log(response);
     } catch (error) {
@@ -59,24 +128,47 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     }
   };
 
-  const addNewMenu = async (menuName: string) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setCategoryName(e.target.value);
+  };
+
+  // const handleCategoryChange = (
+  //     e:
+  //         | React.ChangeEvent<HTMLInputElement>
+  //         | React.ChangeEvent<HTMLTextAreaElement>
+  // ) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   setInputs((values) => ({ ...values, [name]: value }));
+  // };
+
+  const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    // const fd = new FormData();
+    // console.log(inputs['categoryName'])
+    // fd.append('categoryName',inputs['categoryName'])
+    addNewCategory(categoryName);
+  };
+
+  //food
+
+  const addNewFood = async (fd: FormData) => {
+    console.log(fd.get('foodName'))
     try {
-      const response = await axios.post(
-        "http://localhost:8080/menu/new",
-        {
-          name: "test menu1",
+      fd.append('categoryId',"1")
+
+
+      const response = await axios.post("http://localhost:8080/food/new", fd,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": "*",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      });
       console.log(response);
       setModalOpen(false);
     } catch (err) {
-      console.log(err);
+      console.log("error", err);
     }
   };
 
@@ -100,29 +192,13 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
     if (img !== null) {
       fd.append("file", img);
     }
-    const json = JSON.stringify(inputs);
-    const blob = new Blob([json], { type: "application/json" });
-    fd.append("dto", blob);
+    fd.append('foodName',inputs['name'])
+    fd.append('foodPrice',inputs['price'])
+    fd.append('foodContent',inputs['content'])
+    // const json = JSON.stringify(inputs);
+    // const blob = new Blob([json], { type: "application/json" });
+    // fd.append("foodDto", blob);
     addNewFood(fd);
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
-
-  const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    addNewCategory();
-  };
-
-  const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    setMenuName(e.target.value);
-  };
-
-  const handleMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    addNewMenu(menuName);
   };
 
   return (
@@ -145,7 +221,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
                   <input
                     className="name__input"
                     name="name"
-                    placeholder="메뉴명을 입력해주세요."
+                    placeholder="음식 이름을 입력해주세요."
                     maxLength={20}
                     onChange={handleFoodChange}
                   />
@@ -176,7 +252,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
                   <input
                     onChange={handleCategoryChange}
                     className="cate__input"
-                    name="category"
+                    name="categoryName"
                     placeholder="카테고리명을 입력해주세요"
                   ></input>
                   <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>
@@ -187,7 +263,7 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
               );
             case "메뉴판":
               return (
-                <S.CateForm onSubmit={handleMenuSubmit}>
+                <S.CateForm onSubmit={handleNewMenuSubmit}>
                   <input
                     onChange={handleMenuChange}
                     className="cate__input"
@@ -197,6 +273,30 @@ const MenuModal = ({ setModalOpen, type }: Props) => {
                   <S.SummitBtn className="submit__btn" type="submit">
                     제출하기
                   </S.SummitBtn>
+                </S.CateForm>
+              );
+            case "메뉴판수정":
+              return (
+                <S.CateForm onSubmit={handleUpdateMenuSubmit}>
+                  <input
+                    onChange={handleMenuChange}
+                    className="cate__input"
+                    name="category"
+                    placeholder="수정할 메뉴판명을 입력해주세요"
+                  ></input>
+                  <p>
+                    * 메뉴판 이름 수정 시에 입력한 메뉴판 명으로 변경됩니다.
+                  </p>
+                  <p>
+                    * 해당 메뉴판의 메뉴를 수정하시고 싶으시면 메뉴 구성
+                    수정하기를 눌러주세요.
+                  </p>
+                  <S.ButtonWrap>
+                    <S.Button>메뉴판 이름 수정하기</S.Button>
+                    <S.Button onClick={(e) => handleMenuFoodEdit(e)}>
+                      메뉴 구성 수정하기
+                    </S.Button>
+                  </S.ButtonWrap>
                 </S.CateForm>
               );
             default:

@@ -4,6 +4,10 @@ export const HeaderWrap = styled.div`
   display: flex;
   align-items: center;
   margin: auto 0;
+
+  span {
+    cursor: pointer;
+  }
 `;
 
 export const HeaderTitle = styled.h2`
@@ -15,5 +19,5 @@ export const HeaderTitle = styled.h2`
 `;
 
 export const MenuContent = styled.div`
-  padding: 10px;
+  padding: 50px 10px;
 `;
