@@ -24,14 +24,20 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   const [menuName, setMenuName] = useState<string>("");
   const router = useRouter();
   const addNewFood = async (fd: FormData) => {
+    console.log(fd.get('foodName'))
     try {
-      const response = await axios.post("http://localhost:8080/food/new", fd, {
+      // const params = new URLSearchParams();
+      // params.append('categoryId',"1")
+      // params.append('foodName',fd.get('foodName') as string)
+      // params.append('foodPrice', fd.get('foodPrice') as string)
+      // params.append('foodContent', fd.get('foodContent') as string)
+      fd.append('categoryId',"1")
+
+
+      const response = await axios.post("http://localhost:8080/food/new", fd,{
         headers: {
           "Content-Type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",
-        },
-        params: {
-          categoryId: 1,
         },
       });
       console.log(response);
@@ -126,9 +132,12 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     if (img !== null) {
       fd.append("file", img);
     }
-    const json = JSON.stringify(inputs);
-    const blob = new Blob([json], { type: "application/json" });
-    fd.append("foodDto", blob);
+    fd.append('foodName',inputs['name'])
+    fd.append('foodPrice',inputs['price'])
+    fd.append('foodContent',inputs['content'])
+    // const json = JSON.stringify(inputs);
+    // const blob = new Blob([json], { type: "application/json" });
+    // fd.append("foodDto", blob);
     addNewFood(fd);
   };
 
@@ -188,7 +197,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
                   <input
                     className="name__input"
                     name="name"
-                    placeholder="메뉴명을 입력해주세요."
+                    placeholder="음식 이름을 입력해주세요."
                     maxLength={20}
                     onChange={handleFoodChange}
                   />
