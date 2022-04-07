@@ -22,6 +22,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   });
   const [img, setImg] = useState<File | null>(null);
   const [menuName, setMenuName] = useState<string>("");
+  const [categoryName, setCategoryName] = useState<string>("");
   const router = useRouter();
 
   //menu
@@ -104,12 +105,16 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
 
   //category
 
-  const addNewCategory = async (fd : FormData) => {
+  const addNewCategory = async (categroyName: string) => {
     try {
-      fd.append('menuId',"1")
+      const data = {
+        categoryName : categroyName,
+        menuId : 1
+      }
+      // fd.append('menuId',"1")
       const response = await axios.post(
           "http://localhost:8080/category/new",
-          fd,
+          JSON.stringify(data),
           {
             headers: {
               "Content-Type": "application/json",
@@ -123,22 +128,27 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     }
   };
 
-  const handleCategoryChange = (
-      e:
-          | React.ChangeEvent<HTMLInputElement>
-          | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setCategoryName(e.target.value);
   };
+
+  // const handleCategoryChange = (
+  //     e:
+  //         | React.ChangeEvent<HTMLInputElement>
+  //         | React.ChangeEvent<HTMLTextAreaElement>
+  // ) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   setInputs((values) => ({ ...values, [name]: value }));
+  // };
 
   const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    const fd = new FormData();
-    console.log(inputs['categoryName'])
-    fd.append('categoryName',inputs['categoryName'])
-    addNewCategory(fd);
+    // const fd = new FormData();
+    // console.log(inputs['categoryName'])
+    // fd.append('categoryName',inputs['categoryName'])
+    addNewCategory(categoryName);
   };
 
   //food

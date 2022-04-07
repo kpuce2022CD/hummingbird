@@ -23,11 +23,11 @@ public class MenuController {
 
     //create
     @PostMapping(value = "/menu/new")
-    public Long createMenu(@RequestBody HashMap<String, Object> body){
+    public Long createMenu(@RequestBody HashMap<String, Object> data){
         CreateMenuDto dto = CreateMenuDto.builder()
-                .name((String) body.get("menuName"))
+                .name((String) data.get("menuName"))
                 .build();
-        return menuService.submit(dto, new Long((int)body.get("ownerId")));
+        return menuService.submit(dto, new Long((int)data.get("ownerId")));
     }
 
     //read
