@@ -23,14 +23,10 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   const [img, setImg] = useState<File | null>(null);
   const [menuName, setMenuName] = useState<string>("");
   const router = useRouter();
+
   const addNewFood = async (fd: FormData) => {
     console.log(fd.get('foodName'))
     try {
-      // const params = new URLSearchParams();
-      // params.append('categoryId',"1")
-      // params.append('foodName',fd.get('foodName') as string)
-      // params.append('foodPrice', fd.get('foodPrice') as string)
-      // params.append('foodContent', fd.get('foodContent') as string)
       fd.append('categoryId',"1")
 
 
@@ -47,13 +43,12 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     }
   };
 
-  const addNewCategory = async () => {
+  const addNewCategory = async (fd : FormData) => {
     try {
+      fd.append('menuId',"1")
       const response = await axios.post(
-        "http://localhost:8080/categpry/new",
-        {
-          name: "test category1",
-        },
+        "http://localhost:8080/category/new",
+        fd,
         {
           headers: {
             "Content-Type": "application/json",
@@ -141,13 +136,27 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     addNewFood(fd);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+  const handleCategoryChange = (
+      e:
+          | React.ChangeEvent<HTMLInputElement>
+          | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
   };
+
+  // const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //
+  //   console.log(e.target.value);
+  // };
 
   const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    addNewCategory();
+    const fd = new FormData();
+    console.log(inputs['categoryName'])
+    fd.append('categoryName',inputs['categoryName'])
+    addNewCategory(fd);
   };
 
   const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -228,7 +237,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
                   <input
                     onChange={handleCategoryChange}
                     className="cate__input"
-                    name="category"
+                    name="categoryName"
                     placeholder="카테고리명을 입력해주세요"
                   ></input>
                   <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>

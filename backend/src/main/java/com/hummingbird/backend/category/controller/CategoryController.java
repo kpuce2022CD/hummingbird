@@ -22,9 +22,12 @@ public class CategoryController {
 
     //create
     @PostMapping("/category/new")
-    public Long createCategory(@RequestPart("categoryDto") CreateCategoryDto dto,
-                               @RequestPart("menuId") Long menuId){
-        return categoryService.create(dto,menuId);
+    public Long createCategory(@RequestPart("categoryName") String categoryName,
+                               @RequestPart("menuId") String menuId){
+        CreateCategoryDto dto = CreateCategoryDto.builder()
+                .name(categoryName)
+                .build();
+        return categoryService.create(dto,Long.parseLong(menuId));
     }
 
     //read
