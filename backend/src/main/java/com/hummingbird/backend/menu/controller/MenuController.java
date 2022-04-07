@@ -27,7 +27,7 @@ public class MenuController {
         CreateMenuDto dto = CreateMenuDto.builder()
                 .name((String) data.get("menuName"))
                 .build();
-        return menuService.submit(dto, new Long((int)data.get("ownerId")));
+        return menuService.submit(dto, Long.parseLong((String)data.get("ownerId")));
     }
 
     //read
@@ -43,8 +43,8 @@ public class MenuController {
 
     //update
     @PostMapping("/menu/update")
-    public Long updateMenu(Long menuId,String updateName){
-        return menuService.update(menuId, updateName);
+    public Long updateMenu(@RequestBody HashMap<String, Object> data){
+        return menuService.update(Long.parseLong((String)data.get("menuId")), (String) data.get("updateName"));
     }
 
     //delete

@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -68,13 +69,25 @@ public class FoodController {
 
 
     //update
+//    @PostMapping("/food/update")
+//    public Long updateFood(@RequestParam("foodId") Long foodId,
+//                           @RequestBody UpdateFoodDto dto){
+//        return foodService.updateFood(foodId,dto);
+//    }
+
     @PostMapping("/food/update")
-    public Long updateFood(@RequestParam("foodId") Long foodId,
-                           @RequestBody UpdateFoodDto dto){
-        return foodService.updateFood(foodId,dto);
+    public Long updateFood(@RequestBody HashMap<String, Object> data) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        UpdateFoodDto foodDto = UpdateFoodDto.builder()
+                .name((String) data.get("foodName"))
+                .price(Integer.parseInt((String) data.get("foodPrice")))
+                .content((String) data.get("foodContent"))
+                .build();
+//        dto.setFileId(fileId);
+        return foodService.updateFood( Long.parseLong((String)data.get("foodId")), foodDto);
     }
 
-    @PostMapping("/food/imgupdate")
+
+    @PostMapping("/food/update/img")
     public Long updateFoodImage(@RequestParam("files") MultipartFile files,Long foodId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UploadFoodDto uploadFoodDto = foodService.upload(files);
         return foodService.updateImage(foodId,uploadFoodDto);

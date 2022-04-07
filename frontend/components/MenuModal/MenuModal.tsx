@@ -31,7 +31,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     try {
       const data = {
         menuName : menuName,
-        ownerId : 1,
+        ownerId : "1",
 
       }
       JSON.stringify(data)
@@ -52,16 +52,15 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     }
   };
 
-  const updateMenu = async (updateName: string, menuId: number | undefined) => {
+  const updateMenu = async (updateName: string, menuId: string | undefined) => {
     try {
+      const data =  {
+        updateName : updateName,
+        menuId : menuId
+      }
       const response = await axios.post(
           "http://localhost:8080/menu/update",
-          {
-            params: {
-              menuId: menuId,
-              updateName: updateName,
-            },
-          },
+          JSON.stringify(data),
           {
             headers: {
               "Content-Type": "application/json",
@@ -109,7 +108,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     try {
       const data = {
         categoryName : categroyName,
-        menuId : 1
+        menuId : "1"
       }
       // fd.append('menuId',"1")
       const response = await axios.post(
@@ -133,15 +132,6 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     setCategoryName(e.target.value);
   };
 
-  // const handleCategoryChange = (
-  //     e:
-  //         | React.ChangeEvent<HTMLInputElement>
-  //         | React.ChangeEvent<HTMLTextAreaElement>
-  // ) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   setInputs((values) => ({ ...values, [name]: value }));
-  // };
 
   const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
