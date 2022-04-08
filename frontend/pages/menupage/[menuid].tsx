@@ -7,10 +7,10 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 
-import Nav from "../components/Nav";
-import MenuModal from "../components/MenuModal";
+import Nav from "../../components/Nav";
+import MenuModal from "../../components/MenuModal";
 import axios from "axios";
-import EditPlusBtn from "../components/EditPlusBtn";
+import EditPlusBtn from "../../components/EditPlusBtn";
 
 interface IFoodData {
   name: string;
@@ -18,50 +18,50 @@ interface IFoodData {
   content: string;
 }
 
+interface ICategoryData {
+  id : number; 
+  name : string;
+}
+
 interface Props {
   foodGetData: IFoodData[];
 }
 
-const foodGetData = [
-  {
-    name: "토마토 연어 구이",
-    price: 9000,
-    content:
-      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
-  },
-  {
-    name: "계란 오이 정식",
-    price: 7000,
-    content:
-      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
-  },
-  {
-    name: "토마토 연어 구이",
-    price: 9000,
-    content:
-      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
-  },
-  {
-    name: "계란 오이 정식",
-    price: 7000,
-    content:
-      "싱싱한 슬라이스 오이에 부드럽게 익은 달걀을 고소한 견과류와 곁들인 비건 정식!",
-  },
-  {
-    name: "토마토 연어 구이",
-    price: 9000,
-    content:
-      "생토마토로 후레쉬한 소스를 만들어 연어스테이크와 곁들인 슈퍼푸드로 만든 건강한 요리!",
-  },
-];
+
 
 const MenuPage: NextPage<Props> = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
   const [tabClicked, setTabClicked] = useState(0);
-  const sideList = ["카테고리", "음식"];
+  const [categoryList, setCategoryList] = useState<ICategoryData[]>([]);
   const router = useRouter();
+  const { menuid } = router.query;
 
+  const getCategoryUseMenuId = async (menuid: string | string[] | undefined) => {
+    try{
+      const response = await axios.get<ICategoryData[]>(
+        "http://localhost:8080/category/get/menu",
+        {
+          headers : {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          params : {
+            menuId : menuid,
+          }
+        }
+      );
+      setCategoryList(response.data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  useEffect(() => {
+    console.log(menuid);
+    menuid && getCategoryUseMenuId(menuid);
+  }, [menuid]);
+  
   const handleQr = () => {
     router.push({
       pathname: "/qrpage",
@@ -78,19 +78,11 @@ const MenuPage: NextPage<Props> = () => {
       <Nav />
       <Wrapper>
         <MenuInfoWrap>
-          {/* 메뉴 입력 창 */}
-          <MenuInputWrap>
-            <p>메뉴판 명</p>
-            <div>
-              <input placeholder="메뉴판명을 입력해주세요"></input>
-              <button>저장</button>
-            </div>
-          </MenuInputWrap>
           {/* 정보수정 창 */}
           <MenuEditWrap>
             {/* 사이드 메뉴가 나오는 부분 */}
             <MenuEditSideMenu>
-              {sideList.map((val, idx) => (
+              {/* {sideList.map((val, idx) => (
                 <SideList
                   className={`${tabClicked === idx ? "tap__active" : "tap"}`}
                   key={idx}
@@ -98,7 +90,7 @@ const MenuPage: NextPage<Props> = () => {
                 >
                   {val}
                 </SideList>
-              ))}
+              ))} */}
             </MenuEditSideMenu>
             <MenuEditContent>
               {menuWrapState === "음식" ? (
@@ -188,45 +180,9 @@ const MenuInfoWrap = styled.div`
   width: 30%;
 `;
 
-const MenuInputWrap = styled.div`
-  margin-bottom: 20px;
-  padding: 20px 20px 0px 20px;
-  p {
-    font-size: 0.825rem;
-    color: gray;
-  }
-
-  div {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-
-  input {
-    flex: 1;
-    padding: 5px 0px;
-    margin-right: 20px;
-    border-bottom: 1px solid black;
-  }
-
-  input:focus {
-    outline: none;
-  }
-
-  button {
-    color: var(--color-orange);
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
-`;
 const MenuEditWrap = styled.div`
   display: flex;
   height: 100vh;
-`;
-
-const DocumentIcon = styled(IoDocumentTextOutline)`
-  font-size: 32px;
-  color: white;
 `;
 
 const MenuEditSideMenu = styled.ul`
