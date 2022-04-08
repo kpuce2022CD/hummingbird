@@ -8,26 +8,27 @@ import Nav from "../../components/Nav";
 import MenuModal from "../../components/MenuModal";
 import axios from "axios";
 
-interface IFoodData {
+type FoodData = {
   name: string;
   price: number;
   content: string;
-}
+};
 
-interface ICategoryData {
+type CategoryData = {
   id: number;
   name: string;
-}
+};
 
-interface Props {
-  foodGetData: IFoodData[];
-}
+type Props = {
+  foodGetData: FoodData[];
+};
 
 const MenuPage: NextPage<Props> = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
+  // 선택된 categoryId를 의미
   const [tabClicked, setTabClicked] = useState(0);
-  const [categoryList, setCategoryList] = useState<ICategoryData[]>([]);
+  const [categoryList, setCategoryList] = useState<CategoryData[]>([]);
   const router = useRouter();
   const { menuid } = router.query;
 
@@ -35,7 +36,7 @@ const MenuPage: NextPage<Props> = () => {
     menuid: string | string[] | undefined
   ) => {
     try {
-      const response = await axios.get<ICategoryData[]>(
+      const response = await axios.get<CategoryData[]>(
         "http://localhost:8080/category/get/menu",
         {
           headers: {
@@ -53,16 +54,55 @@ const MenuPage: NextPage<Props> = () => {
     }
   };
 
+  const deleteCategory = async (categoryId: number) => {
+    try {
+      console.log(categoryId);
+      const response = await axios.post(
+        "http://localhost:8080/category/delete",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            categoryId: 1,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+
   useEffect(() => {
     console.log(menuid);
     menuid && getCategoryUseMenuId(menuid);
   }, [menuid]);
 
-  const handleSideMenuClick = (type: string, idx: number) => {
+  const handleSideMenuClick = (type: string, categoryId: number) => {
     setMenuWrapState(type);
-    setTabClicked(idx);
-    console.log(tabClicked);
-    console.log(menuWrapState);
+    setTabClicked(categoryId);
+  };
+
+  const handleEditContentBtn = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const btnType = e.currentTarget.value;
+    switch (btnType) {
+      case "food_add": {
+        setMenuWrapState("음식");
+        setModalOpen(true);
+        break;
+      }
+      case "category_delete": {
+        deleteCategory(tabClicked);
+        break;
+      }
+      default:
+        break;
+    }
   };
   return (
     <div>
@@ -97,13 +137,23 @@ const MenuPage: NextPage<Props> = () => {
               {tabClicked === 0 ? (
                 <div className="menuEdit-notice__wrap">
                   <p className="menuEdit-notice">
-                    *카테고리를 추가하거나 카테고리를 클릭해주세요.
+                    카테고리를 추가하거나 카테고리를 클릭해주세요.
                   </p>
                 </div>
               ) : (
                 <MenuEditContentBtn>
-                  <button>음식추가</button>
-                  <button>카테고리 삭제</button>
+                  <button
+                    value="food_add"
+                    onClick={(e) => handleEditContentBtn(e)}
+                  >
+                    음식추가
+                  </button>
+                  <button
+                    value="category_delete"
+                    onClick={(e) => handleEditContentBtn(e)}
+                  >
+                    카테고리 삭제
+                  </button>
                 </MenuEditContentBtn>
               )}
             </MenuEditContent>
@@ -116,7 +166,11 @@ const MenuPage: NextPage<Props> = () => {
         </MenuPre>
       </Wrapper>
       {modalOpen && (
-        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
+        <MenuModal
+          setModalOpen={setModalOpen}
+          type={menuWrapState}
+          categoryId={tabClicked}
+        />
       )}
     </div>
   );
