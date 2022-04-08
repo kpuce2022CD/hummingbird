@@ -27,7 +27,7 @@ public class CategoryController {
         CreateCategoryDto dto = CreateCategoryDto.builder()
                 .name((String) data.get("categoryName"))
                 .build();
-        return categoryService.create(dto,new Long((int)data.get("menuId")));
+        return categoryService.create(dto,Long.parseLong((String) data.get("menuId")));
     }
 
     //read
@@ -43,8 +43,8 @@ public class CategoryController {
 
     //update
     @PostMapping("/category/update")
-    public Long updateCategory(Long categoryId,String updateName){
-        return categoryService.update(categoryId, updateName);
+    public Long updateCategory(@RequestBody HashMap<String, Object> data){
+        return categoryService.update(new Long((int)data.get("categoryId")), (String)data.get("categoryName"));
     }
 
     //delete
