@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { menuIdState } from "../../recoil/states";
 import CategoryAddForm from "./CategoryAddForm";
 import FoodAddForm from "./FoodAddForm";
+import MenuAddForm from "./MenuAddForm";
 import * as S from "./style";
 
 interface Props {
@@ -15,31 +16,7 @@ interface Props {
 
 const MenuModal = ({ setModalOpen, type, categoryId }: Props) => {
   const menuId = useRecoilValue(menuIdState);
-  const [menuName, setMenuName] = useState<string>("");
   const router = useRouter();
-
-  const addNewMenu = async (menuName: string) => {
-    try {
-      const data = {
-        menuName: menuName,
-        ownerId: "1",
-      };
-      const response = await axios.post(
-        "http://localhost:8080/menu/new",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log(response);
-      setModalOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const updateMenu = async (updateName: string, menuId: string | undefined) => {
     try {
@@ -62,16 +39,6 @@ const MenuModal = ({ setModalOpen, type, categoryId }: Props) => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    setMenuName(e.target.value);
-  };
-
-  const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    addNewMenu(menuName);
   };
 
   const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
@@ -107,24 +74,10 @@ const MenuModal = ({ setModalOpen, type, categoryId }: Props) => {
               );
             // 카테고리 추가
             case "카테고리":
-              return (
-                <CategoryAddForm setModalOpen={setModalOpen} menuId={menuId} />
-              );
+              return <CategoryAddForm setModalOpen={setModalOpen} />;
             // 메뉴판 추가
             case "메뉴판":
-              return (
-                <S.CateForm onSubmit={handleNewMenuSubmit}>
-                  <input
-                    onChange={handleMenuChange}
-                    className="cate__input"
-                    name="category"
-                    placeholder="메뉴판명을 입력해주세요"
-                  ></input>
-                  <S.SummitBtn className="submit__btn" type="submit">
-                    제출하기
-                  </S.SummitBtn>
-                </S.CateForm>
-              );
+              return <MenuAddForm setModalOpen={setModalOpen} />;
             case "메뉴판수정":
               return (
                 <S.CateForm onSubmit={handleUpdateMenuSubmit}>
