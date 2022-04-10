@@ -12,9 +12,9 @@ type FoodData = {
   price: number;
 };
 
-interface Props {
+type Props = {
   foodList: FoodData[];
-}
+};
 
 const FoodCard = ({ foodList }: Props) => {
   return (
