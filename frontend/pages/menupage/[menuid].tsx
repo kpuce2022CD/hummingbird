@@ -9,9 +9,13 @@ import MenuModal from "../../components/MenuModal";
 import axios from "axios";
 
 type FoodData = {
-  name: string;
-  price: number;
   content: string;
+  fileName: string;
+  filePath: string;
+  id: number;
+  name: string;
+  origFileName: string;
+  price: number;
 };
 
 type CategoryData = {
@@ -19,18 +23,34 @@ type CategoryData = {
   name: string;
 };
 
-type Props = {
-  foodGetData: FoodData[];
-};
-
-const MenuPage: NextPage<Props> = () => {
+const MenuPage: NextPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
   // 선택된 categoryId를 의미
   const [tabClicked, setTabClicked] = useState(0);
   const [categoryList, setCategoryList] = useState<CategoryData[]>([]);
+  const [foodList, setFoodList] = useState<FoodData[]>([]);
   const router = useRouter();
   const { menuid } = router.query;
+
+  const getFoodUseCategoryId = async (categoryId: number) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/food/get/category",
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            categoryId: categoryId,
+          },
+        }
+      );
+      setFoodList(response.data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
 
   const getCategoryUseMenuId = async (
     menuid: string | string[] | undefined
@@ -66,25 +86,32 @@ const MenuPage: NextPage<Props> = () => {
             "Access-Control-Allow-Origin": "*",
           },
           params: {
-            categoryId: 1,
+            categoryId: categoryId,
           },
         }
       );
       console.log(response.data);
+      window.location.reload();
     } catch (err) {
       console.log("error", err);
     }
   };
-
   useEffect(() => {
     console.log(menuid);
     menuid && getCategoryUseMenuId(menuid);
   }, [menuid]);
 
-  const handleSideMenuClick = (type: string, categoryId: number) => {
+  const HandleSideMenuClick = (type: string, categoryId: number) => {
     setMenuWrapState(type);
     setTabClicked(categoryId);
+    // getFoodUseCategoryId(tabClicked);
+    // console.log(foodList);
   };
+  useEffect(() => {
+    console.log(tabClicked + "탭임");
+    getFoodUseCategoryId(tabClicked);
+    console.log(foodList);
+  }, [tabClicked]);
 
   const handleEditContentBtn = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -125,7 +152,7 @@ const MenuPage: NextPage<Props> = () => {
                 <SideList
                   className={`${tabClicked === id ? "tap__active" : "tap"}`}
                   key={id}
-                  onClick={() => handleSideMenuClick("카테고리", id)}
+                  onClick={() => HandleSideMenuClick("카테고리", id)}
                 >
                   {/* 이떄 idx와 categoryId는 다릅니다. idx는 ui적 순서만을 나타냅니다. */}
                   <p>{idx + 1}</p>
@@ -141,28 +168,61 @@ const MenuPage: NextPage<Props> = () => {
                   </p>
                 </div>
               ) : (
-                <MenuEditContentBtn>
-                  <button
-                    value="food_add"
-                    onClick={(e) => handleEditContentBtn(e)}
-                  >
-                    음식추가
-                  </button>
-                  <button
-                    value="category_delete"
-                    onClick={(e) => handleEditContentBtn(e)}
-                  >
-                    카테고리 삭제
-                  </button>
-                </MenuEditContentBtn>
+                <div>
+                  <MenuEditContentBtn>
+                    <button
+                      value="food_add"
+                      onClick={(e) => handleEditContentBtn(e)}
+                    >
+                      음식추가
+                    </button>
+                    <button
+                      value="category_delete"
+                      onClick={(e) => handleEditContentBtn(e)}
+                    >
+                      카테고리 삭제
+                    </button>
+                  </MenuEditContentBtn>
+                  <FoodCardWrap>
+                    {foodList.map((val, idx) => (
+                      <FoodCard key={idx}>
+                        <div className="foodcard-top">
+                          <Image
+                            src="/images/image2.png"
+                            alt="음식 사진"
+                            width="64"
+                            height="64"
+                          />
+                          <div className="foodcard_top__content">
+                            <p className="foodcard_top__name">{val.name}</p>
+                            <ul className="foodcard_top__list">
+                              <li>
+                                <span>가격</span>
+                                {val.price}
+                              </li>
+                              <li>
+                                {/* <span>알레르기 정보</span>
+                                연어, 토마토 */}
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div className="foodcard_btm">
+                          <ul>
+                            <li>메뉴 소개</li>
+                            <li>{val.content}</li>
+                          </ul>
+                        </div>
+                      </FoodCard>
+                    ))}
+                  </FoodCardWrap>
+                </div>
               )}
             </MenuEditContent>
           </MenuEditWrap>
         </MenuInfoWrap>
         <MenuPre>
-          <MenuPreContent>
-            {/* 메뉴 주문 들어가면 각 페이지별로 나올 부분 */}
-          </MenuPreContent>
+          <MenuPreContent></MenuPreContent>
         </MenuPre>
       </Wrapper>
       {modalOpen && (
