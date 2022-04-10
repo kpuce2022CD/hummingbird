@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import MenuModal from "../MenuModal";
 import * as S from "./style";
 type Props = {
-  id: number;
-  name: string;
+  menuId: number;
+  menuName: string;
 };
 
-const MenuCard = ({ id, name }: Props) => {
+const MenuCard = ({ menuId, menuName }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("");
   const router = useRouter();
@@ -27,18 +27,22 @@ const MenuCard = ({ id, name }: Props) => {
     },
   ];
 
-  const deleteMenuDelete = async (id: number) => {
-    console.log(id);
+  const deleteMenuDelete = async (menuId: number) => {
     try {
-      const response = await axios.post("http://localhost:8080/menu/delete", {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-        params: {
-          menuId: id,
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8080/menu/delete",
+        {},
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            menuId: menuId,
+          },
+        }
+      );
       console.log(response);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +56,7 @@ const MenuCard = ({ id, name }: Props) => {
       case "qr": {
         router.push({
           pathname: "/qrpage",
-          query: { menuId: id },
+          query: { menuId: menuId },
         });
         break;
       }
@@ -64,7 +68,7 @@ const MenuCard = ({ id, name }: Props) => {
       }
       case "delete": {
         console.log("delete");
-        // FIXME: menu/delete API가 정상 작동 후에 수정 예정
+        deleteMenuDelete(menuId);
         break;
       }
       default:
@@ -77,11 +81,11 @@ const MenuCard = ({ id, name }: Props) => {
     <S.CardWrap>
       <ul>
         <S.CardTitle>
-          <h2>{name}</h2>
+          <h2>{menuName}</h2>
         </S.CardTitle>
         <S.CardSubTitle>
           <p>
-            메뉴판 번호 : <span>{id}</span>
+            메뉴판 번호 : <span>{menuId}</span>
           </p>
         </S.CardSubTitle>
       </ul>
@@ -94,11 +98,7 @@ const MenuCard = ({ id, name }: Props) => {
         ))}
       </S.ButtonWrap>
       {modalOpen && (
-        <MenuModal
-          setModalOpen={setModalOpen}
-          type={menuWrapState}
-          menuId={id}
-        />
+        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
       )}
     </S.CardWrap>
   );

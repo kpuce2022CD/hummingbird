@@ -7,6 +7,7 @@ type Props = {
 };
 
 const MenuAddForm = ({ setModalOpen }: Props) => {
+  const [menuName, setMenuName] = useState<string>("");
   const addNewMenu = async (menuName: string) => {
     try {
       const data = {
@@ -30,7 +31,7 @@ const MenuAddForm = ({ setModalOpen }: Props) => {
       console.log(err);
     }
   };
-  const [menuName, setMenuName] = useState<string>("");
+
   const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     addNewMenu(menuName);
