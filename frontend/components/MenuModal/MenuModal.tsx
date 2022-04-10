@@ -12,9 +12,10 @@ interface Props {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
   menuId?: number | undefined;
+  categoryId?: number | undefined;
 }
 
-const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
+const MenuModal = ({ setModalOpen, type, menuId, categoryId }: Props) => {
   const [inputs, setInputs] = useState<IMenuItem>({
     name: "",
     price: "0",
@@ -25,23 +26,21 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   const [categoryName, setCategoryName] = useState<string>("");
   const router = useRouter();
 
-  //menu
-
   const addNewMenu = async (menuName: string) => {
     try {
       const data = {
-        menuName : menuName,
-        ownerId : "1",
-      }
+        menuName: menuName,
+        ownerId: "1",
+      };
       const response = await axios.post(
-          "http://localhost:8080/menu/new",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
+        "http://localhost:8080/menu/new",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
       );
       console.log(response);
       setModalOpen(false);
@@ -52,19 +51,19 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
 
   const updateMenu = async (updateName: string, menuId: string | undefined) => {
     try {
-      const data =  {
-        updateName : updateName,
-        menuId : menuId
-      }
+      const data = {
+        updateName: updateName,
+        menuId: menuId,
+      };
       const response = await axios.post(
-          "http://localhost:8080/menu/update",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
+        "http://localhost:8080/menu/update",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
       );
       console.log(response);
       setModalOpen(false);
@@ -89,7 +88,7 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
   };
 
   const handleMenuFoodEdit = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     router.push({
@@ -100,54 +99,41 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     });
   };
 
-  //category
-
   const addNewCategory = async (categroyName: string) => {
     try {
       const data = {
-        categoryName : categroyName,
-        menuId : "1"
-      }
-      // fd.append('menuId',"1")
+        categoryName: categroyName,
+        menuId: "1",
+      };
       const response = await axios.post(
-          "http://localhost:8080/category/new",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
+        "http://localhost:8080/category/new",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
       );
       console.log(response);
+      setModalOpen(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setCategoryName(e.target.value);
   };
 
-
   const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    // const fd = new FormData();
-    // console.log(inputs['categoryName'])
-    // fd.append('categoryName',inputs['categoryName'])
     addNewCategory(categoryName);
   };
 
-  //food
-
   const addNewFood = async (fd: FormData) => {
-    console.log(fd.get('foodName'))
     try {
-      fd.append('categoryId',"1")
-
-
-      const response = await axios.post("http://localhost:8080/food/new", fd,{
+      const response = await axios.post("http://localhost:8080/food/new", fd, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",
@@ -180,12 +166,10 @@ const MenuModal = ({ setModalOpen, type, menuId }: Props) => {
     if (img !== null) {
       fd.append("file", img);
     }
-    fd.append('foodName',inputs['name'])
-    fd.append('foodPrice',inputs['price'])
-    fd.append('foodContent',inputs['content'])
-    // const json = JSON.stringify(inputs);
-    // const blob = new Blob([json], { type: "application/json" });
-    // fd.append("foodDto", blob);
+    fd.append("foodName", inputs["name"]);
+    fd.append("foodPrice", inputs["price"]);
+    fd.append("foodContent", inputs["content"]);
+    fd.append("categoryId", String(categoryId));
     addNewFood(fd);
   };
 

@@ -1,77 +1,108 @@
 import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { IoDocumentTextOutline } from "react-icons/io5";
-import { ImPlus } from "react-icons/im";
 import styled from "styled-components";
-import Link from "next/link";
 import Image from "next/image";
 
 import Nav from "../../components/Nav";
 import MenuModal from "../../components/MenuModal";
 import axios from "axios";
-import EditPlusBtn from "../../components/EditPlusBtn";
 
-interface IFoodData {
+type FoodData = {
   name: string;
   price: number;
   content: string;
-}
+};
 
-interface ICategoryData {
-  id : number; 
-  name : string;
-}
+type CategoryData = {
+  id: number;
+  name: string;
+};
 
-interface Props {
-  foodGetData: IFoodData[];
-}
-
-
+type Props = {
+  foodGetData: FoodData[];
+};
 
 const MenuPage: NextPage<Props> = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
+  // 선택된 categoryId를 의미
   const [tabClicked, setTabClicked] = useState(0);
-  const [categoryList, setCategoryList] = useState<ICategoryData[]>([]);
+  const [categoryList, setCategoryList] = useState<CategoryData[]>([]);
   const router = useRouter();
   const { menuid } = router.query;
 
-  const getCategoryUseMenuId = async (menuid: string | string[] | undefined) => {
-    try{
-      const response = await axios.get<ICategoryData[]>(
+  const getCategoryUseMenuId = async (
+    menuid: string | string[] | undefined
+  ) => {
+    try {
+      const response = await axios.get<CategoryData[]>(
         "http://localhost:8080/category/get/menu",
         {
-          headers : {
+          headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },
-          params : {
-            menuId : menuid,
-          }
+          params: {
+            menuId: menuid,
+          },
         }
       );
       setCategoryList(response.data);
     } catch (err) {
       console.log("error", err);
     }
-  }
+  };
+
+  const deleteCategory = async (categoryId: number) => {
+    try {
+      console.log(categoryId);
+      const response = await axios.post(
+        "http://localhost:8080/category/delete",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            categoryId: 1,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
 
   useEffect(() => {
     console.log(menuid);
     menuid && getCategoryUseMenuId(menuid);
   }, [menuid]);
-  
-  const handleQr = () => {
-    router.push({
-      pathname: "/qrpage",
-    });
+
+  const handleSideMenuClick = (type: string, categoryId: number) => {
+    setMenuWrapState(type);
+    setTabClicked(categoryId);
   };
 
-  const handleSideMenuClick = (type: string, idx: number) => {
-    setMenuWrapState(type);
-    setTabClicked(idx);
-    console.log(tabClicked);
+  const handleEditContentBtn = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const btnType = e.currentTarget.value;
+    switch (btnType) {
+      case "food_add": {
+        setMenuWrapState("음식");
+        setModalOpen(true);
+        break;
+      }
+      case "category_delete": {
+        deleteCategory(tabClicked);
+        break;
+      }
+      default:
+        break;
+    }
   };
   return (
     <div>
@@ -82,71 +113,48 @@ const MenuPage: NextPage<Props> = () => {
           <MenuEditWrap>
             {/* 사이드 메뉴가 나오는 부분 */}
             <MenuEditSideMenu>
-              {/* {sideList.map((val, idx) => (
-                <SideList
-                  className={`${tabClicked === idx ? "tap__active" : "tap"}`}
-                  key={idx}
-                  onClick={() => handleSideMenuClick(val, idx)}
+              <div className="menuedit-content__header">
+                <button
+                  className="menuedit-btn"
+                  onClick={() => setModalOpen(true)}
                 >
-                  {val}
+                  카테고리 추가
+                </button>
+              </div>
+              {categoryList.map(({ id, name }, idx) => (
+                <SideList
+                  className={`${tabClicked === id ? "tap__active" : "tap"}`}
+                  key={id}
+                  onClick={() => handleSideMenuClick("카테고리", id)}
+                >
+                  {/* 이떄 idx와 categoryId는 다릅니다. idx는 ui적 순서만을 나타냅니다. */}
+                  <p>{idx + 1}</p>
+                  {name}
                 </SideList>
-              ))} */}
+              ))}
             </MenuEditSideMenu>
             <MenuEditContent>
-              {menuWrapState === "음식" ? (
-                <div className="menuedit-content__header">
-                  <p>음식 추가</p>
-                  <span onClick={() => setModalOpen(true)}>
-                    <EditPlusBtn />
-                  </span>
+              {tabClicked === 0 ? (
+                <div className="menuEdit-notice__wrap">
+                  <p className="menuEdit-notice">
+                    카테고리를 추가하거나 카테고리를 클릭해주세요.
+                  </p>
                 </div>
               ) : (
-                <div className="menuedit-content__header">
-                  <p>카테고리 추가</p>
-                  <span onClick={() => setModalOpen(true)}>
-                    <EditPlusBtn />
-                  </span>
-                </div>
-              )}
-
-              {/* 추가된 메뉴가 나올 부분 */}
-              {menuWrapState === "음식" ? (
-                <FoodCardWrap>
-                  {foodGetData.map((val, idx) => (
-                    <FoodCard key={idx}>
-                      <div className="foodcard-top">
-                        <Image
-                          src="/images/image2.png"
-                          alt="음식 사진"
-                          width="64"
-                          height="64"
-                        />
-                        <div className="foodcard_top__content">
-                          <p className="foodcard_top__name">{val.name}</p>
-                          <ul className="foodcard_top__list">
-                            <li>
-                              <span>가격</span>
-                              {val.price}
-                            </li>
-                            <li>
-                              <span>알레르기 정보</span>
-                              연어, 토마토
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="foodcard_btm">
-                        <ul>
-                          <li>메뉴 소개</li>
-                          <li>{val.content}</li>
-                        </ul>
-                      </div>
-                    </FoodCard>
-                  ))}
-                </FoodCardWrap>
-              ) : (
-                // TODO: 카테고리가 나올 페이지
-                <CategoryWrap>카테고리임</CategoryWrap>
+                <MenuEditContentBtn>
+                  <button
+                    value="food_add"
+                    onClick={(e) => handleEditContentBtn(e)}
+                  >
+                    음식추가
+                  </button>
+                  <button
+                    value="category_delete"
+                    onClick={(e) => handleEditContentBtn(e)}
+                  >
+                    카테고리 삭제
+                  </button>
+                </MenuEditContentBtn>
               )}
             </MenuEditContent>
           </MenuEditWrap>
@@ -158,7 +166,11 @@ const MenuPage: NextPage<Props> = () => {
         </MenuPre>
       </Wrapper>
       {modalOpen && (
-        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
+        <MenuModal
+          setModalOpen={setModalOpen}
+          type={menuWrapState}
+          categoryId={tabClicked}
+        />
       )}
     </div>
   );
@@ -177,7 +189,7 @@ const Wrapper = styled.div`
 const MenuInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
 `;
 
 const MenuEditWrap = styled.div`
@@ -186,18 +198,34 @@ const MenuEditWrap = styled.div`
 `;
 
 const MenuEditSideMenu = styled.ul`
-  background-color: var(--color-gray);
-  width: 100px;
+  background-color: var(--color-mid-gray);
+  width: 200px;
   padding: 0px 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
 
   .tap {
     font-weight: 400;
   }
   .tap__active {
     font-weight: 700;
+    color: var(--color-orange);
+  }
+  .menuedit-content__header {
+    display: flex;
+    justify-content: center;
+  }
+  .menuedit-btn {
+    margin-top: 25px;
+    background-color: var(--color-orange);
+    padding: 10px;
+    color: white;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
   }
 `;
 
@@ -206,6 +234,18 @@ const SideList = styled.li`
   cursor: pointer;
   :hover {
     font-weight: 700;
+  }
+  p {
+    display: inline-block;
+    color: var(--color-orange);
+    width: 22px;
+    text-align: center;
+    padding-top: 2px;
+    margin-right: 5px;
+    height: 22px;
+    border-radius: 50px;
+    background-color: #fff;
+    border: 1px solid var(--color-orange);
   }
 `;
 
@@ -217,19 +257,16 @@ const MenuEditContent = styled.div`
   margin-right: 20px;
   border-top-right-radius: 20px;
   background-color: var(--color-light-gray);
-
-  .menuedit-content__header {
+  .menuEdit-notice__wrap {
     display: flex;
-    justify-content: space-between;
-    margin: 0px 16px;
-    p {
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 42px;
-    }
-    span {
-      cursor: pointer;
-    }
+    justify-content: center;
+  }
+  .menuEdit-notice {
+    font-size: 1rem;
+    padding-top: 200px;
+    text-align: center;
+    width: 230px;
+    color: gray;
   }
 `;
 
@@ -315,4 +352,24 @@ const FoodCard = styled.div`
   }
 `;
 
-export const CategoryWrap = styled(FoodCardWrap)``;
+const MenuEditContentBtn = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+
+  button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    background-color: #fff;
+    color: var(--color-orange);
+    border: 1px solid var(--color-orange);
+
+    :hover {
+      background-color: var(--color-orange);
+      color: #fff;
+    }
+  }
+`;
