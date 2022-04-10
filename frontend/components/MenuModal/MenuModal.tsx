@@ -1,19 +1,21 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import FoodForm from "./FoodForm";
+import { useRecoilValue } from "recoil";
+import { menuIdState } from "../../recoil/states";
+import CategoryAddForm from "./CategoryAddForm";
+import FoodAddForm from "./FoodAddForm";
 import * as S from "./style";
 
 interface Props {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
-  menuId?: number | undefined;
   categoryId?: number | undefined;
 }
 
-const MenuModal = ({ setModalOpen, type, menuId, categoryId }: Props) => {
+const MenuModal = ({ setModalOpen, type, categoryId }: Props) => {
+  const menuId = useRecoilValue(menuIdState);
   const [menuName, setMenuName] = useState<string>("");
-  const [categoryName, setCategoryName] = useState<string>("");
   const router = useRouter();
 
   const addNewMenu = async (menuName: string) => {
@@ -89,63 +91,26 @@ const MenuModal = ({ setModalOpen, type, menuId, categoryId }: Props) => {
     });
   };
 
-  const addNewCategory = async (categroyName: string) => {
-    try {
-      const data = {
-        categoryName: categroyName,
-        menuId: "1",
-      };
-      const response = await axios.post(
-        "http://localhost:8080/category/new",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
-      console.log(response);
-      setModalOpen(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategoryName(e.target.value);
-  };
-
-  const handleCategorySubmit = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    addNewCategory(categoryName);
-  };
-
   return (
     <S.ModalWrap>
       <S.Modal>
         <S.ModalCloseBtn onClick={() => setModalOpen(false)}>X</S.ModalCloseBtn>
         {(() => {
           switch (type) {
+            // 음식 추가
             case "음식":
               return (
-                <FoodForm setModalOpen={setModalOpen} categoryId={categoryId} />
+                <FoodAddForm
+                  setModalOpen={setModalOpen}
+                  categoryId={categoryId}
+                />
               );
+            // 카테고리 추가
             case "카테고리":
               return (
-                <S.CateForm onSubmit={handleCategorySubmit}>
-                  <input
-                    onChange={handleCategoryChange}
-                    className="cate__input"
-                    name="categoryName"
-                    placeholder="카테고리명을 입력해주세요"
-                  ></input>
-                  <p>* 카테고리를 먼저 저장 한 후 음식을 저장해주세요.</p>
-                  <S.SummitBtn className="submit__btn" type="submit">
-                    제출하기
-                  </S.SummitBtn>
-                </S.CateForm>
+                <CategoryAddForm setModalOpen={setModalOpen} menuId={menuId} />
               );
+            // 메뉴판 추가
             case "메뉴판":
               return (
                 <S.CateForm onSubmit={handleNewMenuSubmit}>

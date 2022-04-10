@@ -6,6 +6,8 @@ import Nav from "../../components/Nav";
 import MenuModal from "../../components/MenuModal";
 import axios from "axios";
 import MenuInfo from "../../components/MenuInfo";
+import { useRecoilState } from "recoil";
+import { menuIdState } from "../../recoil/states";
 
 type CategoryData = {
   id: number;
@@ -13,13 +15,12 @@ type CategoryData = {
 };
 
 const MenuPage: NextPage = () => {
+  const [menuId, setMenuId] = useRecoilState(menuIdState);
   const [categoryList, setCategoryList] = useState<CategoryData[]>([]);
   const router = useRouter();
   const { menuid } = router.query;
 
-  const getCategoryUseMenuId = async (
-    menuid: string | string[] | undefined
-  ) => {
+  const getCategoryUseMenuId = async (menuid: string | string[]) => {
     try {
       const response = await axios.get<CategoryData[]>(
         "http://localhost:8080/category/get/menu",
@@ -40,9 +41,15 @@ const MenuPage: NextPage = () => {
   };
 
   useEffect(() => {
-    console.log(menuid);
-    menuid && getCategoryUseMenuId(menuid);
+    if (typeof menuid !== "undefined") {
+      console.log(menuid);
+      setMenuId(menuid);
+    }
   }, [menuid]);
+
+  useEffect(() => {
+    getCategoryUseMenuId(menuId);
+  }, [menuId]);
 
   return (
     <div>

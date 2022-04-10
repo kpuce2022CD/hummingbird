@@ -13,7 +13,7 @@ type Props = {
   categoryId: number | undefined;
 };
 
-const FoodForm = ({ setModalOpen, categoryId }: Props) => {
+const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
   const [inputs, setInputs] = useState<IMenuItem>({
     name: "",
     price: "0",
@@ -104,4 +104,4 @@ const FoodForm = ({ setModalOpen, categoryId }: Props) => {
   );
 };
 
-export default FoodForm;
+export default FoodAddForm;
