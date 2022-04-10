@@ -5,4 +5,9 @@ const menuIdState = atom<string | string[]>({
   default: "",
 });
 
-export { menuIdState };
+const ownerIdState = atom<number>({
+  key: "ownerIdState",
+  default: 0,
+});
+
+export { menuIdState, ownerIdState };

@@ -16,8 +16,6 @@ type Props = {
 
 const AdminMenu = ({ menuList }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const router = useRouter();
-  const { ownerid } = router.query;
   console.log(menuList);
   return (
     <div>

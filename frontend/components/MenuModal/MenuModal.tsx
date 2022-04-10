@@ -1,8 +1,5 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { menuIdState } from "../../recoil/states";
+import React from "react";
+
 import CategoryAddForm from "./CategoryAddForm";
 import FoodAddForm from "./FoodAddForm";
 import MenuAddForm from "./MenuAddForm";
@@ -13,9 +10,11 @@ interface Props {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
   categoryId?: number | undefined;
+  ownerId?: number;
+  menuId?: number | undefined;
 }
 
-const MenuModal = ({ setModalOpen, type, categoryId }: Props) => {
+const MenuModal = ({ setModalOpen, type, categoryId, menuId }: Props) => {
   return (
     <S.ModalWrap>
       <S.Modal>
@@ -37,7 +36,9 @@ const MenuModal = ({ setModalOpen, type, categoryId }: Props) => {
             case "메뉴판":
               return <MenuAddForm setModalOpen={setModalOpen} />;
             case "메뉴판수정":
-              return <MenuUpdateForm setModalOpen={setModalOpen}/>;
+              return (
+                <MenuUpdateForm setModalOpen={setModalOpen} menuId={menuId} />
+              );
             default:
               return null;
           }

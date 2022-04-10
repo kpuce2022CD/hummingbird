@@ -7,22 +7,21 @@ import * as S from "./style";
 
 type Props = {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  menuId: string | string[];
+  menuId: number | undefined;
 };
 
-const MenuUpdateForm = ({ setModalOpen }: Props) => {
+const MenuUpdateForm = ({ setModalOpen, menuId }: Props) => {
   const [menuName, setMenuName] = useState<string>("");
   const router = useRouter();
 
-  const updateMenu = async (updateName: string, menuId: string | undefined) => {
+  const updateMenu = async (updateName: string, menuId: number) => {
     try {
-      const data = {
-        updateName: updateName,
-        menuId: menuId,
-      };
       const response = await axios.post(
         "http://localhost:8080/menu/update",
-        data,
+        {
+          updateName: updateName,
+          menuId: String(menuId),
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,6 +31,7 @@ const MenuUpdateForm = ({ setModalOpen }: Props) => {
       );
       console.log(response);
       setModalOpen(false);
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -43,7 +43,7 @@ const MenuUpdateForm = ({ setModalOpen }: Props) => {
   };
   const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    updateMenu(menuName, menuId);
+    typeof menuId !== "undefined" && updateMenu(menuName, menuId);
   };
   const handleMenuFoodEdit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>

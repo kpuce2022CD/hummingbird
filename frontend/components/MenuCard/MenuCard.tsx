@@ -98,7 +98,11 @@ const MenuCard = ({ menuId, menuName }: Props) => {
         ))}
       </S.ButtonWrap>
       {modalOpen && (
-        <MenuModal setModalOpen={setModalOpen} type={menuWrapState} />
+        <MenuModal
+          setModalOpen={setModalOpen}
+          type={menuWrapState}
+          menuId={menuId}
+        />
       )}
     </S.CardWrap>
   );
