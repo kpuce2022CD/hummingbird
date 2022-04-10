@@ -2,8 +2,9 @@ import React from "react";
 
 import CategoryAddForm from "./CategoryAddForm";
 import FoodAddForm from "./FoodAddForm";
+import FoodUpdateForm from "./FoodUpdateForm";
 import MenuAddForm from "./MenuAddForm";
-import MenuUpdateForm from "./MenuEditForm";
+import MenuUpdateForm from "./MenuUpdateForm";
 import * as S from "./style";
 
 interface Props {
@@ -12,9 +13,16 @@ interface Props {
   categoryId?: number | undefined;
   ownerId?: number;
   menuId?: number | undefined;
+  foodId?: number | undefined;
 }
 
-const MenuModal = ({ setModalOpen, type, categoryId, menuId }: Props) => {
+const MenuModal = ({
+  setModalOpen,
+  type,
+  categoryId,
+  menuId,
+  foodId,
+}: Props) => {
   return (
     <S.ModalWrap>
       <S.Modal>
@@ -38,6 +46,10 @@ const MenuModal = ({ setModalOpen, type, categoryId, menuId }: Props) => {
             case "메뉴판수정":
               return (
                 <MenuUpdateForm setModalOpen={setModalOpen} menuId={menuId} />
+              );
+            case "음식수정":
+              return (
+                <FoodUpdateForm setModalOpen={setModalOpen} foodId={foodId} />
               );
             default:
               return null;

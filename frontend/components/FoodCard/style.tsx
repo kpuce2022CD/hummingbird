@@ -19,6 +19,11 @@ export const FoodItem = styled.div`
   background-color: #fff;
   border-radius: 20px;
 
+  :hover {
+    cursor: pointer;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.12);
+  }
+
   .foodcard-top {
     display: flex;
   }

@@ -74,17 +74,17 @@ const MenuInfo = ({ categoryList }: Props) => {
   };
 
   useEffect(() => {
-    console.log(tabClicked + "탭임");
     getFoodUseCategoryId(tabClicked);
-    console.log(foodList);
   }, [tabClicked]);
 
   const HandleSideMenuClick = (type: string, categoryId: number) => {
     setMenuWrapState(type);
+    if (categoryId === tabClicked) {
+      getFoodUseCategoryId(categoryId);
+    }
     setTabClicked(categoryId);
-    // getFoodUseCategoryId(tabClicked);
-    // console.log(foodList);
   };
+
   const handleEditContentBtn = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

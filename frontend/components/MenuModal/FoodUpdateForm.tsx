@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+
 import * as S from "./style";
 
 type Food = {
@@ -10,10 +11,10 @@ type Food = {
 
 type Props = {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  categoryId: number | undefined;
+  foodId: number | undefined;
 };
 
-const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
+const FoodUpdateForm = ({ setModalOpen, foodId }: Props) => {
   const [inputs, setInputs] = useState<Food>({
     name: "",
     price: "0",
@@ -21,19 +22,62 @@ const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
   });
   const [img, setImg] = useState<File | null>(null);
 
-  const addNewFood = async (fd: FormData) => {
+  const updateFood = async (fd: FormData, foodId: number) => {
     try {
-      const response = await axios.post("http://localhost:8080/food/new", fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8080/food/update",
+        fd,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            foodId: foodId,
+          },
+        }
+      );
       console.log(response);
       setModalOpen(false);
     } catch (err) {
       console.log("error", err);
     }
+  };
+
+  const deleteFood = async (foodId: number) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/food/delete",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            foodId: String(foodId),
+          },
+        }
+      );
+      console.log(response);
+      setModalOpen(false);
+      window.location.reload();
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+
+  const handleFoodDelete = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    foodId: number | undefined
+  ) => {
+    e.preventDefault();
+
+    typeof foodId !== "undefined" && deleteFood(foodId);
+  };
+
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImg(e.target.files ? e.target.files[0] : null);
   };
 
   const handleFoodChange = (
@@ -46,11 +90,10 @@ const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImg(e.target.files ? e.target.files[0] : null);
-  };
-
-  const handleFoodSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFoodSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    foodId: number | undefined
+  ) => {
     e.preventDefault();
     const fd = new FormData();
     if (img !== null) {
@@ -59,12 +102,12 @@ const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
     fd.append("foodName", inputs["name"]);
     fd.append("foodPrice", inputs["price"]);
     fd.append("foodContent", inputs["content"]);
-    fd.append("categoryId", String(categoryId));
-    addNewFood(fd);
+    typeof foodId !== "undefined" && updateFood(fd, foodId);
   };
+
   return (
     <div>
-      <form onSubmit={handleFoodSubmit}>
+      <form onSubmit={(e) => handleFoodSubmit(e, foodId)}>
         <input
           type="file"
           id="file"
@@ -96,12 +139,15 @@ const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
           placeholder="메뉴 상세를 입력해주세요."
           onChange={handleFoodChange}
         />
-        <S.SummitBtn className="submit__btn" type="submit">
-          제출하기
-        </S.SummitBtn>
+        <S.ButtonWrap>
+          <S.Button>음식 정보 수정하기</S.Button>
+          <S.Button onClick={(e) => handleFoodDelete(e, foodId)}>
+            음식 삭제하기
+          </S.Button>
+        </S.ButtonWrap>
       </form>
     </div>
   );
 };
 
-export default FoodAddForm;
+export default FoodUpdateForm;

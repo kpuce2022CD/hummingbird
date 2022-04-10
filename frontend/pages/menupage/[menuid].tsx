@@ -28,7 +28,7 @@ const MenuPage: NextPage = () => {
   }, [menuid]);
 
   useEffect(() => {
-    getCategoryUseMenuId(menuId);
+    menuId !== "" && getCategoryUseMenuId(menuId);
   }, [menuId]);
 
   const getCategoryUseMenuId = async (menuid: string | string[]) => {
