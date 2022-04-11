@@ -173,7 +173,6 @@ const MenuInfo = ({ categoryList }: Props) => {
                   카테고리 삭제
                 </button>
               </S.MenuEditContentBtn>
-
               <FoodCard foodList={foodList} />
             </div>
           )}
