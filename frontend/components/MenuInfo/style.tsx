@@ -71,7 +71,14 @@ export const MenuEditContent = styled.div`
   margin-right: 20px;
   border-top-right-radius: 20px;
   background-color: var(--color-light-gray);
-  .menuEdit-notice__wrap {
+  overflow: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  scroll .menuEdit-notice__wrap {
     display: flex;
     justify-content: center;
   }

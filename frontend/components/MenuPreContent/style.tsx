@@ -18,6 +18,12 @@ export const MenuListContent = styled.div`
   width: 414px;
   height: 766px;
   background-color: #f9f9f9;
+  overflow: scroll;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const MenuHeader = styled.div`
@@ -65,6 +71,7 @@ export const MenuItem = styled.div`
     width: 156px;
     height: 220px;
     border-radius: 30px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 
   li:first-child {
@@ -73,15 +80,13 @@ export const MenuItem = styled.div`
     justify-content: center;
     img {
       border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      top: -10px;
     }
   }
 
   h4 {
     margin-top: 10px;
     font-size: 1.25rem;
+    font-weight: 700;
     text-align: center;
   }
   p {
