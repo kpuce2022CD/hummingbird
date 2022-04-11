@@ -46,6 +46,7 @@ export const MenuListTitle = styled.div`
   justify-content: center;
 
   h3 {
+    font-weight: 700;
     font-size: 1.5rem;
     margin-top: 20px;
   }
@@ -86,7 +87,6 @@ export const MenuItem = styled.div`
   h4 {
     margin-top: 10px;
     font-size: 1.25rem;
-    font-weight: 700;
     text-align: center;
   }
   p {

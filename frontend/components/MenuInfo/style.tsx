@@ -28,8 +28,10 @@ export const MenuEditSideMenu = styled.ul`
   }
   .menuedit-content__header {
     display: flex;
+    flex-direction: column;
     justify-content: center;
   }
+
   .menuedit-btn {
     margin-top: 25px;
     background-color: var(--color-orange);
@@ -41,6 +43,24 @@ export const MenuEditSideMenu = styled.ul`
     font-weight: 700;
     cursor: pointer;
   }
+`;
+
+export const EditHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+export const MenuEditBtn = styled.button`
+  margin-top: 25px;
+  background-color: var(--color-orange);
+  padding: 10px;
+  color: white;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
 `;
 
 export const SideList = styled.li`

@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
 
 import {
   foodListState,
+  menuIdState,
   tabClickedNameState,
   tabClickedState,
 } from "../../recoil/states";
@@ -31,14 +33,14 @@ type Props = {
 };
 
 const MenuInfo = ({ categoryList }: Props) => {
+  const menuId = useRecoilValue(menuIdState);
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [tabClicked, setTabClicked] = useRecoilState(tabClickedState);
   const [tabClickedName, setTabClickedName] =
     useRecoilState(tabClickedNameState);
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
-  // 선택된 categoryId를 의미
-
+  const router = useRouter();
   const deleteCategory = async (categoryId: number) => {
     try {
       console.log(categoryId);
@@ -117,17 +119,25 @@ const MenuInfo = ({ categoryList }: Props) => {
     }
   };
 
+  const handleMakeQr = () => {
+    router.push({
+      pathname: "/qrpage",
+      query: { menuId: menuId },
+    });
+  };
+
   return (
     <S.MenuInfoWrap>
       {/* 정보수정 창 */}
       <S.MenuEditWrap>
         {/* 사이드 메뉴가 나오는 부분 */}
         <S.MenuEditSideMenu>
-          <div className="menuedit-content__header">
-            <button className="menuedit-btn" onClick={() => setModalOpen(true)}>
+          <S.EditHeader>
+            <S.MenuEditBtn onClick={handleMakeQr}>QR 코드 보기</S.MenuEditBtn>
+            <S.MenuEditBtn onClick={() => setModalOpen(true)}>
               카테고리 추가
-            </button>
-          </div>
+            </S.MenuEditBtn>
+          </S.EditHeader>
           {categoryList.map(({ id, name }, idx) => (
             <S.SideList
               className={`${tabClicked === id ? "tap__active" : "tap"}`}
