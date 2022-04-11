@@ -16,8 +16,6 @@ type Props = {
 
 const AdminMenu = ({ menuList }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const router = useRouter();
-  const { ownerid } = router.query;
   console.log(menuList);
   return (
     <div>
@@ -30,7 +28,7 @@ const AdminMenu = ({ menuList }: Props) => {
       <S.MenuContent>
         {menuList &&
           menuList.map(({ id, name }) => (
-            <MenuCard key={id} id={id} name={name} />
+            <MenuCard key={id} menuId={id} menuName={name} />
           ))}
       </S.MenuContent>
       {modalOpen && <MenuModal setModalOpen={setModalOpen} type="메뉴판" />}

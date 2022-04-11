@@ -13,7 +13,7 @@ export const Modal = styled.div`
   flex-direction: column;
   align-items: center;
   width: 500px;
-  height: 350px;
+  height: 450px;
   background-color: #fff;
   // Modal 창 브라우저 가운데로 조정
   position: absolute;
