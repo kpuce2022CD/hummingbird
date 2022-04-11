@@ -102,6 +102,7 @@ const MenuCard = ({ menuId, menuName }: Props) => {
           setModalOpen={setModalOpen}
           type={menuWrapState}
           menuId={menuId}
+          menuName={menuName}
         />
       )}
     </S.CardWrap>

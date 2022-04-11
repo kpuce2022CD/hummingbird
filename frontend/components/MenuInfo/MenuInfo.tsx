@@ -1,8 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+
+import {
+  foodListState,
+  tabClickedNameState,
+  tabClickedState,
+} from "../../recoil/states";
 import FoodCard from "../FoodCard";
 import MenuModal from "../MenuModal";
-
 import * as S from "./style";
 
 type CategoryData = {
@@ -25,11 +31,13 @@ type Props = {
 };
 
 const MenuInfo = ({ categoryList }: Props) => {
+  const [foodList, setFoodList] = useRecoilState(foodListState);
+  const [tabClicked, setTabClicked] = useRecoilState(tabClickedState);
+  const [tabClickedName, setTabClickedName] =
+    useRecoilState(tabClickedNameState);
   const [modalOpen, setModalOpen] = useState(false);
   const [menuWrapState, setMenuWrapState] = useState("카테고리");
-  const [foodList, setFoodList] = useState<FoodData[]>([]);
   // 선택된 categoryId를 의미
-  const [tabClicked, setTabClicked] = useState(0);
 
   const deleteCategory = async (categoryId: number) => {
     try {
@@ -77,12 +85,17 @@ const MenuInfo = ({ categoryList }: Props) => {
     getFoodUseCategoryId(tabClicked);
   }, [tabClicked]);
 
-  const HandleSideMenuClick = (type: string, categoryId: number) => {
+  const HandleSideMenuClick = (
+    type: string,
+    categoryId: number,
+    categoryName: string
+  ) => {
     setMenuWrapState(type);
     if (categoryId === tabClicked) {
       getFoodUseCategoryId(categoryId);
     }
     setTabClicked(categoryId);
+    setTabClickedName(categoryName);
   };
 
   const handleEditContentBtn = (
@@ -119,7 +132,7 @@ const MenuInfo = ({ categoryList }: Props) => {
             <S.SideList
               className={`${tabClicked === id ? "tap__active" : "tap"}`}
               key={id}
-              onClick={() => HandleSideMenuClick("카테고리", id)}
+              onClick={() => HandleSideMenuClick("카테고리", id, name)}
             >
               {/* 이떄 idx와 categoryId는 다릅니다. idx는 ui적 순서만을 나타냅니다. */}
               <p>{idx + 1}</p>
