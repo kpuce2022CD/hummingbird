@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,13 +33,19 @@ public class FoodServiceImpl implements FoodService {
         this.categoryRepository = categoryRepository;
     }
 
+    //files
     @Override
     public UploadFoodDto upload(MultipartFile files){
-        UploadFoodDto uploadFoodDto = new UploadFoodDto();
+        String name = null;
+        String savePath= null;
+        String path = null;
+        String origName = null;
+
         try {
-            String origName = files.getOriginalFilename();
-            String name = new MD5Generator(origName).toString();
-            String savePath = System.getProperty("user.dir") + "/files";
+            origName = files.getOriginalFilename();
+            name = new MD5Generator(origName).toString();
+            savePath = System.getProperty("user.dir") +File.separator+ "files";
+
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new java.io.File(savePath).exists()) {
                 try {
@@ -46,76 +54,28 @@ public class FoodServiceImpl implements FoodService {
                     e.getStackTrace();
                 }
             }
-            String path = savePath + "/" + name;
+            path = savePath + File.separator + name;
             files.transferTo(new java.io.File(path));
 
-            uploadFoodDto = UploadFoodDto.builder()
-                    .fileName(name)
-                    .filePath(path)
-                    .origFileName(origName)
-                    .build();
         }  catch (Exception e) {
             e.printStackTrace();
         }
-        return uploadFoodDto;
-    }
 
-
-    @Override
-    public Long submit(UploadFoodDto uploadFoodDto,CreateFoodDto createFoodDto, Long categoryId) {
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-        if (optionalCategory.isEmpty()) {
-            return null;
-        }
-        Food food = createFoodDto.toEntity(optionalCategory.get());
-        food.UploadImage(uploadFoodDto);
-
-
-        return foodRepository.save(food).getId();
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        Optional<Food> optionalFood = foodRepository.findById(id);
-        if(optionalFood.isEmpty()){
-            return false;
-        }
-
-        Food food = optionalFood.get();
         UploadFoodDto uploadFoodDto = UploadFoodDto.builder()
-                .origFileName(food.getOrigFileName())
-                .fileName(food.getFileName())
-                .filePath(food.getFilePath())
+                .fileName(name)
+                .filePath(path)
+                .origFileName(origName)
                 .build();
 
-        File file = new File(uploadFoodDto.getFilePath());
-        if(file.exists()){
-            file.delete();
-        }
-        foodRepository.delete(food);
-        return true;
+        return uploadFoodDto;
+
     }
 
-    @Override
-    public Long updateFood(Long id, UpdateFoodDto dto) {
-        Optional<Food> optionalFood = foodRepository.findById(id);
-        Food food = optionalFood.get();
-        food.UpdateFood(dto);
-        return foodRepository.save(food).getId();
-    }
 
     @Override
-    public Long updateImage(Long id, UploadFoodDto newDto) {
-        Optional<Food> optionalFood = foodRepository.findById(id);
-        if(optionalFood.isEmpty()){
-            return null;
-        }
-        Food food = optionalFood.get();
-        UploadFoodDto origDto = UploadFoodDto.builder()
-                .origFileName(food.getOrigFileName())
-                .fileName(food.getFileName())
-                .filePath(food.getFilePath())
-                .build();
+    public Long updateImage(Long foodId, UploadFoodDto newDto) {
+        Food food = foodRepository.findById(foodId).orElseThrow();
+        UploadFoodDto origDto = food.converToUploadFoodDto();
 
         File file = new File(origDto.getFilePath());
         if (file.exists()) {
@@ -126,42 +86,47 @@ public class FoodServiceImpl implements FoodService {
         return foodRepository.save(food).getId();
     }
 
-    @Override
-    public List<GetFoodDto> getFoodList() {
-        List<Food> foodList = foodRepository.findAll();
-        List<GetFoodDto> dtoList = new ArrayList<>();
-        for (Food food : foodList) {
-            GetFoodDto dto = GetFoodDto.builder()
-                    .name(food.getName())
-                    .id(food.getId())
-                    .price(food.getPrice())
-                    .content(food.getContent())
-                    .build();
-            dtoList.add(dto);
-        }
 
-        return dtoList;
+    //create
+    @Override
+    public Long submit(UploadFoodDto uploadFoodDto,CreateFoodDto dto, Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        Food food = dto.toEntity(category);
+        food.UploadImage(uploadFoodDto);
+        return foodRepository.save(food).getId();
     }
 
+    //read
     @Override
     public List<GetFoodDto> getFoodListByCategory(Long categoryId) {
         List<Food> foodList = foodRepository.findByCategory_Id(categoryId);
         List<GetFoodDto> dtoList = new ArrayList<>();
         for (Food food : foodList) {
-            GetFoodDto dto = GetFoodDto.builder()
-                    .name(food.getName())
-                    .id(food.getId())
-                    .price(food.getPrice())
-                    .content(food.getContent())
-                    .build();
+            GetFoodDto dto = food.convertToGetFoodDto();
             dtoList.add(dto);
         }
         return dtoList;
     }
 
     @Override
-    public Food findFoodById(Long foodId) {
-        return foodRepository.findById(foodId).orElseThrow(EntityNotFoundException::new);
+    public GetFoodDto getFood(Long foodId) {
+        Food food = foodRepository.getFoodById(foodId).orElseThrow();
+        return food.convertToGetFoodDto();
+    }
+
+
+
+    @Override
+    public List<GetFoodDto> getFoodListByMenu(Long menuId){
+        List<GetFoodDto> dtoList = new ArrayList<>();
+        List<Category> categoryList = categoryRepository.findByMenu_Id(menuId);
+        for(Category category:categoryList){
+            List<Food> foodList = foodRepository.findByCategory_Id(category.getId());
+            for(Food food: foodList){
+                dtoList.add(food.convertToGetFoodDto());
+            }
+        }
+        return dtoList;
     }
 
     @Override
@@ -169,18 +134,50 @@ public class FoodServiceImpl implements FoodService {
         return foodRepository.getById(foodId);
     }
 
+    //update
+    @Override
+    public Long updateFood(Long foodId, UpdateFoodDto dto) {
+        Food food= foodRepository.findById(foodId).orElseThrow();
+        food.UpdateFood(dto);
+        return foodRepository.save(food).getId();
+    }
+
+    //delete
+    @Override
+    public boolean delete(Long foodId) {
+        Food food= foodRepository.findById(foodId).orElseThrow();
+        UploadFoodDto uploadFoodDto =food.converToUploadFoodDto();
+
+        File file = new File(uploadFoodDto.getFilePath());
+        if(file.exists()){
+            file.delete();
+        }
+        foodRepository.delete(food);
+        return true;
+    }
+
+
 //
-//
-//    public List<Food> getFoodByMenu(Long menuId){
-//        List<Food> foodList = null;
-//        List<Category> categoryList = categoryRepository.findByMenu_Id(menuId);
-//        for (int i=0;i<categoryList.size();i++){
-//            foodList.addAll(foodRepository.findByCategory_Id(categoryList.get(i).getId()));
+//    @Override
+//    public List<GetFoodDto> getFoodList() {
+//        List<Food> foodList = foodRepository.findAll();
+//        List<GetFoodDto> dtoList = new ArrayList<>();
+//        for (Food food : foodList) {
+//            GetFoodDto dto = GetFoodDto.builder()
+//                    .name(food.getName())
+//                    .id(food.getId())
+//                    .price(food.getPrice())
+//                    .content(food.getContent())
+//                    .build();
+//            dtoList.add(dto);
 //        }
-////        List<Food> foodList = foodRepository.findByMenu_Id(menuId);
-////        System.out.println(foodList.size());
-//        return foodList;
+//
+//        return dtoList;
 //    }
+
+
+
+
 
 //    @Override
 //    public Long update(Long id, String name, String describe, int price) {

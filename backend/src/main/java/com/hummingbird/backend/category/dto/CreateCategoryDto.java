@@ -5,9 +5,7 @@ import com.hummingbird.backend.menu.domain.Menu;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
-@Setter
-@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CreateCategoryDto {
     private String name;
 
