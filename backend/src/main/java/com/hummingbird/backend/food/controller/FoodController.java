@@ -31,7 +31,7 @@ public class FoodController {
                            @RequestPart("foodPrice") String foodPrice,
                            @RequestPart("foodContent") String foodContent,
                            @RequestPart(value = "file", required = false) MultipartFile file,
-                           @RequestPart("categoryId") String categoryId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+                           @RequestPart("categoryId") String categoryId) throws UnsupportedEncodingException, NoSuchAlgorithmException { //string으로 받아 형변환
 //        Long fileId = foodService.upload(fileService.uploadFile(files));
         CreateFoodDto foodDto = CreateFoodDto.builder()
                 .name(foodName)
@@ -76,7 +76,7 @@ public class FoodController {
 //    }
 
     @PostMapping("/food/update")
-    public Long updateFood(@RequestBody HashMap<String, Object> data) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public Long updateFood(@RequestBody HashMap<String, Object> data) throws UnsupportedEncodingException, NoSuchAlgorithmException { //string으로 받아 형변환
         UpdateFoodDto foodDto = UpdateFoodDto.builder()
                 .name((String) data.get("foodName"))
                 .price(Integer.parseInt((String) data.get("foodPrice")))

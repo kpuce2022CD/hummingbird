@@ -1,5 +1,6 @@
 package com.hummingbird.backend.category.controller;
 
+import com.google.protobuf.Any;
 import com.hummingbird.backend.category.dto.CreateCategoryDto;
 import com.hummingbird.backend.category.dto.GetCategoryDto;
 import com.hummingbird.backend.category.service.CategoryService;
@@ -23,7 +24,7 @@ public class CategoryController {
 
     //create
     @PostMapping("/category/new")
-    public Long createCategory(@RequestBody HashMap<String, Object> data){
+    public Long createCategory(@RequestBody HashMap<String, Object> data){ //string으로 받아서 Long 형변환
         CreateCategoryDto dto = CreateCategoryDto.builder()
                 .name((String) data.get("categoryName"))
                 .build();
@@ -43,8 +44,8 @@ public class CategoryController {
 
     //update
     @PostMapping("/category/update")
-    public Long updateCategory(@RequestBody HashMap<String, Object> data){
-        return categoryService.update(new Long((int)data.get("categoryId")), (String)data.get("categoryName"));
+    public Long updateCategory(@RequestBody HashMap<String, Object> data){ //string 으로 받아서 Long 형변환
+        return categoryService.update(Long.parseLong((String)data.get("categoryId")), (String)data.get("categoryName"));
     }
 
     //delete
