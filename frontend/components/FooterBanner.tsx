@@ -3,8 +3,9 @@ import styled from "styled-components";
 
 const FooterBanner = () => {
   return (
-    <Themediv>
         <ThemeSection>
+          <Themediv>
+
           <StyledH1>회원가입을 통해 오더캔버스를 만나보세요!</StyledH1>
           <StyledDesc>로그인 이후 서비스를 이용하실 수 있습니다.</StyledDesc>
           <StyledBtn1>
@@ -13,32 +14,33 @@ const FooterBanner = () => {
           <StyledBtn2>
             회원가입
           </StyledBtn2>
+          </Themediv>
         </ThemeSection>
-    </Themediv>
   );
 };
 
 const Themediv = styled.div`
-    display: flex;
-    justify-items: center;
+    align-items: center;
+    text-align:center;
     padding-top: 5rem;
     height: 550px;
-    text-align:center;
     color: white;
 `;
 
 const ThemeSection = styled.div`
     display: flex-colum;
     width:100%;
-    height:100%;
+    height:500px;
     padding: 10px;
+    align-items: center;
+    justify-items: center;
     object-fit: contain;
     background-image: url('/img/FooterBanner.svg');
     background-size: cover;
 `; 
 
 const StyledH1 = styled.h1`
-    display: block;
+    display: flex-colum;
     margin: 30px;
     padding: 3px;
     font-size: 1.5rem;
@@ -47,7 +49,7 @@ const StyledH1 = styled.h1`
 `;
 
 const StyledDesc= styled.div`
-    display: block;
+    display: flex-colum;
     padding: 3px;
     margin: 15px;
 `;
