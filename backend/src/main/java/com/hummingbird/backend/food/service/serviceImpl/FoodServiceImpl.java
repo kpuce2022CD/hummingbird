@@ -11,6 +11,7 @@ import com.hummingbird.backend.food.repository.FoodRepository;
 import com.hummingbird.backend.food.service.FoodService;
 import com.hummingbird.backend.util.MD5Generator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,27 +36,30 @@ public class FoodServiceImpl implements FoodService {
 
     //files
     @Override
-    public UploadFoodDto upload(MultipartFile files){
+    public UploadFoodDto upload(MultipartFile file){
         String name = null;
         String savePath= null;
         String path = null;
         String origName = null;
 
         try {
-            origName = files.getOriginalFilename();
-            name = new MD5Generator(origName).toString();
-            savePath = System.getProperty("user.dir") +File.separator+ "files";
+            origName = file.getOriginalFilename();
+            name = new MD5Generator(origName).toString()+origName;
+//            name=origName;
+            savePath="/usr/src/backend/files";
 
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new java.io.File(savePath).exists()) {
                 try {
                     new java.io.File(savePath).mkdir();
+                    System.out.println("mkdir");
                 } catch (Exception e) {
                     e.getStackTrace();
                 }
             }
             path = savePath + File.separator + name;
-            files.transferTo(new java.io.File(path));
+            file.transferTo(new java.io.File(path));
+            System.out.println("transfer");
 
         }  catch (Exception e) {
             e.printStackTrace();
