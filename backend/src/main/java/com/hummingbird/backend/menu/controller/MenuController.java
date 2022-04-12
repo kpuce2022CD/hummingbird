@@ -23,7 +23,7 @@ public class MenuController {
 
     //create
     @PostMapping(value = "/menu/new")
-    public Long createMenu(@RequestBody HashMap<String, Object> data){
+    public Long createMenu(@RequestBody HashMap<String, Object> data){ //string 타입으로 받아 Long 형변환
         CreateMenuDto dto = CreateMenuDto.builder()
                 .name((String) data.get("menuName"))
                 .build();
@@ -43,8 +43,8 @@ public class MenuController {
 
     //update
     @PostMapping("/menu/update")
-    public Long updateMenu(@RequestBody HashMap<String, Object> data){
-        return menuService.update(Long.parseLong((String)data.get("menuId")), (String) data.get("updateName"));
+    public Long updateMenu(@RequestBody HashMap<String, Object> data){ // string 타입으로 받아서 Long 형변환
+        return menuService.update(Long.parseLong((String)data.get("menuId")), (String) data.get("menuName"));
     }
 
     //delete
