@@ -26,21 +26,24 @@ export const MenuEditSideMenu = styled.ul`
     font-weight: 700;
     color: var(--color-orange);
   }
-  .menuedit-content__header {
-    display: flex;
-    justify-content: center;
-  }
-  .menuedit-btn {
-    margin-top: 25px;
-    background-color: var(--color-orange);
-    padding: 10px;
-    color: white;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    line-height: 1.5rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
+`;
+
+export const EditHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+export const MenuEditBtn = styled.button`
+  margin-top: 25px;
+  background-color: var(--color-orange);
+  padding: 10px;
+  color: white;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
 `;
 
 export const SideList = styled.li`
@@ -71,6 +74,13 @@ export const MenuEditContent = styled.div`
   margin-right: 20px;
   border-top-right-radius: 20px;
   background-color: var(--color-light-gray);
+  overflow: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
   .menuEdit-notice__wrap {
     display: flex;
     justify-content: center;

@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import Nav from "../../components/Nav";
 import MenuInfo from "../../components/MenuInfo";
 import { menuIdState } from "../../recoil/states";
+import MenuPreContent from "../../components/MenuPreContent";
 
 type CategoryData = {
   id: number;
@@ -57,7 +58,7 @@ const MenuPage: NextPage = () => {
       <Wrapper>
         <MenuInfo categoryList={categoryList} />
         <MenuPre>
-          <MenuPreContent></MenuPreContent>
+          <MenuPreContent />
         </MenuPre>
       </Wrapper>
     </div>
@@ -79,7 +80,5 @@ const MenuPre = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 55px;
-  background-color: var(--color-mid-gray);
+  background-color: var(--color-light-gray);
 `;
-
-const MenuPreContent = styled.div``;

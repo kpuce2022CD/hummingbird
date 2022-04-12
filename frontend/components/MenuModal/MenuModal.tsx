@@ -14,6 +14,7 @@ interface Props {
   ownerId?: number;
   menuId?: number | undefined;
   foodId?: number | undefined;
+  menuName?: string;
 }
 
 const MenuModal = ({
@@ -22,6 +23,7 @@ const MenuModal = ({
   categoryId,
   menuId,
   foodId,
+  menuName,
 }: Props) => {
   return (
     <S.ModalWrap>
@@ -45,7 +47,11 @@ const MenuModal = ({
               return <MenuAddForm setModalOpen={setModalOpen} />;
             case "메뉴판수정":
               return (
-                <MenuUpdateForm setModalOpen={setModalOpen} menuId={menuId} />
+                <MenuUpdateForm
+                  setModalOpen={setModalOpen}
+                  menuId={menuId}
+                  menuName={menuName}
+                />
               );
             case "음식수정":
               return (

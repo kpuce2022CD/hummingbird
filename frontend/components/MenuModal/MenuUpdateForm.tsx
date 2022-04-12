@@ -8,10 +8,11 @@ import * as S from "./style";
 type Props = {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   menuId: number | undefined;
+  menuName?: string;
 };
 
-const MenuUpdateForm = ({ setModalOpen, menuId }: Props) => {
-  const [menuName, setMenuName] = useState<string>("");
+const MenuUpdateForm = ({ setModalOpen, menuId, menuName }: Props) => {
+  const [editMenuName, setEditMenuName] = useState<string>("");
   const router = useRouter();
 
   const updateMenu = async (updateName: string, menuId: number) => {
@@ -39,22 +40,22 @@ const MenuUpdateForm = ({ setModalOpen, menuId }: Props) => {
 
   const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
-    setMenuName(e.target.value);
+    setEditMenuName(e.target.value);
   };
   const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    typeof menuId !== "undefined" && updateMenu(menuName, menuId);
+    typeof menuId !== "undefined" && updateMenu(editMenuName, menuId);
   };
   const handleMenuFoodEdit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    menuId: number | undefined
   ) => {
     e.preventDefault();
-    router.push({
-      pathname: "/menupage",
-      query: {
-        menuId: menuId,
-      },
-    });
+    typeof menuId !== "undefined" &&
+      router.push({
+        pathname: `/menupage/${menuId}`,
+        query: { menuName: menuName },
+      });
   };
 
   return (
@@ -72,7 +73,7 @@ const MenuUpdateForm = ({ setModalOpen, menuId }: Props) => {
       </p>
       <S.ButtonWrap>
         <S.Button>메뉴판 이름 수정하기</S.Button>
-        <S.Button onClick={(e) => handleMenuFoodEdit(e)}>
+        <S.Button onClick={(e) => handleMenuFoodEdit(e, menuId)}>
           메뉴 구성 수정하기
         </S.Button>
       </S.ButtonWrap>
