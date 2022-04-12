@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/usr/src/app
+      - ./menu-canvas:/usr/src/front
       - /usr/src/app/node_modules
       - /usr/src/app/.next
     networks:
@@ -25,7 +25,7 @@ services:
     environment:
       spring.datasource.url: "jdbc:mysql://mysqldb:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
     volumes:
-      - ./backend:/backend
+      - ./menu-canvas:/usr/src/backend
     networks:
       - network-tier
     tty: true
@@ -44,7 +44,7 @@ services:
         "--collation-server=utf8mb4_unicode_ci",
       ]
     volumes:
-      - mysql-data:/var/lib/menucanvas
+      - ./menu-canvas:/usr/src/db
     ports:
       - "3306:3306"
 
@@ -57,4 +57,4 @@ networks:
     external: true
 
 volumes:
-  mysql-data:
+  menu-canvas:
