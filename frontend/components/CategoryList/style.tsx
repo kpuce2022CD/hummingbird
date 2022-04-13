@@ -17,7 +17,6 @@ export const CategoryWrap = styled.div`
       font-weight: 700;
       color: var(--color-orange);
       border-bottom: 2px solid var(--color-orange);
-      transition: all 0.2s ease-in-out;
     }
   }
 `;

@@ -9,6 +9,7 @@ import {
   tabClickedState,
 } from "../../recoil/states";
 import * as S from "./style";
+import FoodMenuItem from "../FoodMenuItem";
 const MenuPreContent = () => {
   const router = useRouter();
   const categoryName = useRecoilValue(tabClickedNameState);
@@ -27,24 +28,11 @@ const MenuPreContent = () => {
         </S.MenuListTitle>
         <S.MenuItemWrap>
           {foodList.map((val, idx) => (
-            <S.MenuItem key={idx}>
-              <ul>
-                <li>
-                  <Image
-                    src="/images/image2.png"
-                    alt="음식 사진"
-                    width="128"
-                    height="128"
-                  />
-                </li>
-                <li>
-                  <h4>{val.name}</h4>
-                </li>
-                <li>
-                  <p>{numberFormat(val.price)} 원</p>
-                </li>
-              </ul>
-            </S.MenuItem>
+            <FoodMenuItem
+              idx={val.id}
+              foodName={val.name}
+              foodPrice={val.price}
+            />
           ))}
         </S.MenuItemWrap>
       </S.MenuListContent>

@@ -6,6 +6,7 @@ import SearchBar from "../components/SearchBar";
 import { GetServerSideProps } from "next";
 import axios from "axios";
 import CategoryList from "../components/CategoryList";
+import FoodList from "../components/FoodList";
 
 type CategoryType = {
   id: number;
@@ -23,13 +24,19 @@ const ResultMenu: NextPage<Props> = ({ CategoryData }) => {
         <CartIcon />
       </Header>
       <Title>
-        <span>메뉴캔버스</span>에서
+        <span>메뉴 캔버스</span>에서
         <br /> 바로 주문을 해보세요!
       </Title>
       <SearchBar />
       <CategoryListWrap>
         <CategoryList CategoryData={CategoryData} />
       </CategoryListWrap>
+      <FoodListWrap>
+        <div className="foodList_moreBtn">
+          <button>더 보기</button>
+        </div>
+        <FoodList />
+      </FoodListWrap>
     </Wrapper>
   );
 };
@@ -93,6 +100,17 @@ const Title = styled.h1`
     font-weight: 700;
   }
 `;
+
 const CategoryListWrap = styled.div`
   margin-top: 30px;
+`;
+
+const FoodListWrap = styled.div`
+  margin-top: 30px;
+
+  .foodList_moreBtn {
+    display: flex;
+    justify-content: end;
+    color: var(--color-orange);
+  }
 `;

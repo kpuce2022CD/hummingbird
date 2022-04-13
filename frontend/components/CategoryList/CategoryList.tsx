@@ -4,6 +4,7 @@ import * as S from "./style";
 import axios from "axios";
 
 import { foodListState } from "../../recoil/states";
+
 type CategoryType = {
   id: number;
   name: string;
@@ -47,14 +48,12 @@ const CategoryList = ({ CategoryData }: Props) => {
   };
   useEffect(() => {
     getFoodUseCategoryId(tabClicked);
-    console.log(foodList);
   }, [tabClicked]);
   const HandleTabClick = (categoryId: number) => {
     if (categoryId === tabClicked) {
       getFoodUseCategoryId(categoryId);
     }
     setTabClicked(categoryId);
-    console.log(foodList);
   };
   return (
     <S.CategoryWrap>
