@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import * as S from "./style";
 import axios from "axios";
@@ -25,6 +25,7 @@ type FoodData = {
 
 const CategoryList = ({ CategoryData }: Props) => {
   const [foodList, setFoodList] = useRecoilState(foodListState);
+  const [tabClicked, setTabClicked] = useState(0);
 
   const getFoodUseCategoryId = async (categoryId: number) => {
     try {
@@ -44,21 +45,26 @@ const CategoryList = ({ CategoryData }: Props) => {
       console.log("error", err);
     }
   };
-
-  const [tabClicked, setTabClicked] = useState(0);
-  console.log(CategoryData);
+  useEffect(() => {
+    getFoodUseCategoryId(tabClicked);
+    console.log(foodList);
+  }, [tabClicked]);
   const HandleTabClick = (categoryId: number) => {
-    console.log(categoryId);
-    setTabClicked(categoryId);
     if (categoryId === tabClicked) {
       getFoodUseCategoryId(categoryId);
     }
+    setTabClicked(categoryId);
+    console.log(foodList);
   };
   return (
     <S.CategoryWrap>
       {CategoryData.map(({ id, name }) => (
         <ul key={id}>
-          <S.CategoryItem value={id} onClick={() => HandleTabClick(id)}>
+          <S.CategoryItem
+            className={`${tabClicked === id ? "tap__active" : "tap"}`}
+            value={id}
+            onClick={() => HandleTabClick(id)}
+          >
             {name}
           </S.CategoryItem>
         </ul>
