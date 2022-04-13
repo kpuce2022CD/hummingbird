@@ -5,6 +5,7 @@ import QRCode from "react-qr-code";
 import styled from "styled-components";
 import Nav from "../components/Nav";
 import ImageNext from 'next/image'
+import Phone from '../public/img/QR/QRiPhone.svg'
 
 
 interface qrpageType {
@@ -65,11 +66,11 @@ const QrPage: NextPage = () => {
             </StyledBtn>
           </div>
         </LeftSection>
+
         <RightSection>
           <SideSection>
             <StyledH2>메뉴 QR 코드</StyledH2>
             <Desc>핸드폰 카메라로 스캔하시면<br/>메뉴를 보실 수 있습니다.</Desc>
-            {/* FIXME: QR 코드 크기에 따른 주황색 border 조정 필요 */}
             <StyledQr>
               {/* FIXME:  영어만 되는 문제점 존재*/}
               <StyledInner>
@@ -77,8 +78,13 @@ const QrPage: NextPage = () => {
               </StyledInner>
             </StyledQr>
           </SideSection>
-            
-          <div>아이폰 사진</div>
+            <ImageNext
+            src={Phone}
+            alt="휴대폰 화면 예시"
+            width="1700px"
+            height="100%"
+            // layout="responsive"
+            />
         </RightSection>
       </Theme>
     </div>
@@ -106,7 +112,7 @@ const SideSection =styled.div`
 `;
 
 const RightSection = styled.div`
-  display: block;
+  display: flex;
   flex-grow: 1;
   margin:3rem;
   background: white;
@@ -169,7 +175,7 @@ const StyledBtn = styled.button`
 `;
 
 const StyledQr = styled.div`
-  display:block;
+  display:flex;
   overflow: hidden;
   width: 300px;
   height: 300px;
@@ -182,7 +188,10 @@ const StyledQr = styled.div`
 `;
 
 const StyledInner = styled.span`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:3px;
   position: absolute;
   object-fit: cover;
 `;
