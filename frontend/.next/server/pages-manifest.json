@@ -1,0 +1,14 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/api/getFood": "pages/api/getFood.js",
+  "/cart": "pages/cart.html",
+  "/": "pages/index.html",
+  "/menupage/[menuid]": "pages/menupage/[menuid].html",
+  "/mypage/[ownerid]": "pages/mypage/[ownerid].html",
+  "/orderpage": "pages/orderpage.html",
+  "/paypage": "pages/paypage.html",
+  "/qrpage": "pages/qrpage.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
+}
