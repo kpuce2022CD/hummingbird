@@ -9,6 +9,7 @@ import CategoryList from "../components/CategoryList";
 import FoodList from "../components/FoodList";
 import { useRouter } from "next/router";
 import MenuBtmNav from "../components/MenuBtmNav";
+import CartModal from "../components/CartModal";
 
 type CategoryType = {
   id: number;
@@ -23,6 +24,8 @@ const ResultMenu: NextPage = () => {
   const router = useRouter();
   console.log(router.query.menuId);
   const [categoryData, setCategoryData] = useState<CategoryType[]>([]);
+  const [openCartModal, setOpenCartModal] = useState<boolean>(false);
+
   const getCategoryUseMenuId = async (menuid: string | string[]) => {
     try {
       const response = await axios.get<CategoryType[]>(
@@ -53,7 +56,7 @@ const ResultMenu: NextPage = () => {
   return (
     <Wrapper>
       <Header>
-        <CartIcon />
+        <CartIcon onClick={() => setOpenCartModal(!openCartModal)} />
       </Header>
       <Title>
         <span>오더 캔버스</span>에서
@@ -70,6 +73,7 @@ const ResultMenu: NextPage = () => {
         <FoodList />
       </FoodListWrap>
       <MenuBtmNav />
+      {openCartModal && <CartModal setOpenCartModal={setOpenCartModal} />}
     </Wrapper>
   );
 };
@@ -123,6 +127,7 @@ const Header = styled.div`
 const CartIcon = styled(AiOutlineShoppingCart)`
   color: gray;
   font-size: 1.75rem;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
