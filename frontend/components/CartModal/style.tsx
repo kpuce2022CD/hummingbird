@@ -56,3 +56,8 @@ export const PaymentBtn = styled.button`
   font-size: 1.125rem;
   margin-bottom: 30px;
 `;
+
+export const CartList = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
