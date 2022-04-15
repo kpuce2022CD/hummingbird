@@ -19,7 +19,7 @@ export const Wrapper = styled.div`
 
   li {
     color: gray;
-    opacity: 0.7;
+    opacity: 0.9;
     list-style: none;
     font-size: 2rem;
     text-align: center;

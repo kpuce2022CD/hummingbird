@@ -27,6 +27,8 @@ const FoodCard = ({ foodList }: Props) => {
     setModalOpen(true);
   };
 
+  const handleFoodClick = () => {};
+
   return (
     <S.FoodCardWrap>
       {foodList.map(({ origFileName, fileName, id, name, price, content }) => (

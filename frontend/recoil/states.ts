@@ -10,6 +10,13 @@ type FoodData = {
   price: number;
 };
 
+type CartData = {
+  foodId: number;
+  foodName: string;
+  foodPrice: number;
+  count: number;
+};
+
 const menuIdState = atom<string | string[]>({
   key: "menuIdState",
   default: "",
@@ -35,10 +42,16 @@ const tabClickedNameState = atom<string>({
   default: "",
 });
 
+const CartItemState = atom<CartData[]>({
+  key: "CartItemState",
+  default: [],
+});
+
 export {
   menuIdState,
   ownerIdState,
   foodListState,
   tabClickedState,
   tabClickedNameState,
+  CartItemState,
 };
