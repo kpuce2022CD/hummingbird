@@ -57,17 +57,18 @@ const CategoryList = ({ CategoryData }: Props) => {
   };
   return (
     <S.CategoryWrap>
-      {CategoryData.map(({ id, name }) => (
-        <ul key={id}>
-          <S.CategoryItem
-            className={`${tabClicked === id ? "tap__active" : "tap"}`}
-            value={id}
-            onClick={() => HandleTabClick(id)}
-          >
-            {name}
-          </S.CategoryItem>
-        </ul>
-      ))}
+      {CategoryData &&
+        CategoryData.map(({ id, name }) => (
+          <ul key={id}>
+            <S.CategoryItem
+              className={`${tabClicked === id ? "tap__active" : "tap"}`}
+              value={id}
+              onClick={() => HandleTabClick(id)}
+            >
+              {name}
+            </S.CategoryItem>
+          </ul>
+        ))}
     </S.CategoryWrap>
   );
 };

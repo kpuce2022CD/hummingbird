@@ -6,11 +6,12 @@ import FoodMenuItem from "../FoodMenuItem";
 import * as S from "./style";
 const FoodList = () => {
   const foodList = useRecoilValue(foodListState);
-  console.log(foodList);
   return (
     <S.Wrapper>
       {foodList.map(({ id, fileName, filePath, name, price, origFileName }) => (
         <FoodMenuItem
+          key={id}
+          fileName={fileName}
           idx={id}
           foodName={name}
           foodPrice={price}

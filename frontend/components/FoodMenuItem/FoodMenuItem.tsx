@@ -5,22 +5,30 @@ import * as S from "./style";
 import { numberFormat } from "../../utils/numberFormat";
 
 type Props = {
+  fileName: string;
   idx: number;
   foodName: string;
   foodPrice: number;
   admin?: boolean;
 };
 
-const FoodMenuItem = ({ idx, foodName, foodPrice, admin = true }: Props) => {
+const FoodMenuItem = ({
+  fileName,
+  idx,
+  foodName,
+  foodPrice,
+  admin = true,
+}: Props) => {
   return (
     <S.MenuItem admin={admin} key={idx}>
       <ul>
         <li>
           <Image
-            src="/images/image2.png"
+            src={`http://localhost:8080/images/${fileName}`}
             alt="음식 사진"
             width="128"
             height="128"
+            unoptimized={true}
           />
         </li>
         <li>

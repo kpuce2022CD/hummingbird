@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar";
@@ -7,6 +7,8 @@ import { GetServerSideProps } from "next";
 import axios from "axios";
 import CategoryList from "../components/CategoryList";
 import FoodList from "../components/FoodList";
+import { useRouter } from "next/router";
+import MenuBtmNav from "../components/MenuBtmNav";
 
 type CategoryType = {
   id: number;
@@ -17,19 +19,49 @@ type Props = {
   CategoryData: CategoryType[];
 };
 
-const ResultMenu: NextPage<Props> = ({ CategoryData }) => {
+const ResultMenu: NextPage = () => {
+  const router = useRouter();
+  console.log(router.query.menuId);
+  const [categoryData, setCategoryData] = useState<CategoryType[]>([]);
+  const getCategoryUseMenuId = async (menuid: string | string[]) => {
+    try {
+      const response = await axios.get<CategoryType[]>(
+        "http://localhost:8080/category/get/menu",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          params: {
+            menuId: menuid,
+          },
+        }
+      );
+      console.log(response.data);
+      setCategoryData(response.data);
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+
+  useEffect(() => {
+    if (router.query.menuId) {
+      getCategoryUseMenuId(String(router.query.menuId));
+    }
+  }, [router.query.menuId]);
+
   return (
     <Wrapper>
       <Header>
         <CartIcon />
       </Header>
       <Title>
-        <span>메뉴 캔버스</span>에서
+        <span>오더 캔버스</span>에서
         <br /> 바로 주문을 해보세요!
       </Title>
       <SearchBar />
       <CategoryListWrap>
-        <CategoryList CategoryData={CategoryData} />
+        <CategoryList CategoryData={categoryData} />
       </CategoryListWrap>
       <FoodListWrap>
         <div className="foodList_moreBtn">
@@ -37,42 +69,45 @@ const ResultMenu: NextPage<Props> = ({ CategoryData }) => {
         </div>
         <FoodList />
       </FoodListWrap>
+      <MenuBtmNav />
     </Wrapper>
   );
 };
 
 export default ResultMenu;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { menuId } = context.query;
-  try {
-    const response = await axios.get<CategoryType[]>(
-      "http://localhost:8080/category/get/menu",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        params: {
-          menuId: menuId,
-        },
-      }
-    );
-    const data = response.data;
-    return {
-      props: {
-        CategoryData: data,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-    return {
-      props: {},
-    };
-  }
-};
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   try {
+//     const { menuId } = context.query;
+//     const response = await axios.get<CategoryType[]>(
+//       "http://localhost:8080/category/get/menu",
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Access-Control-Allow-Origin": "*",
+//         },
+//         params: {
+//           menuId: menuId,
+//         },
+//       }
+//     );
+//     const data = response.data;
+//     console.log(data);
+//     return {
+//       props: {
+//         CategoryData: data,
+//       },
+//     };
+//   } catch (err) {
+//     console.log(err);
+//     return {
+//       props: {},
+//     };
+//   }
+// };
 
 const Wrapper = styled.div`
+  position: relative;
   width: 414px;
   background-color: var(--color-light-gray);
   height: 896px;
