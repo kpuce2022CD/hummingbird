@@ -11,6 +11,7 @@ type FoodData = {
 };
 
 type CartData = {
+  fileName: string;
   foodId: number;
   foodName: string;
   foodPrice: number;

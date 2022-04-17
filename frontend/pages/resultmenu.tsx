@@ -2,12 +2,12 @@ import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import styled from "styled-components";
-import SearchBar from "../components/SearchBar";
-import { GetServerSideProps } from "next";
 import axios from "axios";
+import { useRouter } from "next/router";
+
+import SearchBar from "../components/SearchBar";
 import CategoryList from "../components/CategoryList";
 import FoodList from "../components/FoodList";
-import { useRouter } from "next/router";
 import MenuBtmNav from "../components/MenuBtmNav";
 import CartModal from "../components/CartModal";
 

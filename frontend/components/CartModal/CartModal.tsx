@@ -1,7 +1,9 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { CartItemState } from "../../recoil/states";
+
 import * as S from "./style";
+import { CartItemState } from "../../recoil/states";
+import CartItem from "../CartItem";
 
 type Props = {
   setOpenCartModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,12 +23,14 @@ const CartModal = ({ setOpenCartModal }: Props) => {
           <S.TouchIcon />
           <p>왼쪽으로 밀어보세요.</p>
         </S.Notice>
-        {CartList.map(({ foodId, foodName, foodPrice, count }) => (
-          <div>
-            <li>{foodName}</li>
-            <li>{foodPrice}</li>
-            <li>{count}</li>
-          </div>
+        {CartList.map(({ foodId, foodName, foodPrice, count, fileName }) => (
+          <CartItem
+            foodId={foodId}
+            foodName={foodName}
+            foodPrice={foodPrice}
+            count={count}
+            fileName={fileName}
+          />
         ))}
       </S.CartList>
       <S.PaymentBtn>주문하기</S.PaymentBtn>

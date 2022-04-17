@@ -5,7 +5,6 @@ import * as S from "./style";
 import { numberFormat } from "../../utils/numberFormat";
 import { useRecoilState } from "recoil";
 import { CartItemState } from "../../recoil/states";
-import { count } from "console";
 
 type Props = {
   fileName: string;
@@ -25,29 +24,31 @@ const FoodMenuItem = ({
   const [cartItem, setCartItem] = useRecoilState(CartItemState);
 
   const addToCart = useCallback(
-    (id: number, foodName: string, foodPrice: number) => {
+    (id: number, foodName: string, foodPrice: number, fileName: string) => {
       setCartItem((cartItem) => {
-        const find = cartItem.find((one) => one.foodId === id);
+        const find = cartItem.find((item) => item.foodId === id);
         if (typeof find === "undefined") {
           return [
             ...cartItem,
             {
               foodId: id,
+              fileName: fileName,
               foodName: foodName,
               foodPrice: foodPrice,
               count: 1,
             },
           ];
         } else {
-          return cartItem.map((one) =>
-            one.foodId === id
+          return cartItem.map((item) =>
+            item.foodId === id
               ? {
                   foodId: id,
+                  fileName: fileName,
                   foodName: foodName,
                   foodPrice: foodPrice,
-                  count: one.count + 1,
+                  count: item.count + 1,
                 }
-              : one
+              : item
           );
         }
       });
@@ -55,26 +56,26 @@ const FoodMenuItem = ({
     []
   );
 
-  const handleAddCart = (
-    admin: boolean,
-    idx: number,
-    foodName: string,
-    foodPrice: number
-  ) => {
-    if (!admin) {
-      addToCart(idx, foodName, foodPrice);
-    }
-  };
-
   useEffect(() => {
     console.log(cartItem);
   }, [cartItem]);
 
+  const handleAddCart = (
+    admin: boolean,
+    idx: number,
+    foodName: string,
+    foodPrice: number,
+    fileName: string
+  ) => {
+    if (!admin) {
+      addToCart(idx, foodName, foodPrice, fileName);
+    }
+  };
   return (
     <S.MenuItem
       admin={admin}
       key={idx}
-      onClick={() => handleAddCart(admin, idx, foodName, foodPrice)}
+      onClick={() => handleAddCart(admin, idx, foodName, foodPrice, fileName)}
     >
       <ul>
         <li>
