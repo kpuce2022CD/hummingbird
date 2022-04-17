@@ -4,13 +4,34 @@ import { useRecoilValue } from "recoil";
 import * as S from "./style";
 import { CartItemState } from "../../recoil/states";
 import CartItem from "../CartItem";
+import { numberFormat } from "../../utils/numberFormat";
 
 type Props = {
   setOpenCartModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
+type CartData = {
+  fileName: string;
+  foodId: number;
+  foodName: string;
+  foodPrice: number;
+  count: number;
+};
 
 const CartModal = ({ setOpenCartModal }: Props) => {
   const CartList = useRecoilValue(CartItemState);
+
+  const sumPrice = (CartList: CartData[]) => {
+    let totalPrice = 0;
+    if (CartList.length === 0) {
+      return totalPrice;
+    } else {
+      CartList.map(({ count, foodPrice }) => {
+        totalPrice += foodPrice * count;
+      });
+      return totalPrice;
+    }
+  };
+
   return (
     <S.Wrapper>
       <S.Header>
@@ -21,7 +42,7 @@ const CartModal = ({ setOpenCartModal }: Props) => {
       <S.CartList>
         <S.Notice>
           <S.TouchIcon />
-          <p>왼쪽으로 밀어보세요.</p>
+          <p>총 상품금액 : {numberFormat(sumPrice(CartList))} 원</p>
         </S.Notice>
         {CartList.map(({ foodId, foodName, foodPrice, count, fileName }) => (
           <CartItem
