@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 
 import * as S from "./style";
@@ -23,6 +23,38 @@ const FoodMenuItem = ({
   admin = true,
 }: Props) => {
   const [cartItem, setCartItem] = useRecoilState(CartItemState);
+
+  const addToCart = useCallback(
+    (id: number, foodName: string, foodPrice: number) => {
+      setCartItem((cartItem) => {
+        const find = cartItem.find((one) => one.foodId === id);
+        if (typeof find === "undefined") {
+          return [
+            ...cartItem,
+            {
+              foodId: id,
+              foodName: foodName,
+              foodPrice: foodPrice,
+              count: 1,
+            },
+          ];
+        } else {
+          return cartItem.map((one) =>
+            one.foodId === id
+              ? {
+                  foodId: id,
+                  foodName: foodName,
+                  foodPrice: foodPrice,
+                  count: one.count + 1,
+                }
+              : one
+          );
+        }
+      });
+    },
+    []
+  );
+
   const handleAddCart = (
     admin: boolean,
     idx: number,
@@ -30,29 +62,10 @@ const FoodMenuItem = ({
     foodPrice: number
   ) => {
     if (!admin) {
-      const selectFood = {
-        foodId: idx,
-        foodName: foodName,
-        foodPrice: foodPrice,
-        count: 1,
-      };
-      if (!cartItem.length) {
-        setCartItem([selectFood]);
-      } else {
-        cartItem.map((val, index) => {
-          cartItem[index].foodId !== idx
-            ? setCartItem([...cartItem, selectFood])
-            : setCartItem(
-                cartItem.map((item) =>
-                  item.foodId === idx
-                    ? { ...item, count: item.count + 1 }
-                    : item
-                )
-              );
-        });
-      }
+      addToCart(idx, foodName, foodPrice);
     }
   };
+
   useEffect(() => {
     console.log(cartItem);
   }, [cartItem]);
