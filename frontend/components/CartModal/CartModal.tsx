@@ -5,6 +5,7 @@ import * as S from "./style";
 import { CartItemState } from "../../recoil/states";
 import CartItem from "../CartItem";
 import { numberFormat } from "../../utils/numberFormat";
+import PayBtn from "../PayBtn";
 
 type Props = {
   setOpenCartModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +55,7 @@ const CartModal = ({ setOpenCartModal }: Props) => {
           />
         ))}
       </S.CartList>
-      <S.PaymentBtn>주문하기</S.PaymentBtn>
+      <PayBtn amount={sumPrice(CartList)} />
     </S.Wrapper>
   );
 };
