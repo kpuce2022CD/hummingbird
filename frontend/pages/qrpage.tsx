@@ -108,6 +108,8 @@ const SideSection =styled.div`
   border-radius: 20px 0px 0px 20px;
   box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
   background-color: #f6f6f9;
+  width: 1150px;
+  height: 600px;
   padding:1rem;
 `;
 

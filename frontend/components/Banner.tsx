@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Image from 'next/image'
 import twoPhone from '../public/img/GroupPhone.svg'
+import StyledTwoPhone from "./StyledTwoPhone";
 
 const Banner = () => {
   const router = useRouter();
@@ -16,15 +17,7 @@ const Banner = () => {
           <StyledBtn onClick={() => router.push("/menupage")}>
             메뉴만들기
           </StyledBtn>
-          <StyledImg>
-            <Image
-              src={twoPhone}
-              alt="휴대폰 두개 겹친 이미지"
-              width="100%"
-              height="100%"
-              layout="responsive"
-            />
-          </StyledImg>
+          <StyledTwoPhone/>
         </ThemeSection>
     </Themediv>
   );
@@ -78,16 +71,6 @@ const StyledBtn = styled.button`
     border-radius: 25px;
     margin: 30px;
     font-weight: bold;
-`;
-
-const StyledImg = styled.div`
-    display: span;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    margin: auto;
-    max-width: 450px;
-    max-height:450px;
 `;
 
 export default Banner;
