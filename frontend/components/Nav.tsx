@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const NavBar = styled.nav`
   display: flex;
+  justify-content: space-between;
   justify: between;
   height:80px;
   align-items: center;

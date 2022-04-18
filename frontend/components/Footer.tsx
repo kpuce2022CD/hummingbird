@@ -1,10 +1,14 @@
 import React from 'react'
 import styled from 'styled-components';
+import Image from 'next/image'
 
 function Footer() {
   return (
     <Foot>
-        <div>logo</div>
+        <Image
+          src="/img/logo.svg"
+          width="100%"
+          height="100%"/>
         <div>CopyRight&copy; Hummingbird</div>
     </Foot>
   )
@@ -13,7 +17,7 @@ function Footer() {
 const Foot = styled.div`
     display: flex;
     justify-content: space-between;
-    height: 200px;
+    height: 150px;
     padding: 100px;
     align-items: center;
     background-color: white;
