@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Nav from "../components/Nav";
 import ImageNext from 'next/image'
 import Phone from '../public/img/QR/QRiPhone.svg'
+import ExViewPhone from "../components/ExViewPhone";
 
 
 interface qrpageType {
@@ -62,7 +63,7 @@ const QrPage: NextPage = () => {
               <StyledItem>웨이팅이 있는 매장 입구</StyledItem>
             </StyledList>
             <StyledBtn onClick={() => onImageDownload()}>
-              저장히기
+              저장하기
             </StyledBtn>
           </div>
         </LeftSection>
@@ -78,13 +79,7 @@ const QrPage: NextPage = () => {
               </StyledInner>
             </StyledQr>
           </SideSection>
-            <ImageNext
-            src={Phone}
-            alt="휴대폰 화면 예시"
-            width="1700px"
-            height="100%"
-            // layout="responsive"
-            />
+            <ExViewPhone/>
         </RightSection>
       </Theme>
     </div>
@@ -102,13 +97,15 @@ const LeftSection = styled.div`
   flex-grow: 1;
   margin:3rem;
   background: white;
+  width:"40%";
 `;
 
 const SideSection =styled.div`
   border-radius: 20px 0px 0px 20px;
   box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
   background-color: #f6f6f9;
-  width: 1150px;
+  justify-items: center;
+  width:"50%";
   height: 600px;
   padding:1rem;
 `;

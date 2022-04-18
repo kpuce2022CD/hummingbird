@@ -8,10 +8,10 @@ const FooterBanner = () => {
         <ThemeSection>
           <Themediv>
 
-          <StyledH1>회원가입을 통해 오더캔버스를 만나보세요!</StyledH1>
-          <StyledDesc>로그인 이후 서비스를 이용하실 수 있습니다.</StyledDesc>
-          <LoginBtn/>
-          <SignUpBtn/>
+            <StyledH1>회원가입을 통해 오더캔버스를 만나보세요!</StyledH1>
+            <StyledDesc>로그인 이후 서비스를 이용하실 수 있습니다.</StyledDesc>
+            <LoginBtn/>
+            <SignUpBtn/>
           </Themediv>
         </ThemeSection>
   );
@@ -51,25 +51,5 @@ const StyledDesc= styled.div`
     padding: 3px;
     margin: 15px;
 `;
-
-// const StyledBtn1 = styled.button`
-//     padding: 40px;
-//     padding-top:15px;
-//     padding-bottom:15px;    
-//     background: #FA4A0C;
-//     border-radius: 15px;
-//     margin: 30px;
-//     font-weight: bold;
-// `;
-
-// const StyledBtn2 = styled.button`
-//     padding: 40px;
-//     margin: 30px;
-//     padding-top:15px;
-//     padding-bottom:15px;    
-//     border-radius: 15px;
-//     border: 2px solid #fff;
-//     font-weight: bold;
-// `;
 
 export default FooterBanner;
