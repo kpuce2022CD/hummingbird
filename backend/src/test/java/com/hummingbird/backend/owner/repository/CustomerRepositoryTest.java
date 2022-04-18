@@ -1,7 +1,5 @@
-package com.hummingbird.backend.user.repository;
+package com.hummingbird.backend.owner.repository;
 
-import com.hummingbird.backend.user.domain.Customer;
-import com.hummingbird.backend.user.dto.CustomerDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;

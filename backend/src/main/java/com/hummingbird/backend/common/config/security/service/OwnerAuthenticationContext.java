@@ -1,6 +1,6 @@
 package com.hummingbird.backend.common.config.security.service;
 
-import com.hummingbird.backend.user.domain.Owner;
+import com.hummingbird.backend.owner.domain.Owner;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

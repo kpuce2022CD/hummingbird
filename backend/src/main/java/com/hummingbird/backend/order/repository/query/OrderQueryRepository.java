@@ -22,45 +22,22 @@ public class OrderQueryRepository {
     }
 
 
-    public OrderBillResponse findOrderBillByCustomerId(int offset, int limit, Long customerId) {
+    public OrderBillResponse findOrderBillByOwnerId(int offset, int limit, Long ownerId) {
 
-        List<OrderInfo> orderInfoList =  findOrdersByCustomerId(customerId);
-
+        List<OrderInfo> orderInfoList = findOrdersByOwnerId(ownerId);
         orderInfoList.forEach(orderInfo -> {
             orderInfo.setOrderItemList(findOrderItems(orderInfo.getOrderId()));
         });
         return OrderBillResponse.builder().orderInfoList(orderInfoList).build();
     }
 
-
-
-    public OrderBillResponse findOrderBillByShopId(int offset, int limit, Long shopId) {
-
-        List<OrderInfo> orderInfoList = findOrdersByShopId(shopId);
-        orderInfoList.forEach(orderInfo -> {
-            orderInfo.setOrderItemList(findOrderItems(orderInfo.getOrderId()));
-        });
-        return OrderBillResponse.builder().orderInfoList(orderInfoList).build();
-    }
-
-    private List<OrderInfo> findOrdersByCustomerId(Long customerId) {
-        return em.createQuery(
-                "select new com.hummingbird.backend.order.dto.OrderInfo(o.orderId, o.orderStatus, o.orderDate, s.name)"
-                +" from Order o"
-                +" join o.shop s"
-                +" where o.customer.id = : customerId", OrderInfo.class)
-                .setParameter("customerId", customerId)
-                .getResultList();
-    }
-
-    private List<OrderInfo> findOrdersByShopId(Long shopId) {
+    private List<OrderInfo> findOrdersByOwnerId(Long ownerId) {
         return em.createQuery(
                         "select new com.hummingbird.backend.order.dto.OrderInfo(o.orderId, o.orderStatus, o.orderDate, c.id)"
                                 +" from Order o"
-                                +" join o.shop s"
-                                +" join o.shop c"
-                                +" where o.shop.id = : shopId", OrderInfo.class)
-                .setParameter("shopId", shopId)
+                                +" join o.owner c"
+                                +" where o.owner.id = : ownerId", OrderInfo.class)
+                .setParameter("ownerId", ownerId)
                 .getResultList();    }
 
     private List<OrderItemInfo> findOrderItems(Long orderId) {

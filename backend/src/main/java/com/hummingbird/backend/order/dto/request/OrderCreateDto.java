@@ -10,10 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderCreateDto {
 
-    private Long customerId;
-
-    private Long shopId;
-
+    private Long ownerId;
+    private String impUid;
     private List<OrderItemCreateDto> orderItemList;
 
 }

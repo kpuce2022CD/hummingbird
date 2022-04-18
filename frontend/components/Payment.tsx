@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-const Payment = () => {
+import axios from "axios";
+const Payment = (props:any) => {
     useEffect(()=>{
         const jquery = document.createElement("script");
         jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -13,6 +14,22 @@ const Payment = () => {
         }
     },  []);
 
+    const sendOrder = async (order : any, imp_uid : any) => {
+        try {
+            order.orderInfoDto["impUid"]=imp_uid;
+            console.log(order.orderInfoDto.impUid);
+            const response = await axios.post("http://localhost:8080/api/orders", order, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            });
+            console.log(response);
+        } catch (err) {
+            console.log("error", err);
+        }
+    };
+
     const onClickPayment = () => {
         // @ts-ignore
         const {IMP} = window;
@@ -22,7 +39,7 @@ const Payment = () => {
             pg: 'html5_inicis',                           // PG사
             pay_method: 'card',                           // 결제수단
             merchant_uid: `mid_${new Date().getTime()}`,   // 주문번호
-            amount: 1000,                                 // 결제금액
+            amount: props.price,                                 // 결제금액
             name: '아임포트 결제 테스트',                  // 주문명
             buyer_name: '홍길동',                           // 구매자 이름
             buyer_tel: '01012341234',                     // 구매자 전화번호
@@ -37,7 +54,7 @@ const Payment = () => {
     const callback = (response) => {
         const {success, error_msg, imp_uid, merchant_uid, pay_method, paid_amount, status} = response;
         if(success){
-            alert("결제 성공")
+            sendOrder(props.orderDto,imp_uid)
             console.log(response)
         }else{
             alert('결제 실패 : '+error_msg);
@@ -46,6 +63,7 @@ const Payment = () => {
 
     return(
         <>
+
             <button onClick={onClickPayment}>결제하기</button>
         </>
     )

@@ -1,9 +1,9 @@
-package com.hummingbird.backend.user.service.serviceImpl;
+package com.hummingbird.backend.owner.service.serviceImpl;
 
-import com.hummingbird.backend.user.domain.Owner;
-import com.hummingbird.backend.user.dto.OwnerDto;
-import com.hummingbird.backend.user.dto.OwnerLoginRequest;
-import com.hummingbird.backend.user.repository.OwnerRepository;
+import com.hummingbird.backend.owner.domain.Owner;
+import com.hummingbird.backend.owner.dto.OwnerDto;
+import com.hummingbird.backend.owner.dto.OwnerLoginRequest;
+import com.hummingbird.backend.owner.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;

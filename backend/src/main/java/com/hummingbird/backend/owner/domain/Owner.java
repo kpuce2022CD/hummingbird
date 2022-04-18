@@ -1,6 +1,6 @@
-package com.hummingbird.backend.user.domain;
+package com.hummingbird.backend.owner.domain;
 
-import com.hummingbird.backend.user.dto.OwnerDto;
+import com.hummingbird.backend.owner.dto.OwnerDto;
 import lombok.*;
 
 import javax.persistence.*;

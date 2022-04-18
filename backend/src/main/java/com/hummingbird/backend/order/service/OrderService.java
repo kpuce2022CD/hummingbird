@@ -9,35 +9,29 @@ import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
 import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
 import com.hummingbird.backend.order.repository.OrderRepository;
-import com.hummingbird.backend.shop.domain.Shop;
-import com.hummingbird.backend.shop.service.ShopService;
-import com.hummingbird.backend.user.domain.Customer;
-import com.hummingbird.backend.user.service.UserService;
+import com.hummingbird.backend.owner.domain.Owner;
+import com.hummingbird.backend.owner.service.OwnerService;
+import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final UserService userService;
-    private final ShopService shopService;
+    private final GeneralOwnerService ownerService;
     private final FoodService foodService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, UserService userService, ShopService shopService, FoodServiceImpl foodService) {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, GeneralOwnerService ownerService, FoodServiceImpl foodService) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
-        this.userService = userService;
-        this.shopService = shopService;
+        this.ownerService = ownerService;
         this.foodService = foodService;
     }
 
@@ -46,12 +40,9 @@ public class OrderService {
      */
     @Transactional
     public OrderCreateResponse order(OrderCreateRequest orderCreateRequest){
-
         OrderCreateDto orderCreateDto = orderCreateRequest.getOrderInfoDto();
-
-        Customer customerReference = userService.getReferenceById(orderCreateDto.getCustomerId());
-        Shop shopReference = shopService.getReferenceById(orderCreateDto.getShopId());
-        Order newOrder = Order.createOrder(customerReference,shopReference);
+        Owner ownerReference = ownerService.getReferenceById(orderCreateDto.getOwnerId());
+        Order newOrder = Order.createOrder(ownerReference,orderCreateRequest.getOrderInfoDto().getImpUid());
         orderRepository.save(newOrder);
 
         List<OrderItem> orderItemList = orderCreateDto

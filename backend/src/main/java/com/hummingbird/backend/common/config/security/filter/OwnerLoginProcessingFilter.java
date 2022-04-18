@@ -2,7 +2,7 @@ package com.hummingbird.backend.common.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hummingbird.backend.common.config.security.token.OwnerAuthenticationToken;
-import com.hummingbird.backend.user.dto.OwnerDto;
+import com.hummingbird.backend.owner.dto.OwnerDto;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

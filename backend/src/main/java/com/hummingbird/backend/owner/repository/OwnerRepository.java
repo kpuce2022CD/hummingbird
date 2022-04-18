@@ -1,7 +1,7 @@
-package com.hummingbird.backend.user.repository;
+package com.hummingbird.backend.owner.repository;
 
 
-import com.hummingbird.backend.user.domain.Owner;
+import com.hummingbird.backend.owner.domain.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

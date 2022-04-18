@@ -2,9 +2,7 @@ package com.hummingbird.backend.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hummingbird.backend.user.controller.CustomerController;
-import com.hummingbird.backend.user.service.serviceImpl.GeneralCustomerService;
-import com.hummingbird.backend.user.util.SessionUtilService;
+import com.hummingbird.backend.owner.util.SessionUtilService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
@@ -25,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static com.hummingbird.backend.api.CustomerDocumentation.getCustomerFieldInfo;
 import static com.hummingbird.backend.init.DBInit.*;
-import static com.hummingbird.backend.user.controller.CustomerController.*;
+import static com.hummingbird.backend.owner.controller.CustomerController.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;

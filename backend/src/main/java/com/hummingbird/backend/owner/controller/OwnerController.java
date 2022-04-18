@@ -1,8 +1,8 @@
-package com.hummingbird.backend.user.controller;
+package com.hummingbird.backend.owner.controller;
 
-import com.hummingbird.backend.user.dto.OwnerDto;
-import com.hummingbird.backend.user.dto.OwnerLoginRequest;
-import com.hummingbird.backend.user.service.serviceImpl.GeneralOwnerService;
+import com.hummingbird.backend.owner.dto.OwnerDto;
+import com.hummingbird.backend.owner.dto.OwnerLoginRequest;
+import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.hummingbird.backend.user.controller.OwnerController.OWNER_API_URI;
+import static com.hummingbird.backend.owner.controller.OwnerController.OWNER_API_URI;
 
 
 @RestController
