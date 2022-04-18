@@ -6,15 +6,21 @@ import Phone from '/public/img/QR/QRiPhone.svg'
 const ExViewPhone = () => {
   return (
     <>
-      <Image
-            src={Phone}
-            alt="휴대폰 화면 예시"
-            width="900px"
-            height="100%"
-            // layout="responsive"
-            />
+    <StyledImage/>
     </>
   );
 };
+
+const StyledImage = styled.div`
+  position: absolute;
+  left:75%;
+  width: 70%;
+  height: 650px;
+  margin:0;
+  padding:0;
+  background-size: cover;
+  object-fit: contain;
+  background-image: url('img/QR/QRiPhone.svg');
+`;
  
 export default ExViewPhone;

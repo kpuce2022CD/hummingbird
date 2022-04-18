@@ -79,7 +79,7 @@ const QrPage: NextPage = () => {
               </StyledInner>
             </StyledQr>
           </SideSection>
-            <ExViewPhone/>
+          <ExViewPhone/>
         </RightSection>
       </Theme>
     </div>
@@ -101,24 +101,26 @@ const LeftSection = styled.div`
 `;
 
 const SideSection =styled.div`
-  border-radius: 20px 0px 0px 20px;
-  box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
-  background-color: #f6f6f9;
   justify-items: center;
-  width:"50%";
-  height: 600px;
+  margin: 2rem 5rem 0px 0rem;
   padding:1rem;
+  width:"60%";
+  height: 550px;
+  border-radius: 20px 0px 0px 20px;
+  background-color: #f6f6f9;
+  box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
 `;
 
 const RightSection = styled.div`
   display: flex;
-  flex-grow: 1;
   margin:3rem;
+  position: absolute;
+  left:45%;
   background: white;
 `;
 
 const StyledH1 = styled.h1`
-    display: block;
+    display: flex;
     margin: 30px;
     padding: 3px;
     font-size: 1.5rem;
@@ -130,7 +132,7 @@ const StyledH1 = styled.h1`
 const StyledH2 = styled.h2`
   display: block;
   padding: 3rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
 `;
@@ -147,7 +149,7 @@ const Desc= styled.div`
     display: block;
     text-align: center;
     font-weight: 500;
-    font-size:1.5rem;
+    font-size:1.3rem;
 `;
 
 const StyledList = styled.ul`
@@ -175,23 +177,20 @@ const StyledBtn = styled.button`
 
 const StyledQr = styled.div`
   display:flex;
-  overflow: hidden;
-  width: 300px;
-  height: 300px;
   margin: 3rem;
-  padding: 5px;
+  padding: 130px;
   justify-content: center;
   align-items: center;
+  width: 200px;
+  height: 200px;
   border: 5px solid #FA4A0C;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 `;
 
 const StyledInner = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:3px;
-  position: absolute;
   object-fit: cover;
 `;
 

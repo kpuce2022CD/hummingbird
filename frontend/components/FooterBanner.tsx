@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import LoginBtn from "./LoginBtn";
-import SignUpBtn from "./SignUpBtn";
+import LoginBtn from "../components/Btn/LoginBtn";
+import SignUpBtn from "../components/Btn/SignUpBtn";
 
 const FooterBanner = () => {
   return (
