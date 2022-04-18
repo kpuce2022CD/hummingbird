@@ -95,14 +95,14 @@ const Theme = styled.div`
 const LeftSection = styled.div`
   display: block;
   flex-grow: 1;
-  margin:3rem;
+  margin: 8rem 3rem 0rem 3rem;
   background: white;
   width:"40%";
 `;
 
 const SideSection =styled.div`
   justify-items: center;
-  margin: 2rem 5rem 0px 0rem;
+  margin: 3rem 5rem 0px 0rem;
   padding:1rem;
   width:"60%";
   height: 550px;

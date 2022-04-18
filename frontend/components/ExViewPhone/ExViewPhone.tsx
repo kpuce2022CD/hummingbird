@@ -15,7 +15,7 @@ const StyledImage = styled.div`
   position: absolute;
   left:75%;
   width: 70%;
-  height: 650px;
+  height: 700px;
   margin:0;
   padding:0;
   background-size: cover;
