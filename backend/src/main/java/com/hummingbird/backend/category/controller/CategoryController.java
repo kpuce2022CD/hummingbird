@@ -1,11 +1,13 @@
 package com.hummingbird.backend.category.controller;
 
+import com.google.protobuf.Any;
 import com.hummingbird.backend.category.dto.CreateCategoryDto;
 import com.hummingbird.backend.category.dto.GetCategoryDto;
 import com.hummingbird.backend.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -22,9 +24,11 @@ public class CategoryController {
 
     //create
     @PostMapping("/category/new")
-    public Long createCategory(@RequestPart("categoryDto") CreateCategoryDto dto,
-                               @RequestPart("menuId") Long menuId){
-        return categoryService.create(dto,menuId);
+    public Long createCategory(@RequestBody HashMap<String, Object> data){ //string으로 받아서 Long 형변환
+        CreateCategoryDto dto = CreateCategoryDto.builder()
+                .name((String) data.get("categoryName"))
+                .build();
+        return categoryService.create(dto,Long.parseLong((String) data.get("menuId")));
     }
 
     //read
@@ -40,8 +44,8 @@ public class CategoryController {
 
     //update
     @PostMapping("/category/update")
-    public Long updateCategory(Long categoryId,String updateName){
-        return categoryService.update(categoryId, updateName);
+    public Long updateCategory(@RequestBody HashMap<String, Object> data){ //string 으로 받아서 Long 형변환
+        return categoryService.update(Long.parseLong((String)data.get("categoryId")), (String)data.get("categoryName"));
     }
 
     //delete

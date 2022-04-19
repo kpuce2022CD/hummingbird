@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import EditPlusBtn from "../EditPlusBtn";
 import MenuModal from "../MenuModal";
+import { useRouter } from "next/router";
+import MenuCard from "../MenuCard";
 
-const AdminMenu = () => {
+type Menu = {
+  id: number;
+  name: string;
+};
+
+type Props = {
+  menuList: Menu[] | undefined;
+};
+
+const AdminMenu = ({ menuList }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  console.log(menuList);
   return (
     <div>
       <S.HeaderWrap>
@@ -14,7 +25,12 @@ const AdminMenu = () => {
           <EditPlusBtn />
         </span>
       </S.HeaderWrap>
-      <S.MenuContent></S.MenuContent>
+      <S.MenuContent>
+        {menuList &&
+          menuList.map(({ id, name }) => (
+            <MenuCard key={id} menuId={id} menuName={name} />
+          ))}
+      </S.MenuContent>
       {modalOpen && <MenuModal setModalOpen={setModalOpen} type="메뉴판" />}
     </div>
   );

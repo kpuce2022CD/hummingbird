@@ -5,9 +5,9 @@ import SignUpBtn from "../components/Btn/SignUpBtn";
 
 const FooterBanner = () => {
   return (
+
         <ThemeSection>
           <Themediv>
-
             <StyledH1>회원가입을 통해 오더캔버스를 만나보세요!</StyledH1>
             <StyledDesc>로그인 이후 서비스를 이용하실 수 있습니다.</StyledDesc>
             <LoginBtn/>

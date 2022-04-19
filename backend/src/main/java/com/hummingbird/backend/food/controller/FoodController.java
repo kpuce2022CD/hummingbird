@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -26,14 +27,23 @@ public class FoodController {
 
     //create
     @PostMapping("/food/new")
-    public Long createFood(@RequestPart("foodDto") CreateFoodDto dto,
-                           @RequestPart("file") MultipartFile file,
-                           @RequestPart("categoryId") Long categoryId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public Long createFood(@RequestPart("foodName") String foodName,
+                           @RequestPart("foodPrice") String foodPrice,
+                           @RequestPart("foodContent") String foodContent,
+                           @RequestPart(value = "file", required = false) MultipartFile file,
+                           @RequestPart("categoryId") String categoryId) throws UnsupportedEncodingException, NoSuchAlgorithmException { //string으로 받아 형변환
 //        Long fileId = foodService.upload(fileService.uploadFile(files));
-        //현재 페이지의 카테고리 아이디 받아오기
-        UploadFoodDto uploadFoodDto = foodService.upload(file);
+        CreateFoodDto foodDto = CreateFoodDto.builder()
+                .name(foodName)
+                .price(Integer.parseInt(foodPrice))
+                .content(foodContent)
+                .build();
+        UploadFoodDto uploadFoodDto = null;
+        if(!file.isEmpty()){
+            uploadFoodDto = foodService.upload(file);
+        }
 //        dto.setFileId(fileId);
-        return foodService.submit(uploadFoodDto,dto, categoryId);
+        return foodService.submit(uploadFoodDto,foodDto, Long.parseLong(categoryId));
     }
 
     //read
@@ -59,13 +69,25 @@ public class FoodController {
 
 
     //update
+//    @PostMapping("/food/update")
+//    public Long updateFood(@RequestParam("foodId") Long foodId,
+//                           @RequestBody UpdateFoodDto dto){
+//        return foodService.updateFood(foodId,dto);
+//    }
+
     @PostMapping("/food/update")
-    public Long updateFood(@RequestParam("foodId") Long foodId,
-                           @RequestBody UpdateFoodDto dto){
-        return foodService.updateFood(foodId,dto);
+    public Long updateFood(@RequestBody HashMap<String, Object> data) throws UnsupportedEncodingException, NoSuchAlgorithmException { //string으로 받아 형변환
+        UpdateFoodDto foodDto = UpdateFoodDto.builder()
+                .name((String) data.get("foodName"))
+                .price(Integer.parseInt((String) data.get("foodPrice")))
+                .content((String) data.get("foodContent"))
+                .build();
+//        dto.setFileId(fileId);
+        return foodService.updateFood( Long.parseLong((String)data.get("foodId")), foodDto);
     }
 
-    @PostMapping("/food/imgupdate")
+
+    @PostMapping("/food/update/img")
     public Long updateFoodImage(@RequestParam("files") MultipartFile files,Long foodId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UploadFoodDto uploadFoodDto = foodService.upload(files);
         return foodService.updateImage(foodId,uploadFoodDto);

@@ -3,8 +3,10 @@ import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
 import com.hummingbird.backend.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -20,10 +22,12 @@ public class MenuController {
     }
 
     //create
-    @PostMapping("/menu/new")
-    public Long createMenu(@RequestPart("menuDto") CreateMenuDto dto,
-                           @RequestPart("ownerId") Long ownerId){
-        return menuService.submit(dto,ownerId);
+    @PostMapping(value = "/menu/new")
+    public Long createMenu(@RequestBody HashMap<String, Object> data){ //string 타입으로 받아 Long 형변환
+        CreateMenuDto dto = CreateMenuDto.builder()
+                .name((String) data.get("menuName"))
+                .build();
+        return menuService.submit(dto, Long.parseLong(((String) data.get("ownerId"))));
     }
 
     //read
@@ -39,8 +43,8 @@ public class MenuController {
 
     //update
     @PostMapping("/menu/update")
-    public Long updateMenu(Long menuId,String updateName){
-        return menuService.update(menuId, updateName);
+    public Long updateMenu(@RequestBody HashMap<String, Object> data){ // string 타입으로 받아서 Long 형변환
+        return menuService.update(Long.parseLong((String)data.get("menuId")), (String) data.get("menuName"));
     }
 
     //delete

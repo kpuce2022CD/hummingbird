@@ -13,7 +13,7 @@ export const Modal = styled.div`
   flex-direction: column;
   align-items: center;
   width: 500px;
-  height: 350px;
+  height: 450px;
   background-color: #fff;
   // Modal 창 브라우저 가운데로 조정
   position: absolute;
@@ -76,6 +76,7 @@ export const CateForm = styled.form`
 
   p {
     color: gray;
+    margin-bottom: 10px;
   }
 `;
 
@@ -93,4 +94,29 @@ export const ModalCloseBtn = styled.button`
   width: 100%;
   height: 14px;
   text-align: right;
+`;
+
+export const ButtonWrap = styled.div`
+  margin-top: auto;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Button = styled.button`
+  border: 1px solid gray;
+  padding: 15px;
+  font-size: 1.125rem;
+  margin-bottom: 10px;
+  border-radius: 20px;
+
+  color: gray;
+  :last-child {
+    margin: 0;
+  }
+  :hover {
+    background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+    color: #fff;
+    border: 1px solid #fff;
+  }
 `;
