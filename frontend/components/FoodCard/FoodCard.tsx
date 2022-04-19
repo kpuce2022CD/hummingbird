@@ -29,14 +29,15 @@ const FoodCard = ({ foodList }: Props) => {
 
   return (
     <S.FoodCardWrap>
-      {foodList.map(({ id, name, price, content }) => (
+      {foodList.map(({ origFileName, fileName, id, name, price, content }) => (
         <S.FoodItem key={id} onClick={() => handleFoodItem(id)}>
           <div className="foodcard-top">
             <Image
-              src="/images/image2.png"
+              src={`http://localhost:8080/images/${fileName}`}
               alt="음식 사진"
               width="64"
               height="64"
+              unoptimized={true}
             />
             <div className="foodcard_top__content">
               <p className="foodcard_top__name">{name}</p>

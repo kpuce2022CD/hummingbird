@@ -32,6 +32,7 @@ const MenuPreContent = () => {
               idx={val.id}
               foodName={val.name}
               foodPrice={val.price}
+              fileName={val.fileName}
             />
           ))}
         </S.MenuItemWrap>

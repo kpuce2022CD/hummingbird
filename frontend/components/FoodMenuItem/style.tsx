@@ -8,10 +8,10 @@ export const MenuItem = styled.div<Props>`
   justify-content: center;
   width: ${({ admin }) => admin && "50%"};
   height: 250px;
+  cursor: pointer;
   :nth-child(even) {
     padding-top: ${({ admin }) => (admin ? "50px" : "0px")};
   }
-
   ul {
     background-color: #fff;
     width: 156px;
