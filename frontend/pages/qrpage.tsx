@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import styled from "styled-components";
 import Nav from "../components/Nav";
-import ImageNext from 'next/image'
-import Phone from '../public/img/QR/QRiPhone.svg'
 import ExViewPhone from "../components/ExViewPhone";
 
 
@@ -54,18 +52,16 @@ const QrPage: NextPage = () => {
       <Nav />
       <Theme>
         <LeftSection>
-          <div>
             <StyledH1>앱을 다운 로드 받을 필요 없이<br/>QR 하나로 주문까지!</StyledH1>
             <StyledDesc>하단 ‘저장 하기’를 누른 후 매장 내잘 보이는 곳에 부착해주세요.</StyledDesc>
             <StyledList>
-              <StyledItem>테이블 모서리</StyledItem>
-              <StyledItem>테이블 위의 작은 팻말</StyledItem>
-              <StyledItem>웨이팅이 있는 매장 입구</StyledItem>
+              <StyledItem><CheckBell/>테이블 모서리</StyledItem>
+              <StyledItem><CheckBell/>테이블 위의 작은 팻말</StyledItem>
+              <StyledItem><CheckBell/>웨이팅이 있는 매장 입구</StyledItem>
             </StyledList>
             <StyledBtn onClick={() => onImageDownload()}>
               저장하기
             </StyledBtn>
-          </div>
         </LeftSection>
 
         <RightSection>
@@ -90,12 +86,14 @@ const Theme = styled.div`
   display: flex;
   justify-content: center;
   margin: auto;
+  line-height:1.5;
 `;
 
 const LeftSection = styled.div`
   display: block;
   flex-grow: 1;
-  margin: 8rem 3rem 0rem 3rem;
+  text-align: left;
+  margin: 5rem 3rem 0rem 3rem;
   background: white;
   width:"40%";
 `;
@@ -121,17 +119,16 @@ const RightSection = styled.div`
 
 const StyledH1 = styled.h1`
     display: flex;
-    margin: 30px;
+    margin: 20px 10px 30px 30px;
     padding: 3px;
     font-size: 1.5rem;
     font-weight: bold;
-    text-align: center;
     color: #fa4a0c;
 `;
 
 const StyledH2 = styled.h2`
   display: block;
-  padding: 3rem;
+  padding: 2rem;
   font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
@@ -140,7 +137,7 @@ const StyledH2 = styled.h2`
 const StyledDesc= styled.div`
     display: block;
     padding: 3px;
-    margin: 15px;
+    margin: 20px 10px 30px 30px;
     font-weight: 500;
     font-size:1.2rem;
 `;
@@ -157,9 +154,10 @@ const StyledList = styled.ul`
 `;
 
 const StyledItem = styled.li`
-  display: block;
+  display: flex;
   padding: 3px;
   margin: 15px;
+  align-items: center;
   font-weight: 500;
   font-size:1.2rem;
 `;
@@ -171,6 +169,7 @@ const StyledBtn = styled.button`
     border-radius: 25px;
     margin: 30px;
     font-weight: bold;
+    width:30%;
     color: white;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 `;
@@ -192,6 +191,17 @@ const StyledInner = styled.span`
   justify-content: center;
   align-items: center;
   object-fit: cover;
+`;
+
+const CheckBell = styled.div`
+  display: block;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  background-image: url('/img/red_bell.svg');
+  background-size: cover;
+  width: 70px;
+  height: 70px;
 `;
 
 export default QrPage;

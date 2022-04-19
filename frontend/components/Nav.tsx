@@ -21,7 +21,7 @@ const ListContents = styled.li `
 `;
 
 const StyledImg= styled.div`
-  padding: 1rem 8px 0px 0px;
+  padding: 1rem 8px 0px 1rem;
 `;
 
 const StyledUl = styled.ul`
@@ -35,7 +35,7 @@ const Nav = () => {
     <NavBar>
       <StyledImg>
         <img src="../img/nav_logo.svg"
-        width="150px"
+        width="100px"
         height="100%"
         />
       </StyledImg>

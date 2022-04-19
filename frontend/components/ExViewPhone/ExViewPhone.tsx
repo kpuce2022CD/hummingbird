@@ -1,7 +1,5 @@
 import React from "react";
-import Image from 'next/image'
 import styled from "styled-components";
-import Phone from '/public/img/QR/QRiPhone.svg'
 
 const ExViewPhone = () => {
   return (
@@ -14,7 +12,7 @@ const ExViewPhone = () => {
 const StyledImage = styled.div`
   position: absolute;
   left:75%;
-  width: 70%;
+  width: 75%;
   height: 700px;
   margin:0;
   padding:0;
