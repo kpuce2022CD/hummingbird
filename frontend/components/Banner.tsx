@@ -27,6 +27,7 @@ const Themediv = styled.div`
     height: 550px;
     text-align:center;
     color: white;
+    line-height:1.5;
 `;
 
 const ThemeSection = styled.div`
