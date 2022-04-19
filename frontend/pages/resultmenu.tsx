@@ -80,36 +80,6 @@ const ResultMenu: NextPage = () => {
 
 export default ResultMenu;
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   try {
-//     const { menuId } = context.query;
-//     const response = await axios.get<CategoryType[]>(
-//       "http://localhost:8080/category/get/menu",
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Access-Control-Allow-Origin": "*",
-//         },
-//         params: {
-//           menuId: menuId,
-//         },
-//       }
-//     );
-//     const data = response.data;
-//     console.log(data);
-//     return {
-//       props: {
-//         CategoryData: data,
-//       },
-//     };
-//   } catch (err) {
-//     console.log(err);
-//     return {
-//       props: {},
-//     };
-//   }
-// };
-
 const Wrapper = styled.div`
   position: relative;
   width: 414px;
