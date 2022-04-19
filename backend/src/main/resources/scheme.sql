@@ -78,13 +78,14 @@ create table test_db.orders
     order_date   datetime(6) not null,
     order_status varchar(30) not null,
     owner_id      bigint      null,
+    table_num int not null,
     constraint FKqn03kko0738sehaal2gr2uxl6
         foreign key (owner_id) references test_db.owner (id)
 );
 
 create table test_db.order_item
 (
-    order_item_id bigint not null
+    order_item_id bigint auto_increment not null
         primary key,
     count         int    not null,
     order_price   int    not null,

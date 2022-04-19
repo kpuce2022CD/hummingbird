@@ -11,7 +11,6 @@ import java.util.List;
 public class OrderCreateDto {
 
     private Long ownerId;
-    private String impUid;
     private List<OrderItemCreateDto> orderItemList;
 
 }

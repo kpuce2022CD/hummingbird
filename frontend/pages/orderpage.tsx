@@ -5,8 +5,8 @@ import Payment from "../components/Payment";
 const OrderPage: NextPage = () => {
   const orderDto = {
     "tableNumber": 1,
+    "impUid":"",
     "orderInfoDto": {
-      "impUid":"",
       "ownerId": 1,
       "orderItemList": [
         { "foodId" : 1, "orderPrice" : 10000, "count":2},

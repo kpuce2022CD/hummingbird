@@ -16,8 +16,8 @@ const Payment = (props:any) => {
 
     const sendOrder = async (order : any, imp_uid : any) => {
         try {
-            order.orderInfoDto["impUid"]=imp_uid;
-            console.log(order.orderInfoDto.impUid);
+            order["impUid"]=imp_uid;
+            console.log(order.impUid);
             const response = await axios.post("http://localhost:8080/api/orders", order, {
                 headers: {
                     "Content-Type": "application/json",

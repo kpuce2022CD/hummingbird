@@ -42,7 +42,7 @@ public class OrderService {
     public OrderCreateResponse order(OrderCreateRequest orderCreateRequest){
         OrderCreateDto orderCreateDto = orderCreateRequest.getOrderInfoDto();
         Owner ownerReference = ownerService.getReferenceById(orderCreateDto.getOwnerId());
-        Order newOrder = Order.createOrder(ownerReference,orderCreateRequest.getOrderInfoDto().getImpUid());
+        Order newOrder = Order.createOrder(ownerReference,orderCreateRequest.getImpUid(),orderCreateRequest.getTableNumber());
         orderRepository.save(newOrder);
 
         List<OrderItem> orderItemList = orderCreateDto

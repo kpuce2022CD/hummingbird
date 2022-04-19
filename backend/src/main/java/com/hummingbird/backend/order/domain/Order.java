@@ -38,22 +38,27 @@ public class Order {
     @Column(name = "imp_uid",nullable = false)
     private String impUid;
 
+    @Column(name = "table_num", nullable = false)
+    private int tableNum;
+
     @Builder
-    public Order(Long orderId, Owner owner, OrderStatus orderStatus, List<OrderItem> orderItems,String impUid) {
+    public Order(Long orderId, Owner owner, OrderStatus orderStatus, List<OrderItem> orderItems,String impUid,int tableNum) {
         this.orderId = orderId;
         this.owner = owner;
         this.orderStatus = orderStatus;
         this.orderItems = orderItems;
         this.orderDate = LocalDateTime.now();
         this.impUid= impUid;
+        this.tableNum = tableNum;
     }
 
-    public static Order createOrder(Owner ownerReference,String impUid){
+    public static Order createOrder(Owner ownerReference,String impUid,int tableNum){
         return Order
                 .builder()
                 .owner(ownerReference)
                 .orderStatus(OrderStatus.SEND)
                 .impUid(impUid)
+                .tableNum(tableNum)
                 .build();
     }
 }
