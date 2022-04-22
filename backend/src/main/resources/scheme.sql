@@ -32,7 +32,8 @@ create table test_db.owner
     name     varchar(255) not null,
     email    varchar(255) not null,
     password varchar(255) not null,
-    business_registration_number varchar(255) not null
+    business_registration_number varchar(255) not null,
+    open_status boolean not null default false
 );
 
 create table test_db.menu
@@ -69,13 +70,6 @@ create table test_db.food
         foreign key (category_id) references test_db.category (id)
 );
 
-create table test_db.shop
-(
-    shop_id     bigint auto_increment
-        primary key,
-    email       varchar(255) null,
-    open_status varchar(255) null
-);
 
 create table test_db.orders
 (
@@ -83,17 +77,15 @@ create table test_db.orders
         primary key,
     order_date   datetime(6) not null,
     order_status varchar(30) not null,
-    customer_id  bigint      null,
-    shop_id      bigint      null,
-    constraint FK624gtjin3po807j3vix093tlf
-        foreign key (customer_id) references test_db.customer (id),
+    owner_id      bigint      null,
+    table_num int not null,
     constraint FKqn03kko0738sehaal2gr2uxl6
-        foreign key (shop_id) references test_db.shop (shop_id)
+        foreign key (owner_id) references test_db.owner (id)
 );
 
 create table test_db.order_item
 (
-    order_item_id bigint not null
+    order_item_id bigint auto_increment not null
         primary key,
     count         int    not null,
     order_price   int    not null,

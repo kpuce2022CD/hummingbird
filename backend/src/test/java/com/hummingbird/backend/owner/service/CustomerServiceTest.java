@@ -1,9 +1,5 @@
-package com.hummingbird.backend.user.service;
+package com.hummingbird.backend.owner.service;
 
-import com.hummingbird.backend.user.domain.Customer;
-import com.hummingbird.backend.user.dto.CustomerDto;
-import com.hummingbird.backend.user.repository.CustomerRepository;
-import com.hummingbird.backend.user.service.serviceImpl.GeneralCustomerService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

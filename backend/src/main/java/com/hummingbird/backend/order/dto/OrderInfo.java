@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "orderId")
 public class OrderInfo {
-    private Long customerId;
 
     private Long orderId;
 
@@ -18,23 +17,15 @@ public class OrderInfo {
 
     private LocalDateTime orderDate;
 
-    private String shopName;
-
     @Setter
     private List<OrderItemInfo> orderItemList;
 
-    public OrderInfo(Long orderId, OrderStatus orderStatus, LocalDateTime orderDate, String shopName) {
-        this.orderId = orderId;
-        this.orderStatus = orderStatus;
-        this.orderDate = orderDate;
-        this.shopName = shopName;
-    }
 
-    public OrderInfo(Long orderId, OrderStatus orderStatus, LocalDateTime orderDate, Long customerId) {
+    @Builder
+    public OrderInfo(Long orderId, OrderStatus orderStatus, LocalDateTime orderDate) {
         this.orderId = orderId;
         this.orderStatus = orderStatus;
         this.orderDate = orderDate;
-        this.customerId = customerId;
     }
 
     public int calTotalPrice() {

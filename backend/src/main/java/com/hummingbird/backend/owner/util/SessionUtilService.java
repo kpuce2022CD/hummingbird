@@ -1,4 +1,4 @@
-package com.hummingbird.backend.user.util;
+package com.hummingbird.backend.owner.util;
 
 import org.springframework.stereotype.Service;
 
