@@ -80,6 +80,7 @@ const FoodMenuItem = ({
             alt="음식 사진"
             width="128"
             height="128"
+            layout="fixed"
             unoptimized={true}
           />
         </li>

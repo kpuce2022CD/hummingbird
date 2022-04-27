@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 
 import * as S from "./style";
@@ -16,6 +16,7 @@ type Props = {
 
 const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
   const [cartItem, setCartItem] = useRecoilState(CartItemState);
+  const [dropDownOpen, setDropDownOpen] = useState<boolean>(false);
   const CartItemCount = (countNum: number) => {
     setCartItem((cartItem) => {
       return cartItem.map((item) =>
@@ -35,6 +36,12 @@ const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
     });
   };
 
+  const deleteCartItem = () => {
+    setCartItem((cartItem) => {
+      return cartItem.filter((item) => item.foodId !== foodId);
+    });
+  };
+
   return (
     <S.ItemWrap key={foodId}>
       <Image
@@ -42,6 +49,7 @@ const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
         alt="음식 사진"
         width="100"
         height="100"
+        layout="fixed"
         unoptimized={true}
       />
       <S.ContentWrap>
@@ -56,6 +64,17 @@ const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
             </p>
           </S.CountBtn>
         </S.FoodPrice>
+        <button onClick={() => setDropDownOpen(!dropDownOpen)}>
+          <S.MoreBtn />
+        </button>
+        {dropDownOpen && (
+          <S.Dropdown>
+            <ul>
+              <li>찜 목록 추가하기</li>
+              <li onClick={deleteCartItem}>삭제하기</li>
+            </ul>
+          </S.Dropdown>
+        )}
       </S.ContentWrap>
     </S.ItemWrap>
   );

@@ -37,6 +37,7 @@ const FoodCard = ({ foodList }: Props) => {
               alt="음식 사진"
               width="64"
               height="64"
+              layout="fixed"
               unoptimized={true}
             />
             <div className="foodcard_top__content">
