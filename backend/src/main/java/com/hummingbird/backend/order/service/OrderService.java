@@ -40,25 +40,32 @@ public class OrderService {
      */
     @Transactional
     public OrderCreateResponse order(OrderCreateRequest orderCreateRequest){
-        OrderCreateDto orderCreateDto = orderCreateRequest.getOrderInfoDto();
-        Owner ownerReference = ownerService.getReferenceById(orderCreateDto.getOwnerId());
+        System.out.println("orderCreateRequest 출력 : "+orderCreateRequest.getTableNumber());
+        Owner ownerReference = ownerService.getReferenceById(orderCreateRequest.getOwnerId());
         Order newOrder = Order.createOrder(ownerReference,orderCreateRequest.getImpUid(),orderCreateRequest.getTableNumber());
         orderRepository.save(newOrder);
 
-        List<OrderItem> orderItemList = orderCreateDto
-                .getOrderItemList()
-                .stream()
-                .map(orderItemDtoVal ->
-                        orderItemDtoVal.toEntity(
-                        foodService.getReferenceById(orderItemDtoVal.getFoodId()), newOrder))
-                .collect(Collectors.toList());
+//        List<OrderItem> orderItemList = orderCreateDto
+//                .getOrderItemList()
+//                .stream()
+//                .map(orderItemDtoVal ->
+//                        orderItemDtoVal.toEntity(
+//                        foodService.getReferenceById(orderItemDtoVal.getFoodId()), newOrder))
+//                .collect(Collectors.toList());
 
+
+        List<OrderItem> orderItemList = orderCreateRequest.getCartDataList()
+                        .stream()
+                                .map(orderItemDtoVal ->
+                                        orderItemDtoVal.toEntity(foodService.getReferenceById(orderItemDtoVal.getFoodId()),newOrder))
+                                        .collect(Collectors.toList());
        orderItemRepository.saveAll(orderItemList);
-
         return OrderCreateResponse
                 .builder()
                 .tableNumber(orderCreateRequest.getTableNumber())
                 .orderStatus(newOrder.getOrderStatus())
                 .build();
+
+
     }
 }

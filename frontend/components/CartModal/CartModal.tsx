@@ -55,7 +55,7 @@ const CartModal = ({ setOpenCartModal }: Props) => {
           />
         ))}
       </S.CartList>
-      <PayBtn amount={sumPrice(CartList)} />
+      <PayBtn amount={sumPrice(CartList)} itemList={CartList} />
     </S.Wrapper>
   );
 };

@@ -6,30 +6,34 @@ import com.hummingbird.backend.order.domain.OrderItem;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
-@Builder
-public class OrderItemInfo {
 
+@Getter
+public class CartData {
     private String fileName;
-    private String foodName;
     private Long foodId;
+    private String foodName;
     private int foodPrice;
     private int count;
 
-    public int calOrderPrice() {
-        return foodPrice * count;
+    public CartData() {
     }
 
-    public OrderItemInfo(String fileName, String foodName, Long foodId, int foodPrice, int count) {
+    @Builder
+    public CartData(String fileName, Long foodId, String foodName, int foodPrice, int count) {
         this.fileName = fileName;
-        this.foodName = foodName;
         this.foodId = foodId;
+        this.foodName = foodName;
         this.foodPrice = foodPrice;
         this.count = count;
     }
 
-    public OrderItem convertToOrderItem(){
-        return OrderItem.builder().
-                build();
+    public OrderItem toEntity(Food food, Order order){
+        return OrderItem
+                .builder()
+                .food(food)
+                .order(order)
+                .orderPrice(foodPrice*count)
+                .count(count)
+                .build();
     }
 }
