@@ -3,6 +3,8 @@ import Image from "next/image";
 
 import * as S from "./style";
 import { numberFormat } from "../../utils/numberFormat";
+import { useRecoilState } from "recoil";
+import { CartItemState } from "../../recoil/states";
 
 type Props = {
   foodId: number;
@@ -13,6 +15,26 @@ type Props = {
 };
 
 const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
+  const [cartItem, setCartItem] = useRecoilState(CartItemState);
+  const CartItemCount = (countNum: number) => {
+    setCartItem((cartItem) => {
+      return cartItem.map((item) =>
+        item.foodId === foodId
+          ? {
+              foodId: foodId,
+              fileName: fileName,
+              foodName: foodName,
+              foodPrice: foodPrice,
+              count:
+                item.count + countNum !== 0
+                  ? item.count + countNum
+                  : item.count,
+            }
+          : item
+      );
+    });
+  };
+
   return (
     <S.ItemWrap key={foodId}>
       <Image
@@ -28,9 +50,9 @@ const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
           <S.PriceText>{numberFormat(foodPrice)} 원</S.PriceText>
           <S.CountBtn>
             <p>
-              <button>+</button>
+              <button onClick={() => CartItemCount(1)}>+</button>
               {count}
-              <button>-</button>
+              <button onClick={() => CartItemCount(-1)}>-</button>
             </p>
           </S.CountBtn>
         </S.FoodPrice>
