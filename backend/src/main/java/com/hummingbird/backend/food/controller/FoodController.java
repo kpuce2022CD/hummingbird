@@ -52,18 +52,18 @@ public class FoodController {
 //        return null;
 //    }
 
-    @GetMapping("/food/get")
-    public GetFoodDto getFood(Long foodId){ // 푸드 아이디로 푸드 가져오기
+    @GetMapping("/food/get/{foodId")
+    public GetFoodDto getFood(@PathVariable("foodId") Long foodId){ // 푸드 아이디로 푸드 가져오기
         return foodService.getFood(foodId);
     }
 
-    @GetMapping("/food/get/category")
-    public List<GetFoodDto> getFoodByCategory(Long categoryId){ //카테고리 아이디로 푸드 가져오기
+    @GetMapping("/food/get/category/{categoryId}")
+    public List<GetFoodDto> getFoodByCategory(@PathVariable("categoryId") Long categoryId){ //카테고리 아이디로 푸드 가져오기
         return foodService.getFoodListByCategory(categoryId);
     }
 
-    @GetMapping("/food/get/menu")
-    public List<GetFoodDto> getFoodByMenu(Long menuId){ //메뉴 아이디로 푸드 가져오기
+    @GetMapping("/food/get/menu/{menuId}")
+    public List<GetFoodDto> getFoodByMenu(@PathVariable("menuId") Long menuId){ //메뉴 아이디로 푸드 가져오기
         return foodService.getFoodListByMenu(menuId);
     }
 
@@ -96,8 +96,8 @@ public class FoodController {
 
 
     //delete
-    @PostMapping("/food/delete")
-    public boolean deleteFood(Long foodId) {
+    @GetMapping("/food/delete/{foodId}")
+    public boolean deleteFood(@PathVariable("foodId") Long foodId) {
         return foodService.delete(foodId);
     }
 

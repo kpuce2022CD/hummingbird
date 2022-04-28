@@ -32,13 +32,13 @@ public class CategoryController {
     }
 
     //read
-    @GetMapping("/category/get")
-    public GetCategoryDto getCategory(Long categoryId){
+    @GetMapping("/category/get/{categoryId}")
+    public GetCategoryDto getCategory(@PathVariable("categoryId") Long categoryId){
         return categoryService.getCategory(categoryId);
     }
 
-    @GetMapping("/category/get/menu")
-    public List<GetCategoryDto> getCategoryByMenu(Long menuId){
+    @GetMapping("/category/get/menu/{menuId}")
+    public List<GetCategoryDto> getCategoryByMenu(@PathVariable("menuId") Long menuId){
         return categoryService.getCategoryListByMenu(menuId);
     }
 
@@ -49,8 +49,8 @@ public class CategoryController {
     }
 
     //delete
-    @PostMapping("/category/delete")
-    public boolean deleteCategory(Long categoryId) {
+    @GetMapping("/category/delete/{categoryId}")
+    public boolean deleteCategory(@PathVariable("categoryId") Long categoryId) {
         return categoryService.delete(categoryId);
     }
 
