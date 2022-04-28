@@ -16,7 +16,6 @@ type Props = {
 
 const AdminMenu = ({ menuList }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-  console.log(menuList);
   return (
     <div>
       <S.HeaderWrap>
@@ -28,7 +27,9 @@ const AdminMenu = ({ menuList }: Props) => {
       <S.MenuContent>
         {menuList &&
           menuList.map(({ id, name }) => (
-            <MenuCard key={id} menuId={id} menuName={name} />
+            <div className="MenuCard__wrapper" key={id}>
+              <MenuCard menuId={id} menuName={name} />
+            </div>
           ))}
       </S.MenuContent>
       {modalOpen && <MenuModal setModalOpen={setModalOpen} type="메뉴판" />}
