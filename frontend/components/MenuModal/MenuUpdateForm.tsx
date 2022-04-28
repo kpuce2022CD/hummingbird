@@ -17,10 +17,11 @@ const MenuUpdateForm = ({ setModalOpen, menuId, menuName }: Props) => {
 
   const updateMenu = async (updateName: string, menuId: number) => {
     try {
+      console.log(updateName);
       const response = await axios.post(
         "http://localhost:8080/menu/update",
         {
-          updateName: updateName,
+          menuName: updateName,
           menuId: String(menuId),
         },
         {
@@ -39,7 +40,6 @@ const MenuUpdateForm = ({ setModalOpen, menuId, menuName }: Props) => {
   };
 
   const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setEditMenuName(e.target.value);
   };
   const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
