@@ -30,14 +30,15 @@ const PayBtn = ({ amount, itemList }: Props) => {
     };
   }, []);
 
-  const createOrder = async (itemList : CartData[],impUid:String) => {
+  const createOrder = async (itemList : CartData[],impUid:String,amount:number) => {
     try {
       console.log(itemList);
       let orderCreateRequest = {
         "tableNumber":1,
         "impUid":impUid,
         "ownerId":1,
-        "cartDataList":itemList
+        "cartDataList":itemList,
+        "totalPrice":amount
       }
 
 
@@ -91,7 +92,7 @@ const PayBtn = ({ amount, itemList }: Props) => {
     } = response;
     if (success) {
       alert("결제 성공");
-      createOrder(itemList,imp_uid)
+      createOrder(itemList,imp_uid,amount)
       console.log(response);
 
     } else {

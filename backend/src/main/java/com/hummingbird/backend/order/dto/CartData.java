@@ -32,7 +32,7 @@ public class CartData {
                 .builder()
                 .food(food)
                 .order(order)
-                .orderPrice(foodPrice*count)
+                .foodPrice(foodPrice)
                 .count(count)
                 .build();
     }

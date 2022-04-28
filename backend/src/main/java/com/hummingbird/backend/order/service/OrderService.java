@@ -40,9 +40,9 @@ public class OrderService {
      */
     @Transactional
     public OrderCreateResponse order(OrderCreateRequest orderCreateRequest){
-        System.out.println("orderCreateRequest 출력 : "+orderCreateRequest.getTableNumber());
+        System.out.println("orderCreateRequest 출력 : "+orderCreateRequest.getTotalPrice());
         Owner ownerReference = ownerService.getReferenceById(orderCreateRequest.getOwnerId());
-        Order newOrder = Order.createOrder(ownerReference,orderCreateRequest.getImpUid(),orderCreateRequest.getTableNumber());
+        Order newOrder = Order.createOrder(ownerReference,orderCreateRequest.getImpUid(),orderCreateRequest.getTableNumber(),orderCreateRequest.getTotalPrice());
         orderRepository.save(newOrder);
 
 //        List<OrderItem> orderItemList = orderCreateDto

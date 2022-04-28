@@ -12,4 +12,5 @@ public class OrderCreateRequest {
     private String impUid;
     private Long ownerId;
     private List<CartData> cartDataList;
+    private int totalPrice;
 }
