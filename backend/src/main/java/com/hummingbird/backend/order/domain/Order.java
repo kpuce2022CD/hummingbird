@@ -41,8 +41,11 @@ public class Order {
     @Column(name = "table_num", nullable = false)
     private int tableNum;
 
+    @Column(name = "total_price", nullable = false)
+    private int totalPrice;
+
     @Builder
-    public Order(Long orderId, Owner owner, OrderStatus orderStatus, List<OrderItem> orderItems,String impUid,int tableNum) {
+    public Order(Long orderId, Owner owner, OrderStatus orderStatus, List<OrderItem> orderItems,String impUid,int tableNum,int totalPrice) {
         this.orderId = orderId;
         this.owner = owner;
         this.orderStatus = orderStatus;
@@ -50,15 +53,17 @@ public class Order {
         this.orderDate = LocalDateTime.now();
         this.impUid= impUid;
         this.tableNum = tableNum;
+        this.totalPrice = totalPrice;
     }
 
-    public static Order createOrder(Owner ownerReference,String impUid,int tableNum){
+    public static Order createOrder(Owner ownerReference,String impUid,int tableNum,int totalPrice){
         return Order
                 .builder()
                 .owner(ownerReference)
                 .orderStatus(OrderStatus.SEND)
                 .impUid(impUid)
                 .tableNum(tableNum)
+                .totalPrice(totalPrice)
                 .build();
     }
 }

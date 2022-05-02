@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class OrderItemCreateDto {
 
     private Long foodId;
-    private int orderPrice;
+    private int foodPrice;
     private int count;
 
 
@@ -20,7 +20,7 @@ public class OrderItemCreateDto {
                 .builder()
                 .food(food)
                 .order(order)
-                .orderPrice(orderPrice)
+                .foodPrice(foodPrice)
                 .count(count)
                 .build();
     }

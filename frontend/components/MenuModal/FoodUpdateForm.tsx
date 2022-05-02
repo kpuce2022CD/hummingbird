@@ -46,18 +46,9 @@ const FoodUpdateForm = ({ setModalOpen, foodId }: Props) => {
 
   const deleteFood = async (foodId: number) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/food/delete",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            foodId: String(foodId),
-          },
-        }
+      const response = await axios.get(
+        "http://localhost:8080/food/delete/"+foodId,
+        {}
       );
       console.log(response);
       setModalOpen(false);

@@ -1,24 +1,13 @@
 SET foreign_key_checks = 0;
 drop table if exists test_db.category;
-drop table if exists test_db.customer;
 drop table if exists test_db.food;
 drop table if exists test_db.menu;
 drop table if exists test_db.order_item;
 drop table if exists test_db.orders;
 drop table if exists test_db.owner;
-drop table if exists test_db.shop;
 drop table if exists test_db.hibernate_sequence;
 SET foreign_key_checks = 1;
 
-create table if not exists test_db.customer
-(
-    id bigint auto_increment
-        primary key,
-    email       varchar(255) not null,
-    name        varchar(255) not null,
-    password    varchar(255) not null,
-    token    varchar(255) not null
-);
 
 create table test_db.hibernate_sequence
 (
@@ -78,6 +67,7 @@ create table test_db.orders
     order_date   datetime(6) not null,
     order_status varchar(30) not null,
     owner_id      bigint      null,
+    total_price int not null,
     table_num int not null,
     constraint FKqn03kko0738sehaal2gr2uxl6
         foreign key (owner_id) references test_db.owner (id)
@@ -88,7 +78,7 @@ create table test_db.order_item
     order_item_id bigint auto_increment not null
         primary key,
     count         int    not null,
-    order_price   int    not null,
+    food_price   int    not null,
     food_id       bigint null,
     order_id      bigint null,
     constraint FK4fcv9bk14o2k04wghr09jmy3b

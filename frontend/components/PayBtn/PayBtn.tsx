@@ -1,10 +1,22 @@
 import React, { useEffect } from "react";
 import * as S from "./style";
+import axios from "axios";
+import {stringify} from "json5";
+
+type CartData = {
+  fileName: string;
+  foodId: number;
+  foodName: string;
+  foodPrice: number;
+  count: number;
+};
 
 type Props = {
   amount: number;
+  itemList : CartData[]
+
 };
-const PayBtn = ({ amount }: Props) => {
+const PayBtn = ({ amount, itemList }: Props) => {
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -18,7 +30,36 @@ const PayBtn = ({ amount }: Props) => {
     };
   }, []);
 
-  const onClickPayment = (amount: number) => {
+  const createOrder = async (itemList : CartData[],impUid:String,amount:number) => {
+    try {
+      console.log(itemList);
+      let orderCreateRequest = {
+        "tableNumber":1,
+        "impUid":impUid,
+        "ownerId":1,
+        "cartDataList":itemList,
+        "totalPrice":amount
+      }
+
+
+      const response = await axios.post(
+          "http://localhost:8080/api/orders",
+          orderCreateRequest,
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type" : "application/json",
+            },
+          }
+      );
+      console.log(response);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onClickPayment = (amount: number, itemList:CartData[]) => {
     // @ts-ignore
     const { IMP } = window;
     IMP.init("imp18788306");
@@ -51,7 +92,9 @@ const PayBtn = ({ amount }: Props) => {
     } = response;
     if (success) {
       alert("결제 성공");
+      createOrder(itemList,imp_uid,amount)
       console.log(response);
+
     } else {
       alert("결제 실패 : " + error_msg);
     }
@@ -59,7 +102,7 @@ const PayBtn = ({ amount }: Props) => {
 
   return (
     <>
-      <S.PaymentBtn onClick={() => onClickPayment(amount)}>
+      <S.PaymentBtn onClick={() => onClickPayment(amount,itemList)}>
         결제하기
       </S.PaymentBtn>
     </>

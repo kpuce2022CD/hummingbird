@@ -44,18 +44,9 @@ const MenuInfo = ({ categoryList }: Props) => {
   const deleteCategory = async (categoryId: number) => {
     try {
       console.log(categoryId);
-      const response = await axios.post(
-        "http://localhost:8080/category/delete",
+      const response = await axios.get(
+        "http://localhost:8080/category/delete/"+categoryId,
         {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            categoryId: categoryId,
-          },
-        }
       );
       console.log(response.data);
       window.location.reload();
@@ -67,14 +58,11 @@ const MenuInfo = ({ categoryList }: Props) => {
   const getFoodUseCategoryId = async (categoryId: number) => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/food/get/category",
+        "http://localhost:8080/food/get/category/"+categoryId,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            categoryId: categoryId,
-          },
+          }
         }
       );
       setFoodList(response.data);

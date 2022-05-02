@@ -27,17 +27,17 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "order_price", nullable = false)
-    private int orderPrice;
+    @Column(name = "food_price", nullable = false)
+    private int foodPrice;
 
     @Column(name = "count", nullable = false)
     private int count;
 
     @Builder
-    public OrderItem(Food food, Order order, int orderPrice, int count) {
+    public OrderItem(Food food, Order order, int foodPrice, int count) {
         this.food = food;
         this.order = order;
-        this.orderPrice = orderPrice;
+        this.foodPrice = foodPrice;
         this.count = count;
     }
 

@@ -31,14 +31,11 @@ const CategoryList = ({ CategoryData }: Props) => {
   const getFoodUseCategoryId = async (categoryId: number) => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/food/get/category",
+        "http://localhost:8080/food/get/category/"+categoryId,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            categoryId: categoryId,
-          },
+          }
         }
       );
       setFoodList(response.data);
