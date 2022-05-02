@@ -56,10 +56,6 @@ const FoodMenuItem = ({
     []
   );
 
-  useEffect(() => {
-    console.log(cartItem);
-  }, [cartItem]);
-
   const handleAddCart = (
     admin: boolean,
     idx: number,
@@ -84,6 +80,7 @@ const FoodMenuItem = ({
             alt="음식 사진"
             width="128"
             height="128"
+            layout="fixed"
             unoptimized={true}
           />
         </li>

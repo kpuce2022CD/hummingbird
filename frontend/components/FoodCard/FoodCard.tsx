@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import * as S from "./style";
 import MenuModal from "../MenuModal";
+import { numberFormat } from "../../utils/numberFormat";
 type FoodData = {
   content: string;
   fileName: string;
@@ -37,6 +38,7 @@ const FoodCard = ({ foodList }: Props) => {
               alt="음식 사진"
               width="64"
               height="64"
+              layout="fixed"
               unoptimized={true}
             />
             <div className="foodcard_top__content">
@@ -44,12 +46,9 @@ const FoodCard = ({ foodList }: Props) => {
               <ul className="foodcard_top__list">
                 <li>
                   <span>가격</span>
-                  {price}
+                  {numberFormat(price)}
                 </li>
-                <li>
-                  <span>알레르기 정보</span>
-                  연어, 토마토
-                </li>
+                <li></li>
               </ul>
             </div>
           </div>

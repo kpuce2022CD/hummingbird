@@ -19,5 +19,12 @@ export const HeaderTitle = styled.h2`
 `;
 
 export const MenuContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 50px 10px;
+
+  .MenuCard__wrapper {
+    margin: 30px;
+  }
 `;
