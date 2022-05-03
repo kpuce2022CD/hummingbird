@@ -1,15 +1,15 @@
-import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import styled from "styled-components";
-import axios from "axios";
-import { useRouter } from "next/router";
+import { NextPage } from 'next';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import styled from 'styled-components';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
-import SearchBar from "../components/SearchBar";
-import CategoryList from "../components/CategoryList";
-import FoodList from "../components/FoodList";
-import MenuBtmNav from "../components/MenuBtmNav";
-import CartModal from "../components/CartModal";
+import SearchBar from '../components/SearchBar';
+import CategoryList from '../components/CategoryList';
+import FoodList from '../components/FoodList';
+import MenuBtmNav from '../components/MenuBtmNav';
+import CartModal from '../components/CartModal';
 
 type CategoryType = {
   id: number;
@@ -29,18 +29,18 @@ const ResultMenu: NextPage = () => {
   const getCategoryUseMenuId = async (menuid: string | string[]) => {
     try {
       const response = await axios.get<CategoryType[]>(
-        "http://localhost:8080/category/get/menu/"+menuid,
+        'http://localhost:8080/category/get/menu/' + menuid,
         {
           headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          }
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
         }
       );
       console.log(response.data);
       setCategoryData(response.data);
     } catch (err) {
-      console.log("error", err);
+      console.log('error', err);
     }
   };
 
