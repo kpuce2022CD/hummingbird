@@ -51,7 +51,7 @@ const Input = styled.label`
     width: 80%;
 `
 const Label = styled.div`
-    margin:3px 0px 5px 15px;
+    margin: 13px 0px 15px 15px;
     font-weight: bold;
 `
 
