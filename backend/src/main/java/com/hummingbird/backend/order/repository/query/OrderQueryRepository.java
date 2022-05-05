@@ -33,7 +33,7 @@ public class OrderQueryRepository {
 
     private List<OrderInfo> findOrdersByOwnerId(Long ownerId) {
         return em.createQuery(
-                        "select new com.hummingbird.backend.order.dto.OrderInfo(o.orderId, o.orderStatus, o.orderDate, c.id)"
+                        "select new com.hummingbird.backend.order.dto.OrderInfo(o.orderId, o.orderStatus, o.orderDate)"
                                 +" from Order o"
                                 +" join o.owner c"
                                 +" where o.owner.id = : ownerId", OrderInfo.class)
@@ -42,7 +42,7 @@ public class OrderQueryRepository {
 
     private List<OrderItemInfo> findOrderItems(Long orderId) {
         return em.createQuery(
-                        "select new com.hummingbird.backend.order.dto.OrderItemInfo(f.name, f.price, oi.orderPrice, oi.count)" +
+                        "select new com.hummingbird.backend.order.dto.OrderItemInfo(f.fileName,f.filePath,f.id, oi.foodPrice, oi.count)" +
                                 " from OrderItem oi" +
                                 " join oi.food f" +
                                 " where oi.order.orderId = : orderId", OrderItemInfo.class)
