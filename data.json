@@ -1,0 +1,74 @@
+{
+  "orderInfoList": [
+    {
+      "orderDate": "2022-05-03T12:05:25.687Z",
+      "orderId": 1,
+      "orderItemList": [
+        {
+          "count": 1,
+          "fileName": "",
+          "foodId": 1,
+          "foodName": "테스트음식 1",
+          "foodPrice": 5000
+        }
+      ],
+      "orderStatus": "ACCEPT"
+    },
+    {
+      "orderDate": "2022-05-03T12:05:25.687Z",
+      "orderId": 2,
+      "orderItemList": [
+        {
+          "count": 2,
+          "fileName": "",
+          "foodId": 2,
+          "foodName": "테스트음식 2",
+          "foodPrice": 5000
+        }
+      ],
+      "orderStatus": "ACCEPT"
+    },
+    {
+      "orderDate": "2022-05-03T12:05:25.687Z",
+      "orderId": 3,
+      "orderItemList": [
+        {
+          "count": 1,
+          "fileName": "",
+          "foodId": 3,
+          "foodName": "테스트음식 3",
+          "foodPrice": 5000
+        }
+      ],
+      "orderStatus": "ACCEPT"
+    },
+    {
+      "orderDate": "2022-05-03T12:05:25.687Z",
+      "orderId": 4,
+      "orderItemList": [
+        {
+          "count": 1,
+          "fileName": "",
+          "foodId": 4,
+          "foodName": "테스트음식 4",
+          "foodPrice": 5000
+        }
+      ],
+      "orderStatus": "ACCEPT"
+    },
+    {
+      "orderDate": "2022-05-03T12:05:25.687Z",
+      "orderId": 5,
+      "orderItemList": [
+        {
+          "count": 2,
+          "fileName": "",
+          "foodId": 5,
+          "foodName": "테스트음식 5",
+          "foodPrice": 5000
+        }
+      ],
+      "orderStatus": "ACCEPT"
+    }
+  ]
+}
