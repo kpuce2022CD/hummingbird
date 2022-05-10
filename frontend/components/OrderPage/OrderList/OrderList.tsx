@@ -43,13 +43,9 @@ const OrderList: FC = () => {
               <td>{val.orderItemList.map((val) => val.foodName)}</td>
               {/* 주문 음식 갯수 */}
               <td className="count">
-                <Item
-                  bgColor={'#f3ecfd'}
-                  textColor={'#8a4af3'}
-                  content={`${String(
-                    val.orderItemList.map((val) => val.count)
-                  )} 개`}
-                />
+                <Item bgColor={'#f3ecfd'} textColor={'#8a4af3'}>
+                  {`${val.orderItemList.map((val) => val.count)} 개`}
+                </Item>
               </td>
               {/* FIXME: 테이블 번호 */}
               <td></td>
@@ -58,17 +54,13 @@ const OrderList: FC = () => {
               <td>
                 {/* TODO: 주문 승인 단어에따른 수정 예정 */}
                 {val.orderStatus === 'SEND' ? (
-                  <Item
-                    bgColor={'#dbefdc'}
-                    textColor={'#357a38'}
-                    content={`주문 승인`}
-                  />
+                  <Item bgColor={'#dbefdc'} textColor={'#357a38'}>
+                    주문취소
+                  </Item>
                 ) : (
-                  <Item
-                    bgColor={'#ffeacc'}
-                    textColor={'#995b00'}
-                    content={`주문 취소`}
-                  />
+                  <Item bgColor={'#ffeacc'} textColor={'#995b00'}>
+                    주문 승인
+                  </Item>
                 )}
               </td>
               {/* TODO: 취소를 누를경우 사라짐. */}

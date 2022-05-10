@@ -4,18 +4,17 @@ import * as S from './Item.style';
 type ItemProps = {
   bgColor: string;
   textColor: string;
-  content: string;
 };
 const Item: FC<ItemProps> = ({
   bgColor = 'white',
   textColor = 'black',
-  content = '',
+  children,
 }) => {
   return (
     <S.Wrap color={bgColor}>
       <S.Text color={textColor}>
         <span>&#183;</span>
-        {content}
+        {children}
       </S.Text>
     </S.Wrap>
   );
