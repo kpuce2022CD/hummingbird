@@ -43,7 +43,7 @@ public class OrderController {
         return qrderQueryRepository.findOrderBillByOwnerId(offset, limit,ownerId);
 
     }
-    @PostMapping("/sales")
+    @GetMapping("/sales")
     public SalesCreateResponse getSales(@RequestBody SalesCreateRequest salesCreateRequest){
         return orderService.getSales(salesCreateRequest);
     }
