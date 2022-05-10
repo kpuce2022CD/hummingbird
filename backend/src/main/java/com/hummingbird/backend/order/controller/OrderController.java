@@ -1,8 +1,10 @@
 package com.hummingbird.backend.order.controller;
 
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
+import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
 import com.hummingbird.backend.order.dto.response.OrderBillResponse;
 import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
+import com.hummingbird.backend.order.dto.response.SalesCreateResponse;
 import com.hummingbird.backend.order.repository.query.OrderQueryRepository;
 import com.hummingbird.backend.order.service.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +42,9 @@ public class OrderController {
 
         return qrderQueryRepository.findOrderBillByOwnerId(offset, limit,ownerId);
 
+    }
+    @PostMapping("/sales")
+    public SalesCreateResponse getSales(@RequestBody SalesCreateRequest salesCreateRequest){
+        return orderService.getSales(salesCreateRequest);
     }
 }
