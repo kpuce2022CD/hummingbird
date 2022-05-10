@@ -12,7 +12,7 @@ export const onImageDownload = (id: string) => {
     const pngFile = canvas.toDataURL('image/png');
     const downloadLink = document.createElement('a');
     // 파일명
-    downloadLink.download = 'QRCode11';
+    downloadLink.download = `QRCode${id}`;
     downloadLink.href = `${pngFile}`;
     downloadLink.click();
   };

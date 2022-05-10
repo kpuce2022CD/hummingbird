@@ -11,7 +11,7 @@ export const ModalContainer = styled.div`
 
 export const DialogBox = styled.dialog`
   width: 800px;
-  height: 400px;
+  height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,6 +21,7 @@ export const DialogBox = styled.dialog`
   box-sizing: border-box;
   background-color: white;
   z-index: 10000;
+  border-radius: 15px;
 `;
 
 export const Backdrop = styled.div`
