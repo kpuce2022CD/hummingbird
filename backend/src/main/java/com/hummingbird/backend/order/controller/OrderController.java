@@ -17,11 +17,11 @@ public class OrderController {
     public static final String ORDER_API_URI = "/api/orders";
 
     private final OrderService orderService;
-    private final OrderQueryRepository qrderQueryRepository;
+    private final OrderQueryRepository orderQueryRepository;
 
-    public OrderController(OrderService orderService, OrderQueryRepository qrderQueryRepository) {
+    public OrderController(OrderService orderService, OrderQueryRepository orderQueryRepository) {
         this.orderService = orderService;
-        this.qrderQueryRepository = qrderQueryRepository;
+        this.orderQueryRepository = orderQueryRepository;
     }
 
 
@@ -38,7 +38,7 @@ public class OrderController {
             @RequestParam(value = "offset", defaultValue = "0") int offset,
             @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
-        return qrderQueryRepository.findOrderBillByOwnerId(offset, limit,ownerId);
+        return orderQueryRepository.findOrderBillByOwnerId(offset, limit,ownerId);
 
     }
 }

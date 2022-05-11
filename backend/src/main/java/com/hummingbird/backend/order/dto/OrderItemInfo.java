@@ -14,18 +14,13 @@ public class OrderItemInfo {
     private String foodName;
     private Long foodId;
     private int foodPrice;
-    private int count;
 
-    public int calOrderPrice() {
-        return foodPrice * count;
-    }
 
-    public OrderItemInfo(String fileName, String foodName, Long foodId, int foodPrice, int count) {
+    public OrderItemInfo(String fileName, String foodName, Long foodId, int foodPrice) {
         this.fileName = fileName;
         this.foodName = foodName;
         this.foodId = foodId;
         this.foodPrice = foodPrice;
-        this.count = count;
     }
 
     public OrderItem convertToOrderItem(){

@@ -42,7 +42,7 @@ public class OrderQueryRepository {
 
     private List<OrderItemInfo> findOrderItems(Long orderId) {
         return em.createQuery(
-                        "select new com.hummingbird.backend.order.dto.OrderItemInfo(f.fileName,f.filePath,f.id, oi.foodPrice, oi.count)" +
+                        "select new com.hummingbird.backend.order.dto.OrderItemInfo(f.fileName,f.name,f.id, oi.foodPrice)" +
                                 " from OrderItem oi" +
                                 " join oi.food f" +
                                 " where oi.order.orderId = : orderId", OrderItemInfo.class)

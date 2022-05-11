@@ -9,31 +9,25 @@ import lombok.Getter;
 
 @Getter
 public class CartData {
-    private String fileName;
     private Long foodId;
-    private String foodName;
-    private int foodPrice;
     private int count;
 
     public CartData() {
     }
 
     @Builder
-    public CartData(String fileName, Long foodId, String foodName, int foodPrice, int count) {
-        this.fileName = fileName;
+    public CartData( Long foodId, int count) {
+
         this.foodId = foodId;
-        this.foodName = foodName;
-        this.foodPrice = foodPrice;
         this.count = count;
     }
-
-    public OrderItem toEntity(Food food, Order order){
-        return OrderItem
-                .builder()
-                .food(food)
-                .order(order)
-                .foodPrice(foodPrice)
-                .count(count)
-                .build();
-    }
+//
+//    public OrderItem toEntity(Food food, Order order){
+//        return OrderItem
+//                .builder()
+//                .food(food)
+//                .order(order)
+//                .foodPrice(foodPrice)
+//                .build();
+//    }
 }

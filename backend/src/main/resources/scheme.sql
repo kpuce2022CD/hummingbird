@@ -77,10 +77,10 @@ create table test_db.order_item
 (
     order_item_id bigint auto_increment not null
         primary key,
-    count         int    not null,
     food_price   int    not null,
     food_id       bigint null,
     order_id      bigint null,
+    status varchar(5) not null default 'doing',
     constraint FK4fcv9bk14o2k04wghr09jmy3b
         foreign key (food_id) references test_db.food (id),
     constraint FKt4dc2r9nbvbujrljv3e23iibt

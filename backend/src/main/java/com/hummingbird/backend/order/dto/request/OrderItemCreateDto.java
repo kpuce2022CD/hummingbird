@@ -21,7 +21,6 @@ public class OrderItemCreateDto {
                 .food(food)
                 .order(order)
                 .foodPrice(foodPrice)
-                .count(count)
                 .build();
     }
 }
