@@ -1,43 +1,24 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import QRCode from 'react-qr-code';
 import styled from 'styled-components';
-
 import Nav from '../components/Nav';
 import ExViewPhone from '../components/ExViewPhone';
-import ImageNext from 'next/image';
-
-interface qrpageType {
-  queryString: string;
-  queryStringUrl: string;
-}
+import QrModal from '../components/QrPage/QrModal';
+import QrList from '../components/QrPage/QrList';
 
 const QrPage: NextPage = () => {
   const [url, setUrl] = useState<string>('');
+  const [tableNum, setTableNum] = useState(1);
   const router = useRouter();
-  const string = 'string';
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
 
   // QR코드 다운로드 기능
-  const onImageDownload = () => {
-    // FIXME: useRef를 활용하여 돔 객체에 접근하는 방식이 아닌 State로 접근하는 방식으로 차후 구현할 것.
-    const svg = document.getElementById('QRCode');
-    const svgData = new XMLSerializer().serializeToString(svg!);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx!.drawImage(img, 0, 0);
-      const pngFile = canvas.toDataURL('image/png');
-      const downloadLink = document.createElement('a');
-      downloadLink.download = 'QRCode';
-      downloadLink.href = `${pngFile}`;
-      downloadLink.click();
-    };
-    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
-  };
 
   // FIXME: QR 생성 URL 주소 차후에 배포 후 변경 필요
   useEffect(() => {
@@ -52,6 +33,12 @@ const QrPage: NextPage = () => {
     <div>
       <Nav />
       <Theme>
+        {/* Modal */}
+        {isOpenModal && (
+          <QrModal onClickToggleModal={onClickToggleModal}>
+            <QrList tableNum={tableNum} url={url} />
+          </QrModal>
+        )}
         <LeftSection>
           <StyledH1>
             앱을 다운 로드 받을 필요 없이
@@ -75,7 +62,18 @@ const QrPage: NextPage = () => {
               웨이팅이 있는 매장 입구
             </StyledItem>
           </StyledList>
-          <StyledBtn onClick={() => onImageDownload()}>저장하기</StyledBtn>
+          <ModalBtnWrapper>
+            <input
+              type="number"
+              placeholder="테이블 갯수를 입력해주세요."
+              min={1}
+              max={20}
+              onChange={(e) => {
+                setTableNum(parseInt(e.target.value));
+              }}
+            />
+            <StyledBtn onClick={onClickToggleModal}>저장하기</StyledBtn>
+          </ModalBtnWrapper>
         </LeftSection>
         <RightSection>
           <SideSection>
@@ -178,18 +176,6 @@ const StyledItem = styled.li`
   font-weight: 500;
   font-size: 1.2rem;
 `;
-const StyledBtn = styled.button`
-  padding: 40px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  background: #fa4a0c;
-  border-radius: 25px;
-  margin: 30px;
-  font-weight: bold;
-  width: 30%;
-  color: white;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-`;
 
 const StyledQr = styled.div`
   display: flex;
@@ -221,4 +207,29 @@ const CheckBell = styled.div`
   height: 70px;
 `;
 
+const ModalBtnWrapper = styled.div`
+  input {
+    padding: 15px;
+    border-radius: 25px;
+    border: 1px solid lightgray;
+    width: 17%;
+    outline: none;
+    font-weight: bold;
+
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+`;
+
+const StyledBtn = styled.button`
+  padding: 40px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: #fa4a0c;
+  border-radius: 25px;
+  margin: 30px;
+  font-weight: bold;
+  width: 20%;
+  color: white;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+`;
 export default QrPage;
