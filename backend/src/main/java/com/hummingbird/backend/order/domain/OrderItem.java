@@ -29,16 +29,11 @@ public class OrderItem {
 
     @Column(name = "food_price", nullable = false)
     private int foodPrice;
-
-    @Column(name = "count", nullable = false)
-    private int count;
-
     @Builder
-    public OrderItem(Food food, Order order, int foodPrice, int count) {
+    public OrderItem(Food food, Order order, int foodPrice) {
         this.food = food;
         this.order = order;
         this.foodPrice = foodPrice;
-        this.count = count;
     }
 
 }

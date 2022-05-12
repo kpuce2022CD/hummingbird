@@ -28,7 +28,4 @@ public class OrderInfo {
         this.orderDate = orderDate;
     }
 
-    public int calTotalPrice() {
-        return orderItemList.stream().mapToInt(OrderItemInfo::calOrderPrice).sum();
-    }
 }
