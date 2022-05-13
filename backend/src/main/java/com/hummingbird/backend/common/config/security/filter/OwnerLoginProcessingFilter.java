@@ -16,10 +16,13 @@ import java.io.IOException;
 
 public class OwnerLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
+    private static final String XML_HTTP_REQUEST = "XMLHttpRequest";
+    private static final String X_REQUESTED_WITH = "X-Requested-With";
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public OwnerLoginProcessingFilter() {
-        super(new AntPathRequestMatcher("/login", "POST"));
+        super(new AntPathRequestMatcher("/ajaxLogin", "POST"));
     }
 
     @Override

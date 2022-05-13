@@ -1,11 +1,7 @@
 package com.hummingbird.backend.owner.domain;
 
 import com.hummingbird.backend.owner.dto.OwnerDto;
-import com.hummingbird.backend.owner.dto.OwnerProfileDto;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -44,13 +40,5 @@ public class Owner {
                 ownerDto.getBusinessRegistrationNumber(),
                 ownerDto.getPassword()
         );
-    }
-    public OwnerProfileDto toOwnerProfileDto() {
-        return OwnerProfileDto
-                .builder()
-                .businessRegistrationNumber(getBusinessRegistrationNumber())
-                .userEmail(getEmail())
-                .userName(getName())
-                .build();
     }
 }
