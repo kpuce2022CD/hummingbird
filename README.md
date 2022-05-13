@@ -3,7 +3,7 @@
 ## 손쉽게 이쁜 디지털 메뉴판을 만들어보세요.
 
 - [팀 노션 바로가기](https://adhesive-carpet-0f4.notion.site/MenuCanvas-a950308ec6d049c6acbd171f420bbe7c)
-
+- [Sprint Burn down chart](https://docs.google.com/spreadsheets/d/1cTJPmh9X-wcf2H2B8oClWA6prfXUGdRR-YUiXpQv6iY/edit#gid=0)
   - [1. 소개](#1-소개)
   - [2. 아키텍처](#2-아키텍처)
   - [3. 실행 방법](#3-실행방법)
