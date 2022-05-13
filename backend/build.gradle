@@ -79,6 +79,13 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis
 	implementation group: 'org.springframework.data', name: 'spring-data-redis', version: '2.6.2'
 
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.2'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+
 }
 
 test {

@@ -2,6 +2,8 @@ package com.hummingbird.backend.owner.controller;
 
 import com.hummingbird.backend.owner.dto.OwnerDto;
 import com.hummingbird.backend.owner.dto.OwnerLoginRequest;
+import com.hummingbird.backend.owner.dto.OwnerProfileDto;
+import com.hummingbird.backend.owner.service.OwnerProfileService;
 import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ public class OwnerController {
     public static final String OWNER_API_URI = "/api/owner";
 
     private final GeneralOwnerService generalOwnerService;
+    private final OwnerProfileService ownerProfileService;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
@@ -64,4 +67,11 @@ public class OwnerController {
     public ResponseEntity<HttpStatus> logout() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<OwnerProfileDto> getOwnerProfile() {
+        return ResponseEntity.ok(ownerProfileService.getOwnerProfile());
+    }
+
+
 }

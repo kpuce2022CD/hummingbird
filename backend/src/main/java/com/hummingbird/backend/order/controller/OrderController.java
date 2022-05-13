@@ -1,11 +1,13 @@
 package com.hummingbird.backend.order.controller;
 
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
+import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
 import com.hummingbird.backend.order.dto.response.OrderBillResponse;
 import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
 import com.hummingbird.backend.order.dto.response.OrderItemBillResponse;
 import com.hummingbird.backend.order.dto.response.OrderItemStatusResponse;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
+import com.hummingbird.backend.order.dto.response.SalesCreateResponse;
 import com.hummingbird.backend.order.repository.query.OrderQueryRepository;
 import com.hummingbird.backend.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +59,9 @@ public class OrderController {
     @PostMapping("/status/{itemId}")
     public OrderItemStatusResponse changeStatus(@PathVariable("itemId")Long itemId) throws Exception{
         return orderService.changeStatus(itemId);
+    }
+    @GetMapping("/sales")
+    public SalesCreateResponse getSales(@RequestBody SalesCreateRequest salesCreateRequest){
+        return orderService.getSales(salesCreateRequest);
     }
 }

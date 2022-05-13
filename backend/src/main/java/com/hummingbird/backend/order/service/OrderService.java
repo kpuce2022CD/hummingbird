@@ -9,9 +9,11 @@ import com.hummingbird.backend.order.domain.OrderItem;
 import com.hummingbird.backend.order.dto.CartData;
 import com.hummingbird.backend.order.dto.OrderItemBillInfo;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
+import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
 import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
 import com.hummingbird.backend.order.dto.response.OrderItemBillResponse;
 import com.hummingbird.backend.order.dto.response.OrderItemStatusResponse;
+import com.hummingbird.backend.order.dto.response.SalesCreateResponse;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
 import com.hummingbird.backend.order.repository.OrderRepository;
 import com.hummingbird.backend.owner.domain.Owner;
@@ -146,5 +148,19 @@ public class OrderService {
 
         orderItemRepository.save(item);
         return OrderItemStatusResponse.builder().status(item.getStatus()).itemId(item.getId()).build();
+
+      
+    public SalesCreateResponse getSales(SalesCreateRequest salesCreateRequest){
+        int sales=0;
+        Owner ownerReference = ownerService.getReferenceById(salesCreateRequest.getOwnerId());
+        List<Order> orderList = orderRepository.findAllByOrderDateBetweenAndOwner(salesCreateRequest.getStart(),salesCreateRequest.getEnd(),ownerReference);
+        for (Order order : orderList) {
+            sales+=order.getTotalPrice();
+        }
+
+        return SalesCreateResponse.
+                builder()
+                .sales(sales).
+                build();
     }
 }
