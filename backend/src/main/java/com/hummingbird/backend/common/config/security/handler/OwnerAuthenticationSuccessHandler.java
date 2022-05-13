@@ -1,7 +1,7 @@
 package com.hummingbird.backend.common.config.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hummingbird.backend.user.domain.Owner;
+import com.hummingbird.backend.owner.domain.Owner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;

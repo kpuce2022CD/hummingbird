@@ -10,19 +10,21 @@ import lombok.Getter;
 @Builder
 public class OrderItemInfo {
 
+    private String fileName;
     private String foodName;
+    private Long foodId;
     private int foodPrice;
-    private int orderPrice;
-    private int count;
 
-    public int calOrderPrice() {
-        return foodPrice * count;
+
+    public OrderItemInfo(String fileName, String foodName, Long foodId, int foodPrice) {
+        this.fileName = fileName;
+        this.foodName = foodName;
+        this.foodId = foodId;
+        this.foodPrice = foodPrice;
     }
 
-    public OrderItemInfo(String foodName, int foodPrice, int orderPrice, int count) {
-        this.foodName = foodName;
-        this.foodPrice = foodPrice;
-        this.orderPrice = orderPrice;
-        this.count = count;
+    public OrderItem convertToOrderItem(){
+        return OrderItem.builder().
+                build();
     }
 }

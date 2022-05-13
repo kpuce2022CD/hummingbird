@@ -3,7 +3,7 @@ package com.hummingbird.backend.menu.domain;
 import com.hummingbird.backend.category.domain.Category;
 import com.hummingbird.backend.common.domain.BaseTimeEntity;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
-import com.hummingbird.backend.user.domain.Owner;
+import com.hummingbird.backend.owner.domain.Owner;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

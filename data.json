@@ -1,0 +1,60 @@
+{
+  "orderInfoList": [
+    {
+      "orderId": 1,
+      "orderStatus": "SEND",
+      "orderDate": "2022-05-10T10:48:04.132112",
+      "orderItemList": [
+        {
+          "fileName": "c5bd4c121ab9cd055f7d2fcaeb1c3b03coffee.jpeg",
+          "foodName": "테스트 음식 1",
+          "foodId": 3,
+          "foodPrice": 100,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "orderId": 2,
+      "orderStatus": "SEND",
+      "orderDate": "2022-05-10T10:55:02.443266",
+      "orderItemList": [
+        {
+          "fileName": "c5bd4c121ab9cd055f7d2fcaeb1c3b03coffee.jpeg",
+          "foodName": "테스트 음식 2",
+          "foodId": 3,
+          "foodPrice": 100,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "orderId": 3,
+      "orderStatus": "SEND",
+      "orderDate": "2022-05-10T10:55:02.443266",
+      "orderItemList": [
+        {
+          "fileName": "c5bd4c121ab9cd055f7d2fcaeb1c3b03coffee.jpeg",
+          "foodName": "테스트 음식 3",
+          "foodId": 3,
+          "foodPrice": 100,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "orderId": 4,
+      "orderStatus": "SEND",
+      "orderDate": "2022-05-10T10:55:02.443266",
+      "orderItemList": [
+        {
+          "fileName": "c5bd4c121ab9cd055f7d2fcaeb1c3b03coffee.jpeg",
+          "foodName": "테스트 음식 4",
+          "foodId": 3,
+          "foodPrice": 100,
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

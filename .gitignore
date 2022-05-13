@@ -1,6 +1,6 @@
 node_modules
 bower_components
-
+.env
 *.sublime*
 
 psd
@@ -90,5 +90,5 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
-
+.env
 # End of https://www.toptal.com/developers/gitignore/api/swift,cocoapods,git,java,react,kotlin,database

@@ -3,12 +3,12 @@ package com.hummingbird.backend.menu.service.serviceImpl;
 import com.hummingbird.backend.menu.domain.Menu;
 import com.hummingbird.backend.menu.dto.CreateMenuDto;
 import com.hummingbird.backend.menu.dto.GetMenuDto;
-import com.hummingbird.backend.user.domain.Owner;
+import com.hummingbird.backend.owner.domain.Owner;
 import com.hummingbird.backend.category.repository.CategoryRepository;
 import com.hummingbird.backend.food.repository.FoodRepository;
 import com.hummingbird.backend.menu.repository.MenuRepository;
 import com.hummingbird.backend.menu.service.MenuService;
-import com.hummingbird.backend.user.repository.OwnerRepository;
+import com.hummingbird.backend.owner.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

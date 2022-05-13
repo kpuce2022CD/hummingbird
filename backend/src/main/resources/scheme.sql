@@ -1,24 +1,13 @@
 SET foreign_key_checks = 0;
 drop table if exists test_db.category;
-drop table if exists test_db.customer;
 drop table if exists test_db.food;
 drop table if exists test_db.menu;
 drop table if exists test_db.order_item;
 drop table if exists test_db.orders;
 drop table if exists test_db.owner;
-drop table if exists test_db.shop;
 drop table if exists test_db.hibernate_sequence;
 SET foreign_key_checks = 1;
 
-create table if not exists test_db.customer
-(
-    id bigint auto_increment
-        primary key,
-    email       varchar(255) not null,
-    name        varchar(255) not null,
-    password    varchar(255) not null,
-    token    varchar(255) not null
-);
 
 create table test_db.hibernate_sequence
 (
@@ -32,7 +21,8 @@ create table test_db.owner
     name     varchar(255) not null,
     email    varchar(255) not null,
     password varchar(255) not null,
-    business_registration_number varchar(255) not null
+    business_registration_number varchar(255) not null,
+    open_status boolean not null default false
 );
 
 create table test_db.menu
@@ -69,13 +59,6 @@ create table test_db.food
         foreign key (category_id) references test_db.category (id)
 );
 
-create table test_db.shop
-(
-    shop_id     bigint auto_increment
-        primary key,
-    email       varchar(255) null,
-    open_status varchar(255) null
-);
 
 create table test_db.orders
 (
@@ -83,22 +66,21 @@ create table test_db.orders
         primary key,
     order_date   datetime(6) not null,
     order_status varchar(30) not null,
-    customer_id  bigint      null,
-    shop_id      bigint      null,
-    constraint FK624gtjin3po807j3vix093tlf
-        foreign key (customer_id) references test_db.customer (id),
+    owner_id      bigint      null,
+    total_price int not null,
+    table_num int not null,
     constraint FKqn03kko0738sehaal2gr2uxl6
-        foreign key (shop_id) references test_db.shop (shop_id)
+        foreign key (owner_id) references test_db.owner (id)
 );
 
 create table test_db.order_item
 (
-    order_item_id bigint not null
+    order_item_id bigint auto_increment not null
         primary key,
-    count         int    not null,
-    order_price   int    not null,
+    food_price   int    not null,
     food_id       bigint null,
     order_id      bigint null,
+    status varchar(5) not null default 'doing',
     constraint FK4fcv9bk14o2k04wghr09jmy3b
         foreign key (food_id) references test_db.food (id),
     constraint FKt4dc2r9nbvbujrljv3e23iibt

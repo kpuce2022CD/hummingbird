@@ -13,6 +13,7 @@ export const CardWrap = styled.div`
 export const CardTitle = styled.li`
   font-weight: 700;
   font-size: 1.75rem;
+  line-height: 2rem;
   padding-bottom: 10px;
   h2 {
     background: linear-gradient(to right, #f32170, #ff6b08, #cf23cf, #eedd44);

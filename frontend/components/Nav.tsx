@@ -1,25 +1,56 @@
-import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import styled from "styled-components";
+
+const NavBar = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  justify: between;
+  height:80px;
+  align-items: center;
+  margin-top:1rem;
+`;
+
+const ListContents = styled.li `
+  padding:3px;
+  padding-left: 3rem;
+  margin: 9px 15px 9px 15px;
+  &:hover{
+    color:#FA4A0C;
+  } 
+`;
+
+const StyledImg= styled.div`
+  padding: 1rem 8px 0px 1rem;
+`;
+
+const StyledUl = styled.ul`
+  display:flex;
+  padding: 3px;
+  font-weight: bold;
+`;
 
 const Nav = () => {
   return (
-    <nav className="flex justify-between h-[100px] items-center">
-      <div className="pl-8">
-        <Link href={"/"}>로고</Link>
-      </div>
-      <ul className="flex p-3 font-bold">
-        <li className="p-3 m-9 hover:text-red-500">
+    <NavBar>
+      <StyledImg>
+        <img src="../img/nav_logo.svg"
+        width="100px"
+        height="100%"
+        />
+      </StyledImg>
+      <StyledUl>
+        <ListContents>
           <Link href={"/"}>홈</Link>
-        </li>
-        <li className="p-3 m-9 hover:text-red-500">
+        </ListContents>
+        <ListContents>
           <Link href={"/"}>소개</Link>
-        </li>
-        <li className="p-3 m-9 hover:text-red-500">
+        </ListContents>
+        <ListContents>
           <Link href={"/"}>마이페이지</Link>
-        </li>
-      </ul>
-    </nav>
+        </ListContents>
+      </StyledUl>
+    </NavBar>
   );
 };
 

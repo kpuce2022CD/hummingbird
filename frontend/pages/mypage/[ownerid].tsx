@@ -34,15 +34,12 @@ const MyPage: NextPage = () => {
   const getMenuUseOwnerId = async (ownerid: number) => {
     try {
       const response = await axios.get<Menu[]>(
-        "http://localhost:8080/menu/get/owner",
+        "http://localhost:8080/menu/get/owner/"+ownerid,
         {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            ownerId: ownerid,
-          },
+          }
         }
       );
       setMenuList(response.data);

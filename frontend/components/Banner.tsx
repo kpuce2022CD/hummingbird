@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import StyledTwoPhone from "./StyledTwoPhone";
 import Image from "next/image";
 import twoPhone from "../public/img/GroupPhone.svg";
 
@@ -16,18 +17,10 @@ const Banner = () => {
           <br /> QR 하나로 주문까지!
         </StyledH1>
         <StyledDesc>지금 바로 스마트 메뉴판을 만들어보세요.</StyledDesc>
-        <StyledBtn onClick={() => router.push("/menupage")}>
+        <StyledBtn onClick={() => router.push("/mypage/1")}>
           메뉴만들기
         </StyledBtn>
-        <StyledImg>
-          <Image
-            src={twoPhone}
-            alt="휴대폰 두개 겹친 이미지"
-            width="100%"
-            height="100%"
-            layout="responsive"
-          />
-        </StyledImg>
+        <StyledTwoPhone />
       </ThemeSection>
     </Themediv>
   );
@@ -39,6 +32,7 @@ const Themediv = styled.div`
   height: 550px;
   text-align: center;
   color: white;
+  line-height: 1.5;
 `;
 
 const ThemeSection = styled.div`
@@ -81,16 +75,6 @@ const StyledBtn = styled.button`
   border-radius: 25px;
   margin: 30px;
   font-weight: bold;
-`;
-
-const StyledImg = styled.div`
-  display: span;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  margin: auto;
-  max-width: 450px;
-  max-height: 450px;
 `;
 
 export default Banner;

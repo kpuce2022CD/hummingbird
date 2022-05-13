@@ -27,7 +27,8 @@ export const FoodItem = styled.div`
   .foodcard-top {
     display: flex;
   }
-  Image {
+  img {
+    border-radius: 50%;
   }
 
   .foodcard_top__content {

@@ -1,7 +1,6 @@
 package com.hummingbird.backend.order.domain;
 
-import com.hummingbird.backend.shop.domain.Shop;
-import com.hummingbird.backend.user.domain.Customer;
+import com.hummingbird.backend.owner.domain.Owner;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,12 +22,8 @@ public class Order {
     private Long orderId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status",length = 30, nullable = false)
@@ -40,22 +35,35 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
+    @Column(name = "imp_uid",nullable = false)
+    private String impUid;
+
+    @Column(name = "table_num", nullable = false)
+    private int tableNum;
+
+    @Column(name = "total_price", nullable = false)
+    private int totalPrice;
+
     @Builder
-    public Order(Long orderId, Customer customer, Shop shop, OrderStatus orderStatus, List<OrderItem> orderItems) {
+    public Order(Long orderId, Owner owner, OrderStatus orderStatus, List<OrderItem> orderItems,String impUid,int tableNum,int totalPrice) {
         this.orderId = orderId;
-        this.customer = customer;
-        this.shop = shop;
+        this.owner = owner;
         this.orderStatus = orderStatus;
         this.orderItems = orderItems;
         this.orderDate = LocalDateTime.now();
+        this.impUid= impUid;
+        this.tableNum = tableNum;
+        this.totalPrice = totalPrice;
     }
 
-    public static Order createOrder(Customer customerReference, Shop shopReference){
+    public static Order createOrder(Owner ownerReference,String impUid,int tableNum,int totalPrice){
         return Order
                 .builder()
-                .customer(customerReference)
-                .shop(shopReference)
+                .owner(ownerReference)
                 .orderStatus(OrderStatus.SEND)
+                .impUid(impUid)
+                .tableNum(tableNum)
+                .totalPrice(totalPrice)
                 .build();
     }
 }

@@ -31,13 +31,13 @@ public class MenuController {
     }
 
     //read
-    @GetMapping( "/menu/get/owner") //owner 아이디로 조회
-    public List<GetMenuDto> getMenuByOwner(Long ownerId){
+    @GetMapping( "/menu/get/owner/{ownerId}") //owner 아이디로 조회
+    public List<GetMenuDto> getMenuByOwner(@PathVariable("ownerId") Long ownerId){
         return menuService.getMenuList(ownerId);
     }
 
-    @GetMapping( "/menu/get") //메뉴 아이디로 조회
-    public GetMenuDto getMenu(Long menuId){
+    @GetMapping( "/menu/get/{menuId}") //메뉴 아이디로 조회
+    public GetMenuDto getMenu(@PathVariable("menuId") Long menuId){
         return menuService.getMenu(menuId);
     }
 
@@ -48,8 +48,8 @@ public class MenuController {
     }
 
     //delete
-    @PostMapping("/menu/delete")
-    public boolean deleteMenu(Long menuId){
+    @GetMapping("/menu/delete/{menuId}")
+    public boolean deleteMenu(@PathVariable("menuId") Long menuId){
         return menuService.delete(menuId);
     }
 

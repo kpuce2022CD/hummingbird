@@ -99,9 +99,10 @@ const StyledLine = styled.div`
 `;
 
 const EasySection = styled.div`
-  justify-content: center;
-  align-items: center;
-  margin: auto;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    line-height:1.5;
 `;
 
 const StyledSection = styled.div`

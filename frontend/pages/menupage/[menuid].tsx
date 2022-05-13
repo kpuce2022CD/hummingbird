@@ -35,15 +35,12 @@ const MenuPage: NextPage = () => {
   const getCategoryUseMenuId = async (menuid: string | string[]) => {
     try {
       const response = await axios.get<CategoryData[]>(
-        "http://localhost:8080/category/get/menu",
+        "http://localhost:8080/category/get/menu/"+menuid,
         {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            menuId: menuid,
-          },
+          }
         }
       );
       setCategoryList(response.data);

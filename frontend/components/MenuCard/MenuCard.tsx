@@ -29,17 +29,9 @@ const MenuCard = ({ menuId, menuName }: Props) => {
 
   const deleteMenuDelete = async (menuId: number) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/menu/delete",
-        {},
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-          params: {
-            menuId: menuId,
-          },
-        }
+      const response = await axios.get(
+        "http://localhost:8080/menu/delete/"+menuId,
+        {}
       );
       console.log(response);
       window.location.reload();
