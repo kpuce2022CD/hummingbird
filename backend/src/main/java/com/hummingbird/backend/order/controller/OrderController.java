@@ -1,13 +1,9 @@
 package com.hummingbird.backend.order.controller;
 
+import com.hummingbird.backend.order.domain.OrderItemStatus;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
 import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
-import com.hummingbird.backend.order.dto.response.OrderBillResponse;
-import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
-import com.hummingbird.backend.order.dto.response.OrderItemBillResponse;
-import com.hummingbird.backend.order.dto.response.OrderItemStatusResponse;
-import com.hummingbird.backend.order.repository.OrderItemRepository;
-import com.hummingbird.backend.order.dto.response.SalesCreateResponse;
+import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.query.OrderQueryRepository;
 import com.hummingbird.backend.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +47,7 @@ public class OrderController {
     @GetMapping("/items/{orderId}")
     public OrderItemBillResponse getItemByOrderId(
             @PathVariable("orderId") Long orderId,
-            @RequestParam(value = "status", defaultValue = "doing") String status) throws Exception {
+            @RequestParam(value = "status",defaultValue = "DOING") String status) throws Exception {
 
         return orderService.getItemsByOrderId(orderId,status);
     }
@@ -63,5 +59,20 @@ public class OrderController {
     @GetMapping("/sales")
     public SalesCreateResponse getSales(@RequestBody SalesCreateRequest salesCreateRequest){
         return orderService.getSales(salesCreateRequest);
+    }
+
+    @PostMapping("/cancel/order/{orderId}")
+    public OrderCancelResponse cancelOrder(@PathVariable("orderId") Long orderId){
+        //order의 전체 취소
+        //order에 포함된 전체 orderItem들도 모두 cancel
+        return orderService.cancelOrder(orderId);
+
+    }
+
+    @PostMapping("/cancel/item/{orderItemId}")
+    public OrderItemCancelResponse cancelOrderItem(@PathVariable("orderItemId") Long orderItemId){
+        //order Item 부분 취소
+        //order의 totalPrice 변경 (취소한 금액만큼 빼기)
+        return orderService.cancelOrderItem(orderItemId);
     }
 }

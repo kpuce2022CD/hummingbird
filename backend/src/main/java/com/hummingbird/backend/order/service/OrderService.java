@@ -2,18 +2,14 @@ package com.hummingbird.backend.order.service;
 
 import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.food.repository.FoodRepository;
-import com.hummingbird.backend.food.service.FoodService;
-import com.hummingbird.backend.food.service.serviceImpl.FoodServiceImpl;
 import com.hummingbird.backend.order.domain.Order;
 import com.hummingbird.backend.order.domain.OrderItem;
+import com.hummingbird.backend.order.domain.OrderItemStatus;
 import com.hummingbird.backend.order.dto.CartData;
 import com.hummingbird.backend.order.dto.OrderItemBillInfo;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
 import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
-import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
-import com.hummingbird.backend.order.dto.response.OrderItemBillResponse;
-import com.hummingbird.backend.order.dto.response.OrderItemStatusResponse;
-import com.hummingbird.backend.order.dto.response.SalesCreateResponse;
+import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
 import com.hummingbird.backend.order.repository.OrderRepository;
 import com.hummingbird.backend.owner.domain.Owner;
@@ -104,13 +100,21 @@ public class OrderService {
         List<OrderItemBillInfo> itemList = new ArrayList<>();
         Order order = orderRepository.findById(orderId).orElseThrow();
         switch (status){
-            case "doing": case "done":
-                itemList = orderItemRepository.findAllByStatusAndOrder(status, order)
-                                .stream()
-                                .map(orderItemDtoVal ->
-                                        orderItemDtoVal.toEntity(order.getTableNum(), order.getOrderDate()))
+            case "DONE":
+                itemList = orderItemRepository.findAllByStatusAndOrder(OrderItemStatus.DONE, order)
+                        .stream()
+                        .map(orderItemDtoVal ->
+                                orderItemDtoVal.toEntity(order.getTableNum(), order.getOrderDate()))
                         .collect(Collectors.toList());
-                        break;
+                break;
+            case "DOING":
+                itemList = orderItemRepository.findAllByStatusAndOrder(OrderItemStatus.DOING, order)
+                        .stream()
+                        .map(orderItemDtoVal ->
+                                orderItemDtoVal.toEntity(order.getTableNum(), order.getOrderDate()))
+                        .collect(Collectors.toList());
+                break;
+
             case "all":
                 itemList = orderItemRepository.findAllByOrder(order)
                         .stream()
@@ -130,37 +134,80 @@ public class OrderService {
 
     }
 
-    public OrderItemStatusResponse changeStatus(Long itemId) throws Exception{
-       OrderItem item = orderItemRepository
+    public OrderItemStatusResponse changeStatus(Long itemId) throws Exception {
+        OrderItem item = orderItemRepository
                 .findById(itemId)
                 .orElseThrow();
 
-       switch (item.getStatus()){
-           case "doing" :
-               item.setStatus("done");
-               break;
-           case "done":
-               item.setStatus("doing");
-               break;
-           default:
-               throw new Exception("status error");
-       }
+        switch (item.getStatus()) {
+            case DOING:
+                item.doneItem();
+                break;
+            case DONE:
+               item.doingItem();
+                break;
+            default:
+                throw new Exception("status error");
+        }
 
         orderItemRepository.save(item);
         return OrderItemStatusResponse.builder().status(item.getStatus()).itemId(item.getId()).build();
 
-      
-    public SalesCreateResponse getSales(SalesCreateRequest salesCreateRequest){
-        int sales=0;
+    }
+
+    public SalesCreateResponse getSales (SalesCreateRequest salesCreateRequest){
+        int sales = 0;
         Owner ownerReference = ownerService.getReferenceById(salesCreateRequest.getOwnerId());
-        List<Order> orderList = orderRepository.findAllByOrderDateBetweenAndOwner(salesCreateRequest.getStart(),salesCreateRequest.getEnd(),ownerReference);
+        List<Order> orderList = orderRepository.findAllByOrderDateBetweenAndOwner(salesCreateRequest.getStart(), salesCreateRequest.getEnd(), ownerReference);
         for (Order order : orderList) {
-            sales+=order.getTotalPrice();
+            sales += order.getTotalPrice();
         }
 
         return SalesCreateResponse.
                 builder()
                 .sales(sales).
                 build();
+    }
+
+    //orderItemRepository에서 orderItem을 찾아서 status를 canceld로 변경
+    //orderRepository에서 order을 찾아서 foodPrice 만큼 빼서 저장
+    public OrderItemCancelResponse cancelOrderItem(Long orderItemId) {
+        OrderItem item = orderItemRepository.findById(orderItemId).orElseThrow();
+        item.cancelItem();
+        Order order = item.getOrder();
+        order.minusPrice(item.getFoodPrice());
+        orderRepository.save(order);
+        orderItemRepository.save(item);
+
+        System.out.println("status : "+item.getStatus());
+        System.out.println("id : "+item.getId());
+
+
+        return OrderItemCancelResponse
+                .builder()
+                .orderItemId(item.getId())
+                .totalPrice(order.getTotalPrice())
+                .status(item.getStatus())
+                .build();
+
+    }
+
+    //orderRepository에서 order를 찾아서 status를 canceld로 변경
+    //orderItemRepository에서 order id로 찾아서 모든 status를 canceled로 변경
+    public OrderCancelResponse cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.cancelOrder();
+        orderRepository.save(order);
+
+        orderItemRepository.saveAll(orderItemRepository.findAllByOrder(order).stream().map(orderItem -> {
+            orderItem.cancelItem();
+            return orderItem;
+        }).collect(Collectors.toList()));
+
+        return OrderCancelResponse.builder()
+                .orderId(order.getOrderId())
+                .status(order.getOrderStatus())
+                .build();
+
     }
 }

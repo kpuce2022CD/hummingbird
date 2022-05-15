@@ -6,7 +6,8 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class OrderItemStatusResponse {
+public class OrderItemCancelResponse {
+    private Long orderItemId;
     private OrderItemStatus status;
-    private Long itemId;
+    private int totalPrice;
 }
