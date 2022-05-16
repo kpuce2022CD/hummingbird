@@ -130,24 +130,25 @@ public class OrderService {
 
     }
 
-    public OrderItemStatusResponse changeStatus(Long itemId) throws Exception{
-       OrderItem item = orderItemRepository
+    public OrderItemStatusResponse changeStatus(Long itemId) throws Exception {
+        OrderItem item = orderItemRepository
                 .findById(itemId)
                 .orElseThrow();
 
-       switch (item.getStatus()){
-           case "doing" :
-               item.setStatus("done");
-               break;
-           case "done":
-               item.setStatus("doing");
-               break;
-           default:
-               throw new Exception("status error");
-       }
+        switch (item.getStatus()) {
+            case "doing":
+                item.setStatus("done");
+                break;
+            case "done":
+                item.setStatus("doing");
+                break;
+            default:
+                throw new Exception("status error");
+        }
 
         orderItemRepository.save(item);
         return OrderItemStatusResponse.builder().status(item.getStatus()).itemId(item.getId()).build();
+    }
 
       
     public SalesCreateResponse getSales(SalesCreateRequest salesCreateRequest){
