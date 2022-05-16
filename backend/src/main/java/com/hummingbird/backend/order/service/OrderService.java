@@ -1,5 +1,8 @@
 package com.hummingbird.backend.order.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonParser;
 import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.food.repository.FoodRepository;
 import com.hummingbird.backend.order.domain.Order;
@@ -8,34 +11,44 @@ import com.hummingbird.backend.order.domain.OrderItemStatus;
 import com.hummingbird.backend.order.dto.CartData;
 import com.hummingbird.backend.order.dto.OrderItemBillInfo;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
+import com.hummingbird.backend.order.dto.request.PayTockenRequest;
 import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
 import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
 import com.hummingbird.backend.order.repository.OrderRepository;
 import com.hummingbird.backend.owner.domain.Owner;
 import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
+import net.minidev.json.JSONObject;
+import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-
+    @Autowired
+    private final ObjectMapper objectMapper;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final GeneralOwnerService ownerService;
     private final FoodRepository foodRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, GeneralOwnerService ownerService,FoodRepository foodRepository) {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, GeneralOwnerService ownerService,FoodRepository foodRepository,ObjectMapper objectMapper) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.ownerService = ownerService;
         this.foodRepository = foodRepository;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -208,6 +221,44 @@ public class OrderService {
                 .orderId(order.getOrderId())
                 .status(order.getOrderStatus())
                 .build();
+
+    }
+
+    public void cancelCardPay(int amount, String imp_uid){ //부분 카드 환불
+
+    }
+
+    public void cancelCardPay(String imp_uid){ //전체 카드 환불
+
+    }
+
+    public void cancelCashPay(int amount,String imp_uid){ //부분 가상계좌 환불
+    }
+
+    public void cancelCashPay(String imp_uid){ //전체 가상계좌 환불
+
+    }
+
+    public String getToken() throws JsonProcessingException {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
+
+        String param = objectMapper.writeValueAsString(
+                PayTockenRequest.builder()
+                        .build()
+        );
+
+        JsonParser jParser = new JsonParser();
+
+        HttpEntity entity = new HttpEntity(param, httpHeaders);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JSONObject> responseEntity =  restTemplate.exchange("https://api.iamport.kr/users/getToken", HttpMethod.POST, entity, JSONObject.class);
+        JSONObject body = responseEntity.getBody();
+        HashMap<String,String> response = (HashMap<String, String>) body.get("response");
+
+        return response.get("access_token");
+
+
 
     }
 }

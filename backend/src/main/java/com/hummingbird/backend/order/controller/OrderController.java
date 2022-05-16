@@ -1,5 +1,6 @@
 package com.hummingbird.backend.order.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hummingbird.backend.order.domain.OrderItemStatus;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
 import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
@@ -7,6 +8,7 @@ import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.query.OrderQueryRepository;
 import com.hummingbird.backend.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,5 +76,10 @@ public class OrderController {
         //order Item 부분 취소
         //order의 totalPrice 변경 (취소한 금액만큼 빼기)
         return orderService.cancelOrderItem(orderItemId);
+    }
+
+    @PostMapping("/token")
+    public void getToken() throws JsonProcessingException, JSONException {
+        orderService.getToken();
     }
 }
