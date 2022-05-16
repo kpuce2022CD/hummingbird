@@ -3,14 +3,32 @@ import type { FC } from 'react';
 import * as S from './SignUpForm.style';
 import axios from 'axios';
 import { handleFormInputChange } from '../../../utils/FormInputHandler';
+import { useRouter } from 'next/router';
 type SignUpProps = {};
 
 const SignUpForm: FC<SignUpProps> = () => {
   const [formValue, setFormValue] = useState({});
-
-  const SignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+  const SignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formValue);
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/api/owner/signup',
+        JSON.stringify(formValue),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+      console.log(res);
+      alert('회원가입 되었습니다.');
+      router.push('/loginpage');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
