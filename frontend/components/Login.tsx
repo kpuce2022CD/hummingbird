@@ -1,23 +1,60 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import { handleFormInputChange } from '../utils';
 function Login() {
+  const [formValue, setFormValue] = useState({});
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formValue);
+
+    try {
+      const res = await axios.post(
+        'http://localhost:8080/api/owner/login',
+        JSON.stringify(formValue),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+      console.log(res);
+      try {
+      } catch (err) {}
+      alert('로그인 되었습니다.');
+    } catch (err) {
+      alert('로그인 실패입니다.');
+    }
+  };
+
   return (
     <LoginSection>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <H1>로그인</H1>
         <p>
           신규 사용자이신가요? <a href="/signup">계정 만들기</a>
         </p>
         <Input>
-          <Label>아이디</Label>
-          <InputSection type="id" placeholder="아이디를 입력하세요" />
+          <Label>이메일</Label>
+          <InputSection
+            type="email"
+            name="email"
+            placeholder="이메일을 입력하세요"
+            onChange={(e) => handleFormInputChange(e, setFormValue)}
+          />
         </Input>
         <Input>
           <Label>비밀번호</Label>
-          <InputSection type="password" placeholder="비밀번호를 입력하세요" />
+          <InputSection
+            type="password"
+            name="password"
+            placeholder="비밀번호를 입력하세요"
+            onChange={(e) => handleFormInputChange(e, setFormValue)}
+          />
         </Input>
-        <Loginbtn>login</Loginbtn>
+        <Loginbtn type="submit">login</Loginbtn>
       </Form>
     </LoginSection>
   );

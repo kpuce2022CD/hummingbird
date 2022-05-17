@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { FC } from 'react';
 import * as S from './SignUpForm.style';
 import axios from 'axios';
-import { handleFormInputChange } from '../../../utils/FormInputHandler';
+import { handleFormInputChange } from '../../../utils/handleFormInputChange';
 import { useRouter } from 'next/router';
 type SignUpProps = {};
 
@@ -28,6 +28,7 @@ const SignUpForm: FC<SignUpProps> = () => {
       router.push('/loginpage');
     } catch (err) {
       console.log(err);
+      alert('회원가입 실패입니다.!');
     }
   };
 
