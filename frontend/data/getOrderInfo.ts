@@ -1,6 +1,4 @@
-import { rejects } from 'assert';
 import axios from 'axios';
-import { resolve } from 'path';
 import { IOrderInfo } from './IOrderInfo';
 
 export const getOrderInfo = (): Promise<IOrderInfo[]> =>
