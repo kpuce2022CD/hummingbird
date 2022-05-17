@@ -14,13 +14,14 @@ function Login() {
         'http://localhost:8080/api/owner/login',
         JSON.stringify(formValue),
         {
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
           },
         }
       );
       console.log(res);
+      console.log(res.headers);
       try {
       } catch (err) {}
       alert('로그인 되었습니다.');
