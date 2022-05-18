@@ -1,6 +1,7 @@
 package com.hummingbird.backend.owner.controller;
 
 import com.hummingbird.backend.owner.dto.OwnerDto;
+import com.hummingbird.backend.owner.dto.OwnerInfoDto;
 import com.hummingbird.backend.owner.dto.OwnerLoginRequest;
 import com.hummingbird.backend.owner.dto.OwnerProfileDto;
 import com.hummingbird.backend.owner.service.OwnerProfileService;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import static com.hummingbird.backend.owner.controller.OwnerController.OWNER_API_URI;
 
@@ -44,6 +46,17 @@ public class OwnerController {
         generalOwnerService.signup(ownerDto,passwordEncoder);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    @DeleteMapping("/{ownerId}")
+    public ResponseEntity<HttpStatus> deleteOwnerById(@PathVariable Long ownerId) {
+        generalOwnerService.deleteOwnerById(ownerId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OwnerInfoDto>> readOwnerInfoAll() {
+        List<OwnerInfoDto> ownerInfoDtos = generalOwnerService.readOwnerInfoAll();
+        return ResponseEntity.ok(ownerInfoDtos);
     }
 
     @PostMapping("/login")
