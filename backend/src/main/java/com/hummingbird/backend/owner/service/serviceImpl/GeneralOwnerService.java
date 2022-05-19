@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class GeneralOwnerService {
         return passwordEncoder.matches(ownerLoginRequest.getPassword(), owner.getPassword());
     }
 
+    @Transactional
     public void deleteOwnerById(Long id) {
         Owner owner = ownerRepository.findOwnerById(id).orElseThrow();
         owner.deleteOwner();

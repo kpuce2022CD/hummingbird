@@ -70,6 +70,6 @@ public class Owner {
     }
 
     public void deleteOwner(){
-        isRemoved = true;
+        this.isRemoved = true;
     }
 }

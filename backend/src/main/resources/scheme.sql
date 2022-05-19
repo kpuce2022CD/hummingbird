@@ -22,7 +22,7 @@ create table test_db.owner
     email    varchar(255) not null,
     password varchar(255) not null,
     business_registration_number varchar(255) not null,
-    is_removed     boolean not null,
+    is_removed     bit(1) not null,
 
     open_status boolean not null default false
 );
