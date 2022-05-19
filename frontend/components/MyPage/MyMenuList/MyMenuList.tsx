@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import * as S from "./style";
-import EditPlusBtn from "../EditPlusBtn";
-import MenuModal from "../MenuModal";
-import { useRouter } from "next/router";
-import MenuCard from "../MenuCard";
+import React, { useEffect, useState } from 'react';
+import * as S from './MyMenuList.style';
+import EditPlusBtn from '../../EditPlusBtn';
+import MenuModal from '../../MenuModal';
+import { useRouter } from 'next/router';
+import MenuCard from '../../MenuCard';
 
 type Menu = {
   id: number;
@@ -14,7 +14,7 @@ type Props = {
   menuList: Menu[] | undefined;
 };
 
-const AdminMenu = ({ menuList }: Props) => {
+const MyMenuList = ({ menuList }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <div>
@@ -37,4 +37,4 @@ const AdminMenu = ({ menuList }: Props) => {
   );
 };
 
-export default AdminMenu;
+export default MyMenuList;

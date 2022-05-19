@@ -174,6 +174,7 @@ public class OrderService {
 
         orderItemRepository.save(item);
         return OrderItemStatusResponse.builder().status(item.getStatus()).itemId(item.getId()).build();
+    }
 
     }
 
