@@ -19,7 +19,7 @@ const menuHeaderList = [
   '주문 시각',
   '주문 상태',
   '주문 취소',
-  '주문 완료',
+  '주문 확인',
 ];
 
 const OrderList: FC = () => {
@@ -54,16 +54,20 @@ const OrderList: FC = () => {
         </tr>
       </thead>
       <tbody>
-        {orderInfos.length &&
+        {orderInfos.length > 0 &&
           orderInfos.map((val, idx) => (
             <tr key={idx}>
               {/* 주문 음식 이름 */}
-              <td>{val.orderItemList.map((val) => val.foodName)}</td>
+              <td>
+                {val.orderItemList.map((val) => (
+                  <div>{val.foodName}</div>
+                ))}
+              </td>
               {/* 주문 음식 갯수 */}
               <td className="count">
-                <Item bgColor={'#f3ecfd'} textColor={'#8a4af3'}>
-                  {`${val.orderItemList.map((val) => val.foodId)} 개`}
-                </Item>
+                {val.orderItemList.map((val) => (
+                  <div>{val.foodId} 개</div>
+                ))}
               </td>
               {/* FIXME: 테이블 번호 */}
               <td></td>
@@ -88,12 +92,12 @@ const OrderList: FC = () => {
                   disabled={false}
                   onClick={() => console.log('주문취소')}
                 >
-                  주문 취소
+                  주문 취소하기
                 </OrderBtn>
               </td>
               {/* FIXME: 주문 완료 버튼 */}
               <td>
-                <OrderBtn>완료</OrderBtn>
+                <OrderBtn>주문 확인 하기</OrderBtn>
               </td>
             </tr>
           ))}
