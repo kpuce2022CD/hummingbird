@@ -46,12 +46,12 @@ public class OrderController {
         return orderQueryRepository.findOrderBillByOwnerId(offset, limit,ownerId);
     }
 
-    @GetMapping("/items/{orderId}")
-    public OrderItemBillResponse getItemByOrderId(
-            @PathVariable("orderId") Long orderId,
+    @GetMapping("/items/{ownerId}")
+    public OrderItemBillResponse getItemsByOwnerId(
+            @PathVariable("ownerId") Long ownerId,
             @RequestParam(value = "status",defaultValue = "DOING") String status) throws Exception {
 
-        return orderService.getItemsByOrderId(orderId,status);
+        return orderService.getItemsByOrderId(ownerId,status);
     }
 
     @PostMapping("/status/{itemId}")
