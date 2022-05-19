@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { IOrderInfo } from './IOrderInfo';
 
-export const getOrderInfo = (): Promise<IOrderInfo[]> =>
+export const getOrderInfo = (ownerId: string): Promise<IOrderInfo[]> =>
   new Promise((resolve, reject) => {
     axios
-      .get('http://localhost:4000/orderInfoList')
+      .get(`http://localhost:8080/api/orders/bill/${ownerId}`)
       .then(({ data }) => {
         resolve(data);
       })
