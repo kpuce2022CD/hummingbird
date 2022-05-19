@@ -9,8 +9,4 @@ public class PayCancelRequest {
     private String imp_uid;
     private int amount;
     private String reason;
-    private String refund_holder;
-    private String refund_tel;
-    private String refund_bank;
-    private String ref_account;
 }

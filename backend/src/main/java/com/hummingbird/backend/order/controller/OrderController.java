@@ -64,7 +64,7 @@ public class OrderController {
     }
 
     @PostMapping("/cancel/order/{orderId}")
-    public OrderCancelResponse cancelOrder(@PathVariable("orderId") Long orderId){
+    public OrderCancelResponse cancelOrder(@PathVariable("orderId") Long orderId) throws JsonProcessingException {
         //order의 전체 취소
         //order에 포함된 전체 orderItem들도 모두 cancel
         return orderService.cancelOrder(orderId);
@@ -72,14 +72,21 @@ public class OrderController {
     }
 
     @PostMapping("/cancel/item/{orderItemId}")
-    public OrderItemCancelResponse cancelOrderItem(@PathVariable("orderItemId") Long orderItemId){
+    public OrderItemCancelResponse cancelOrderItem(@PathVariable("orderItemId") Long orderItemId) throws JsonProcessingException {
         //order Item 부분 취소
         //order의 totalPrice 변경 (취소한 금액만큼 빼기)
         return orderService.cancelOrderItem(orderItemId);
     }
 
     @PostMapping("/token")
-    public void getToken() throws JsonProcessingException, JSONException {
-        orderService.getToken();
+    public String getToken() throws JsonProcessingException, JSONException {
+        return orderService.getToken();
     }
+
+    @GetMapping("/method")
+    public String getMethod(@RequestParam("imp_uid") String imp_uid) throws JsonProcessingException, JSONException {
+        return orderService.getMethod(imp_uid, orderService.getToken());
+    }
+
+
 }
