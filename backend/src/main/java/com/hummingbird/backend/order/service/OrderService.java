@@ -44,6 +44,7 @@ public class OrderService {
     private String imp_secret;
 
 
+
     @Autowired
     private final ObjectMapper objectMapper;
     private final OrderRepository orderRepository;
@@ -193,7 +194,7 @@ public class OrderService {
 
     //orderItemRepository에서 orderItem을 찾아서 status를 canceld로 변경
     //orderRepository에서 order을 찾아서 foodPrice 만큼 빼서 저장
-    public OrderItemCancelResponse cancelOrderItem(Long orderItemId) throws JsonProcessingException {
+    public OrderItemCancelResponse cancelOrderItem(Long orderItemId) {
         OrderItem item = orderItemRepository.findById(orderItemId).orElseThrow();
         item.cancelItem();
         Order order = item.getOrder();
@@ -230,7 +231,7 @@ public class OrderService {
 
     //orderRepository에서 order를 찾아서 status를 canceld로 변경
     //orderItemRepository에서 order id로 찾아서 모든 status를 canceled로 변경
-    public OrderCancelResponse cancelOrder(Long orderId) throws JsonProcessingException {
+    public OrderCancelResponse cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         order.cancelOrder();
         orderRepository.save(order);
@@ -258,7 +259,7 @@ public class OrderService {
 
     }
 
-    public void cancelPay(PayCancelRequest payCancelRequest, String token) throws JsonProcessingException, Exception{ // 환불
+    public void cancelPay(PayCancelRequest payCancelRequest, String token)  throws Exception{ // 환불
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
         httpHeaders.setBearerAuth(token);
@@ -309,7 +310,7 @@ public class OrderService {
 
     }
 
-    public String getMethod(String imp_uid, String token) throws JsonProcessingException {
+    public String getMethod(String imp_uid, String token)  {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
         httpHeaders.setBearerAuth(token);

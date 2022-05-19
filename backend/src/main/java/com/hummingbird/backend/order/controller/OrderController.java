@@ -79,12 +79,12 @@ public class OrderController {
     }
 
     @PostMapping("/token")
-    public String getToken() throws JsonProcessingException, JSONException {
+    public String getToken() throws JsonProcessingException {
         return orderService.getToken();
     }
 
     @GetMapping("/method")
-    public String getMethod(@RequestParam("imp_uid") String imp_uid) throws JsonProcessingException, JSONException {
+    public String getMethod(@RequestParam("imp_uid") String imp_uid) throws JsonProcessingException {
         return orderService.getMethod(imp_uid, orderService.getToken());
     }
 
