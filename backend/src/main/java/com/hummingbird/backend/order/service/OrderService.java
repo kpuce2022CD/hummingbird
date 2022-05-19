@@ -176,7 +176,6 @@ public class OrderService {
         return OrderItemStatusResponse.builder().status(item.getStatus()).itemId(item.getId()).build();
     }
 
-    }
 
     public SalesCreateResponse getSales (SalesCreateRequest salesCreateRequest){
         int sales = 0;
