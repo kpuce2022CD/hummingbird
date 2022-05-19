@@ -1,16 +1,14 @@
 package com.hummingbird.backend.order.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hummingbird.backend.order.domain.OrderItemStatus;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
 import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
-import com.hummingbird.backend.order.dto.response.OrderBillResponse;
-import com.hummingbird.backend.order.dto.response.OrderCreateResponse;
-import com.hummingbird.backend.order.dto.response.OrderItemBillResponse;
-import com.hummingbird.backend.order.dto.response.OrderItemStatusResponse;
-import com.hummingbird.backend.order.repository.OrderItemRepository;
-import com.hummingbird.backend.order.dto.response.SalesCreateResponse;
+import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.query.OrderQueryRepository;
 import com.hummingbird.backend.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +49,7 @@ public class OrderController {
     @GetMapping("/items/{orderId}")
     public OrderItemBillResponse getItemByOrderId(
             @PathVariable("orderId") Long orderId,
-            @RequestParam(value = "status", defaultValue = "doing") String status) throws Exception {
+            @RequestParam(value = "status",defaultValue = "DOING") String status) throws Exception {
 
         return orderService.getItemsByOrderId(orderId,status);
     }
@@ -64,4 +62,31 @@ public class OrderController {
     public SalesCreateResponse getSales(@RequestBody SalesCreateRequest salesCreateRequest){
         return orderService.getSales(salesCreateRequest);
     }
+
+    @PostMapping("/cancel/order/{orderId}")
+    public OrderCancelResponse cancelOrder(@PathVariable("orderId") Long orderId) throws JsonProcessingException {
+        //order의 전체 취소
+        //order에 포함된 전체 orderItem들도 모두 cancel
+        return orderService.cancelOrder(orderId);
+
+    }
+
+    @PostMapping("/cancel/item/{orderItemId}")
+    public OrderItemCancelResponse cancelOrderItem(@PathVariable("orderItemId") Long orderItemId) throws JsonProcessingException {
+        //order Item 부분 취소
+        //order의 totalPrice 변경 (취소한 금액만큼 빼기)
+        return orderService.cancelOrderItem(orderItemId);
+    }
+
+    @PostMapping("/token")
+    public String getToken() throws JsonProcessingException, JSONException {
+        return orderService.getToken();
+    }
+
+    @GetMapping("/method")
+    public String getMethod(@RequestParam("imp_uid") String imp_uid) throws JsonProcessingException, JSONException {
+        return orderService.getMethod(imp_uid, orderService.getToken());
+    }
+
+
 }
