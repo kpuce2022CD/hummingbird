@@ -1,26 +1,31 @@
-import axios from "axios";
-import React, { useState } from "react";
-import * as S from "./style";
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import React, { useCallback, useState } from 'react';
+import { getSessionValue } from '../../utils';
+import * as S from './style';
 
 type Props = {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const MenuAddForm = ({ setModalOpen }: Props) => {
-  const [menuName, setMenuName] = useState<string>("");
-  const addNewMenu = async (menuName: string) => {
+  const [menuName, setMenuName] = useState<string>('');
+  //prettier-ignore
+  const router = useRouter();
+
+  const addNewMenu = async (menuName: string, ownerId: string) => {
     try {
       const data = {
         menuName: menuName,
-        ownerId: "1",
+        ownerId: ownerId,
       };
       const response = await axios.post(
-        "http://localhost:8080/menu/new",
+        'http://localhost:8080/menu/new',
         data,
         {
           headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
           },
         }
       );
@@ -34,7 +39,12 @@ const MenuAddForm = ({ setModalOpen }: Props) => {
 
   const handleNewMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    addNewMenu(menuName);
+    if (getSessionValue('ownerId') === null) {
+      alert('로그인을 먼저 해주세요.');
+      router.push('/loginpage');
+    } else {
+      addNewMenu(menuName, String(getSessionValue('ownerId')));
+    }
   };
   const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);

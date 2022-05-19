@@ -4,10 +4,17 @@ import styled from 'styled-components';
 import StyledTwoPhone from './StyledTwoPhone';
 import Image from 'next/image';
 import twoPhone from '../public/img/GroupPhone.svg';
+import { getSessionValue } from '../utils';
 
 const Banner = () => {
   const router = useRouter();
 
+  const handleBannerBnt = () => {
+    const ownerId = getSessionValue('ownerId');
+    ownerId === null
+      ? router.push('/loginpage')
+      : router.push(`/mypage/${sessionStorage.getItem('ownerId')}`);
+  };
   return (
     <Themediv>
       <ThemeSection>
@@ -17,9 +24,7 @@ const Banner = () => {
           <br /> QR 하나로 주문까지!
         </StyledH1>
         <StyledDesc>지금 바로 스마트 메뉴판을 만들어보세요.</StyledDesc>
-        <StyledBtn onClick={() => router.push('/loginpage')}>
-          메뉴만들기
-        </StyledBtn>
+        <StyledBtn onClick={handleBannerBnt}>메뉴만들기</StyledBtn>
         <StyledTwoPhone />
       </ThemeSection>
     </Themediv>
