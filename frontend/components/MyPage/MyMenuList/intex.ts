@@ -1,1 +1,1 @@
-export { default } from "./AdminMenu";
+export { default } from "./MyMenuList";
