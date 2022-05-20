@@ -331,4 +331,20 @@ public class OrderService {
         return response.get("pay_method");
 
     }
+
+    public JSONObject getReceipt(Long orderId, String token)  {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
+        httpHeaders.setBearerAuth(token);
+
+        HttpEntity entity = new HttpEntity(httpHeaders);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JSONObject> responseEntity =  restTemplate.exchange("https://api.iamport.kr/payments/"+orderRepository.findById(orderId).orElseThrow().getImpUid(), HttpMethod.GET, entity, JSONObject.class);
+        JSONObject body = responseEntity.getBody();
+        HashMap<String,String> response = (HashMap<String, String>) body.get("response");
+
+        return new JSONObject(response);
+
+    }
 }
