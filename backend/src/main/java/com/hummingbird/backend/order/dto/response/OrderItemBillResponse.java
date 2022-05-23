@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 @Getter
 public class OrderItemBillResponse {
-    private Long orderId;
+    private Long ownerId;
     private List<OrderItemBillInfo> orderItemList;
 }

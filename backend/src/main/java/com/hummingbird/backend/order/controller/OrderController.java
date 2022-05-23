@@ -7,6 +7,7 @@ import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
 import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.query.OrderQueryRepository;
 import com.hummingbird.backend.order.service.OrderService;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
@@ -46,12 +47,12 @@ public class OrderController {
         return orderQueryRepository.findOrderBillByOwnerId(offset, limit,ownerId);
     }
 
-    @GetMapping("/items/{orderId}")
-    public OrderItemBillResponse getItemByOrderId(
-            @PathVariable("orderId") Long orderId,
+    @GetMapping("/items/{ownerId}")
+    public OrderItemBillResponse getItemsByOwnerId(
+            @PathVariable("ownerId") Long ownerId,
             @RequestParam(value = "status",defaultValue = "DOING") String status) throws Exception {
 
-        return orderService.getItemsByOrderId(orderId,status);
+        return orderService.getItemsByOrderId(ownerId,status);
     }
 
     @PostMapping("/status/{itemId}")
@@ -86,6 +87,12 @@ public class OrderController {
     @GetMapping("/method")
     public String getMethod(@RequestParam("imp_uid") String imp_uid) throws JsonProcessingException {
         return orderService.getMethod(imp_uid, orderService.getToken());
+    }
+
+    @GetMapping("/receipt/{orderId}")
+    public JSONObject getReceipt(@PathVariable("orderId") Long orderId) throws JsonProcessingException {
+        return orderService.getReceipt(orderId, getToken());
+
     }
 
 

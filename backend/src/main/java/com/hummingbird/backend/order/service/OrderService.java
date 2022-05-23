@@ -18,6 +18,7 @@ import com.hummingbird.backend.order.dto.response.*;
 import com.hummingbird.backend.order.repository.OrderItemRepository;
 import com.hummingbird.backend.order.repository.OrderRepository;
 import com.hummingbird.backend.owner.domain.Owner;
+import com.hummingbird.backend.owner.repository.OwnerRepository;
 import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
 import net.minidev.json.JSONObject;
 import netscape.javascript.JSObject;
@@ -51,14 +52,16 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final GeneralOwnerService ownerService;
     private final FoodRepository foodRepository;
+    private final OwnerRepository ownerRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, GeneralOwnerService ownerService,FoodRepository foodRepository,ObjectMapper objectMapper) {
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, GeneralOwnerService ownerService,FoodRepository foodRepository,ObjectMapper objectMapper,OwnerRepository ownerRepository) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.ownerService = ownerService;
         this.foodRepository = foodRepository;
         this.objectMapper = objectMapper;
+        this.ownerRepository = ownerRepository;
     }
 
     /**
@@ -119,30 +122,33 @@ public class OrderService {
 
     }
 
-    public OrderItemBillResponse getItemsByOrderId(Long orderId, String status) throws Exception{
+    public OrderItemBillResponse getItemsByOrderId(Long ownerId, String status) throws Exception{
         List<OrderItemBillInfo> itemList = new ArrayList<>();
-        Order order = orderRepository.findById(orderId).orElseThrow();
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow();
         switch (status){
             case "DONE":
-                itemList = orderItemRepository.findAllByStatusAndOrder(OrderItemStatus.DONE, order)
+                itemList = orderItemRepository.findAllByStatusAndOrder_Owner(OrderItemStatus.DONE, owner)
                         .stream()
                         .map(orderItemDtoVal ->
-                                orderItemDtoVal.toEntity(order.getTableNum(), order.getOrderDate()))
+                                orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
+                                        orderItemDtoVal.getOrder().getOrderDate()))
                         .collect(Collectors.toList());
                 break;
             case "DOING":
-                itemList = orderItemRepository.findAllByStatusAndOrder(OrderItemStatus.DOING, order)
+                itemList = orderItemRepository.findAllByStatusAndOrder_Owner(OrderItemStatus.DOING, owner)
                         .stream()
                         .map(orderItemDtoVal ->
-                                orderItemDtoVal.toEntity(order.getTableNum(), order.getOrderDate()))
+                                orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
+                                        orderItemDtoVal.getOrder().getOrderDate()))
                         .collect(Collectors.toList());
                 break;
 
             case "all":
-                itemList = orderItemRepository.findAllByOrder(order)
+                itemList = orderItemRepository.findAllByOrder_Owner(owner)
                         .stream()
                         .map(orderItemDtoVal ->
-                                orderItemDtoVal.toEntity(order.getTableNum(), order.getOrderDate()))
+                                orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
+                                        orderItemDtoVal.getOrder().getOrderDate()))
                         .collect(Collectors.toList());
                 break;
             default:
@@ -151,7 +157,7 @@ public class OrderService {
         }
 
         return OrderItemBillResponse.builder()
-                .orderId(orderId)
+                .ownerId(ownerId)
                 .orderItemList(itemList)
                 .build();
 
@@ -323,6 +329,22 @@ public class OrderService {
         HashMap<String,String> response = (HashMap<String, String>) body.get("response");
 
         return response.get("pay_method");
+
+    }
+
+    public JSONObject getReceipt(Long orderId, String token)  {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(new MediaType("application","json", Charset.forName("UTF-8")));
+        httpHeaders.setBearerAuth(token);
+
+        HttpEntity entity = new HttpEntity(httpHeaders);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JSONObject> responseEntity =  restTemplate.exchange("https://api.iamport.kr/payments/"+orderRepository.findById(orderId).orElseThrow().getImpUid(), HttpMethod.GET, entity, JSONObject.class);
+        JSONObject body = responseEntity.getBody();
+        HashMap<String,String> response = (HashMap<String, String>) body.get("response");
+
+        return new JSONObject(response);
 
     }
 }
