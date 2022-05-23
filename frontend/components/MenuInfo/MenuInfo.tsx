@@ -1,17 +1,18 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useRouter } from "next/router";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRouter } from 'next/router';
 
 import {
   foodListState,
   menuIdState,
   tabClickedNameState,
   tabClickedState,
-} from "../../recoil/states";
-import FoodCard from "../FoodCard";
-import MenuModal from "../MenuModal";
-import * as S from "./style";
+} from '../../recoil/states';
+import FoodCard from '../FoodCard';
+import MenuModal from '../MenuModal';
+import * as S from './style';
+import { getSessionValue } from '../../utils';
 
 type CategoryData = {
   id: number;
@@ -39,41 +40,49 @@ const MenuInfo = ({ categoryList }: Props) => {
   const [tabClickedName, setTabClickedName] =
     useRecoilState(tabClickedNameState);
   const [modalOpen, setModalOpen] = useState(false);
-  const [menuWrapState, setMenuWrapState] = useState("카테고리");
+  const [menuWrapState, setMenuWrapState] = useState('카테고리');
+  const [ownerId, setOwnerId] = useState('');
   const router = useRouter();
   const deleteCategory = async (categoryId: number) => {
     try {
       console.log(categoryId);
       const response = await axios.get(
-        "http://localhost:8080/category/delete/"+categoryId,
-        {},
+        'http://localhost:8080/category/delete/' + categoryId,
+        {}
       );
       console.log(response.data);
       window.location.reload();
     } catch (err) {
-      console.log("error", err);
+      console.log('error', err);
     }
   };
 
   const getFoodUseCategoryId = async (categoryId: number) => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/food/get/category/"+categoryId,
+        'http://localhost:8080/food/get/category/' + categoryId,
         {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-          }
+            'Access-Control-Allow-Origin': '*',
+          },
         }
       );
       setFoodList(response.data);
     } catch (err) {
-      console.log("error", err);
+      console.log('error', err);
     }
   };
 
   useEffect(() => {
     getFoodUseCategoryId(tabClicked);
   }, [tabClicked]);
+
+  useEffect(() => {
+    const tmpOwnerId = getSessionValue('ownerId');
+    if (tmpOwnerId) {
+      setOwnerId(tmpOwnerId);
+    }
+  }, [getSessionValue('ownerId')]);
 
   const HandleSideMenuClick = (
     type: string,
@@ -93,12 +102,12 @@ const MenuInfo = ({ categoryList }: Props) => {
   ) => {
     const btnType = e.currentTarget.value;
     switch (btnType) {
-      case "food_add": {
-        setMenuWrapState("음식");
+      case 'food_add': {
+        setMenuWrapState('음식');
         setModalOpen(true);
         break;
       }
-      case "category_delete": {
+      case 'category_delete': {
         deleteCategory(tabClicked);
         break;
       }
@@ -109,8 +118,8 @@ const MenuInfo = ({ categoryList }: Props) => {
 
   const handleMakeQr = () => {
     router.push({
-      pathname: "/qrpage",
-      query: { menuId: menuId },
+      pathname: '/qrpage',
+      query: { menuId: menuId, ownerId: ownerId },
     });
   };
 
@@ -128,9 +137,9 @@ const MenuInfo = ({ categoryList }: Props) => {
           </S.EditHeader>
           {categoryList.map(({ id, name }, idx) => (
             <S.SideList
-              className={`${tabClicked === id ? "tap__active" : "tap"}`}
+              className={`${tabClicked === id ? 'tap__active' : 'tap'}`}
               key={id}
-              onClick={() => HandleSideMenuClick("카테고리", id, name)}
+              onClick={() => HandleSideMenuClick('카테고리', id, name)}
             >
               {/* 이떄 idx와 categoryId는 다릅니다. idx는 ui적 순서만을 나타냅니다. */}
               <p>{idx + 1}</p>
