@@ -1,6 +1,6 @@
 export type IOrderFood = {
-  count: number;
   fileName: string;
+  foodId: number;
   foodName: string;
   foodPrice: number;
 };

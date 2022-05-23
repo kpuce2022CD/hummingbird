@@ -23,6 +23,15 @@ const MyPageSideMenu: FC<MyPageSideMenuProps> = ({ setAdminContent }) => {
           <p onClick={() => setAdminContent('menu')}>메뉴판</p>
         </li>
         <li>
+          <p
+            onClick={() =>
+              router.push(`/orderpage/${sessionStorage.getItem('ownerId')}`)
+            }
+          >
+            메출내역
+          </p>
+        </li>
+        <li>
           <p onClick={() => setAdminContent('profile')}>회원정보</p>
         </li>
         <li>

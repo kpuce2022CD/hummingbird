@@ -10,6 +10,10 @@ export const Table = styled.table`
   td,
   th {
     padding: 20px;
+    line-height: 2rem;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
   }
 
   td {

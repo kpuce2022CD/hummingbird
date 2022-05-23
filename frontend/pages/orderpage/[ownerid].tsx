@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import React from 'react';
-import Nav from '../components/Nav';
-import OrderList from '../components/OrderPage/OrderList';
-import OrderTap from '../components/OrderPage/OrderTap';
+import Nav from '../../components/Nav';
+import OrderList from '../../components/OrderPage/OrderList';
+import OrderTap from '../../components/OrderPage/OrderTap';
 
 const OrderPage: NextPage = () => {
   return (
