@@ -50,6 +50,7 @@ public class OrderItem {
                 .builder()
                 .tableNum(tableNum)
                 .orderDate(orderDate)
+                .orderId(order.getOrderId())
                 .foodName(food.getName())
                 .status(status)
                 .build();

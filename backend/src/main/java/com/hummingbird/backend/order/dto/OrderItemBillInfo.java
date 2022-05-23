@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class OrderItemBillInfo {
+    private Long orderId;
     private String foodName;
     private int tableNum;
     private OrderItemStatus status;

@@ -142,6 +142,14 @@ public class OrderService {
                                         orderItemDtoVal.getOrder().getOrderDate()))
                         .collect(Collectors.toList());
                 break;
+            case "CANCEL":
+                itemList = orderItemRepository.findAllByStatusAndOrder_Owner(OrderItemStatus.CANCEL, owner)
+                        .stream()
+                        .map(orderItemDtoVal ->
+                                orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
+                                        orderItemDtoVal.getOrder().getOrderDate()))
+                        .collect(Collectors.toList());
+                break;
 
             case "all":
                 itemList = orderItemRepository.findAllByOrder_Owner(owner)
