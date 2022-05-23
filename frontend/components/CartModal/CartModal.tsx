@@ -1,14 +1,16 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
+import React from 'react';
+import { useRecoilValue } from 'recoil';
 
-import * as S from "./style";
-import { CartItemState } from "../../recoil/states";
-import CartItem from "../CartItem";
-import { numberFormat } from "../../utils/numberFormat";
-import PayBtn from "../PayBtn";
+import * as S from './style';
+import { CartItemState } from '../../recoil/states';
+import CartItem from '../CartItem';
+import { numberFormat } from '../../utils/numberFormat';
+import PayBtn from '../PayBtn';
 
 type Props = {
   setOpenCartModal: React.Dispatch<React.SetStateAction<boolean>>;
+  tableNumber: string;
+  ownerId: string;
 };
 type CartData = {
   fileName: string;
@@ -18,7 +20,7 @@ type CartData = {
   count: number;
 };
 
-const CartModal = ({ setOpenCartModal }: Props) => {
+const CartModal = ({ setOpenCartModal, ownerId, tableNumber }: Props) => {
   const CartList = useRecoilValue(CartItemState);
 
   const sumPrice = (CartList: CartData[]) => {
@@ -55,7 +57,12 @@ const CartModal = ({ setOpenCartModal }: Props) => {
           />
         ))}
       </S.CartList>
-      <PayBtn amount={sumPrice(CartList)} itemList={CartList} />
+      <PayBtn
+        amount={sumPrice(CartList)}
+        itemList={CartList}
+        ownerId={ownerId}
+        tableNumber={tableNumber}
+      />
     </S.Wrapper>
   );
 };

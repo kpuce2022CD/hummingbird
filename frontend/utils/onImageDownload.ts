@@ -1,5 +1,4 @@
 export const onImageDownload = (id: string) => {
-  // FIXME: useRef를 활용하여 돔 객체에 접근하는 방식이 아닌 State로 접근하는 방식으로 차후 구현할 것.
   const svg = document.getElementById(id);
   const svgData = new XMLSerializer().serializeToString(svg!);
   const canvas = document.createElement('canvas');

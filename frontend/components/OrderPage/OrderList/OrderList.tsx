@@ -11,10 +11,11 @@ import { useAsync } from '../../../utils/useAsync';
 import Item from '../Item.tsx/Item';
 import OrderBtn from '../OrderBtn';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+import axios from 'axios';
 const menuHeaderList = [
+  '주문 ID',
   '주문 음식 이름',
-  '주문 음식 갯수',
+  // '주문 음식 갯수',
   '테이블 번호',
   '주문 시각',
   '주문 상태',
@@ -44,6 +45,21 @@ const OrderList: FC = () => {
     console.log(orderInfos);
   }, [ownerId]);
 
+  const handleClickCancel = async (orderId: number) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/orders/cancel/order/${orderId}`,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response);
+      alert('주문 취소되었습니다.');
+    } catch (err) {}
+  };
   return (
     <S.Table>
       <thead>
@@ -57,25 +73,27 @@ const OrderList: FC = () => {
         {orderInfos.length > 0 &&
           orderInfos.map((val, idx) => (
             <tr key={idx}>
+              {/* 주문 ID */}
+              <td>{val.orderId}</td>
               {/* 주문 음식 이름 */}
               <td>
                 {val.orderItemList.map((val) => (
                   <div>{val.foodName}</div>
                 ))}
               </td>
-              {/* 주문 음식 갯수 */}
+              {/* 주문 음식 갯수
               <td className="count">
                 {val.orderItemList.map((val) => (
                   <div>{val.foodId} 개</div>
                 ))}
-              </td>
+              </td> */}
               {/* FIXME: 테이블 번호 */}
               <td></td>
               <td>{val.orderDate.substr(11, 5)}</td>
               {/* TODO : 주문 승인에 대해서 주문 승인 컴포넌트 넣어줄 예정 */}
               <td>
                 {/* TODO: 주문 승인 단어에따른 수정 예정 */}
-                {val.orderStatus === 'SEND' ? (
+                {val.orderStatus !== 'SEND' ? (
                   <Item bgColor={'#dbefdc'} textColor={'#357a38'}>
                     주문취소
                   </Item>
@@ -90,7 +108,7 @@ const OrderList: FC = () => {
               <td>
                 <OrderBtn
                   disabled={false}
-                  onClick={() => console.log('주문취소')}
+                  onClick={() => handleClickCancel(val.orderId)}
                 >
                   주문 취소하기
                 </OrderBtn>

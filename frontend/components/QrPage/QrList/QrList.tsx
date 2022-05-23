@@ -17,7 +17,7 @@ const QrList: FC<IQrListProps> = ({ tableNum, url }) => {
       {arr.map((val, idx) => (
         <S.ListItem key={val}>
           <div>
-            <QRCode id={String(val)} value={`${url}?table=${val}`} />
+            <QRCode id={String(val)} value={`${url}&table=${val}`} />
           </div>
           <div>
             <h1>{val}번 테이블 QR 코드 </h1>
