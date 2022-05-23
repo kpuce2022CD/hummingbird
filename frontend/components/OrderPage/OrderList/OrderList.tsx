@@ -1,31 +1,65 @@
-import React, { FC, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import * as S from './OrderList.style';
 import * as D from '../../../data';
 import { useAsync } from '../../../utils/useAsync';
 import Item from '../Item.tsx/Item';
 import OrderBtn from '../OrderBtn';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 const menuHeaderList = [
+  '주문 ID',
   '주문 음식 이름',
-  '주문 음식 갯수',
+  // '주문 음식 갯수',
   '테이블 번호',
   '주문 시각',
   '주문 상태',
   '주문 취소',
-  '주문 완료',
+  '주문 확인',
 ];
+
 const OrderList: FC = () => {
   const [orderInfos, setOrderInfos] = useState<D.IOrderInfo[]>([]);
+  const [ownerId, setOwnerId] = useState<string | string[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    setOwnerId(router.query.ownerid || []);
+    console.log(ownerId);
+  }, [router.query.ownerid]);
+  console.log(ownerId);
+
   const [error, resetError] = useAsync(async () => {
     setOrderInfos([]);
     //화면에 보이는 error 문구 제거 함수
     resetError();
     // Error 타입 객체가 reject되는 경우 테스트할 시 주석 제거
     // await Promise.reject(new Error('some error occurs'));
-    const fetchOrderInfos = await D.getOrderInfo();
-
+    const fetchOrderInfos = await D.getOrderInfo(String(ownerId));
     setOrderInfos(fetchOrderInfos);
-  });
-  console.log(orderInfos);
+    console.log(orderInfos);
+  }, [ownerId]);
+
+  const handleClickCancel = async (orderId: number) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/orders/cancel/order/${orderId}`,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response);
+      alert('주문 취소되었습니다.');
+    } catch (err) {}
+  };
   return (
     <S.Table>
       <thead>
@@ -36,24 +70,30 @@ const OrderList: FC = () => {
         </tr>
       </thead>
       <tbody>
-        {orderInfos.length &&
+        {orderInfos.length > 0 &&
           orderInfos.map((val, idx) => (
             <tr key={idx}>
+              {/* 주문 ID */}
+              <td>{val.orderId}</td>
               {/* 주문 음식 이름 */}
-              <td>{val.orderItemList.map((val) => val.foodName)}</td>
-              {/* 주문 음식 갯수 */}
-              <td className="count">
-                <Item bgColor={'#f3ecfd'} textColor={'#8a4af3'}>
-                  {`${val.orderItemList.map((val) => val.count)} 개`}
-                </Item>
+              <td>
+                {val.orderItemList.map((val) => (
+                  <div>{val.foodName}</div>
+                ))}
               </td>
+              {/* 주문 음식 갯수
+              <td className="count">
+                {val.orderItemList.map((val) => (
+                  <div>{val.foodId} 개</div>
+                ))}
+              </td> */}
               {/* FIXME: 테이블 번호 */}
               <td></td>
               <td>{val.orderDate.substr(11, 5)}</td>
               {/* TODO : 주문 승인에 대해서 주문 승인 컴포넌트 넣어줄 예정 */}
               <td>
                 {/* TODO: 주문 승인 단어에따른 수정 예정 */}
-                {val.orderStatus === 'SEND' ? (
+                {val.orderStatus !== 'SEND' ? (
                   <Item bgColor={'#dbefdc'} textColor={'#357a38'}>
                     주문취소
                   </Item>
@@ -68,14 +108,14 @@ const OrderList: FC = () => {
               <td>
                 <OrderBtn
                   disabled={false}
-                  onClick={() => console.log('주문취소')}
+                  onClick={() => handleClickCancel(val.orderId)}
                 >
-                  주문 취소
+                  주문 취소하기
                 </OrderBtn>
               </td>
               {/* FIXME: 주문 완료 버튼 */}
               <td>
-                <OrderBtn>완료</OrderBtn>
+                <OrderBtn>주문 확인 하기</OrderBtn>
               </td>
             </tr>
           ))}
