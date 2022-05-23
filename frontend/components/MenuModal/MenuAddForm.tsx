@@ -47,7 +47,6 @@ const MenuAddForm = ({ setModalOpen }: Props) => {
     }
   };
   const handleMenuChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setMenuName(e.target.value);
   };
   return (

@@ -8,7 +8,6 @@ type IQrListProps = {
 };
 
 const QrList: FC<IQrListProps> = ({ tableNum, url }) => {
-  console.log(url);
   const arr = Array.from({ length: tableNum }, (notUsed, i) => i + 1);
 
   return (

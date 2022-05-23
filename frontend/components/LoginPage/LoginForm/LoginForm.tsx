@@ -12,8 +12,6 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValue);
-
     try {
       const res = await axios.post(
         'http://localhost:8080/api/owner/login',

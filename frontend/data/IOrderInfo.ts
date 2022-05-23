@@ -1,13 +1,12 @@
-export type IOrderFood = {
-  fileName: string;
-  foodId: number;
+export type IOrderItemList = {
   foodName: string;
-  foodPrice: number;
+  orderDate: string;
+  orderId: number;
+  status: string;
+  tableNum: number;
 };
 
 export type IOrderInfo = {
-  orderDate: string;
-  orderId: number;
-  orderItemList: IOrderFood[];
-  orderStatus: string;
+  ownerId: number;
+  orderItemList: IOrderItemList[];
 };
