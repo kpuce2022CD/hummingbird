@@ -1,5 +1,8 @@
 insert into test_db.owner (id, name, email, password, business_registration_number,is_removed)
 values (1,'허밍버드', 'hummingbird@naver.com', '$2a$10$MHQMWET1x257pWrqqpT/quDw6UH0Vmi8PS9Lzl594cefwODcT8zWa','business_registration_numberbusiness_registration_number',false);
+insert into test_db.owner (id, name, email, password, business_registration_number,is_removed)
+values (2,'ADMIN', 'admin@tukorea.ac.kr', '$2a$10$Mn6q9QINnSSSzuiWzvlA9OPURaNPlsD1GOpOptDCUUkUZcIxYqwMC','ADMIN',false);
+
 insert into test_db.menu (id, created_date, modified_date, name, owner_id)
 values (1, timestamp(NOW()), timestamp(NOW()),'치킨 메뉴판',1);
 insert into test_db.category (id, name, menu_id)

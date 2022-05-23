@@ -1,11 +1,13 @@
 package com.hummingbird.backend.owner.controller;
 
+import com.hummingbird.backend.owner.domain.Owner;
 import com.hummingbird.backend.owner.dto.OwnerDto;
 import com.hummingbird.backend.owner.dto.OwnerInfoDto;
 import com.hummingbird.backend.owner.dto.OwnerLoginRequest;
 import com.hummingbird.backend.owner.dto.OwnerProfileDto;
 import com.hummingbird.backend.owner.service.OwnerProfileService;
 import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
+import com.hummingbird.backend.owner.util.OwnerUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ public class OwnerController {
     private final GeneralOwnerService generalOwnerService;
     private final OwnerProfileService ownerProfileService;
     private final PasswordEncoder passwordEncoder;
+
+    private final OwnerUtil ownerUtil;
 
     @PostMapping("/signup")
     public ResponseEntity<HttpStatus> signup(@RequestBody @Valid OwnerDto ownerDto, BindingResult bindingResult) {
@@ -86,5 +90,13 @@ public class OwnerController {
         return ResponseEntity.ok(ownerProfileService.getOwnerProfile());
     }
 
+    @GetMapping("/admin/profile")
+    public ResponseEntity<OwnerProfileDto> getAdminProfile() {
+        Owner userEntityBySessionID = ownerUtil.getUserEntityBySessionID();
 
+        if (!userEntityBySessionID.getBusinessRegistrationNumber().equals("ADMIN")){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+        return ResponseEntity.ok(ownerProfileService.getAdminProfile());
+    }
 }
