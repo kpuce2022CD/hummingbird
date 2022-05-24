@@ -48,6 +48,14 @@ public class GeneralOwnerService {
         return false;
     }
 
+    public boolean isDeletedCustomer(OwnerDto ownerDto, PasswordEncoder passwordEncoder) {
+        Optional<Owner> customerToCheckDuplicated = ownerRepository.findOwnerByEmail(ownerDto.getEmail());
+        if (Boolean.TRUE.equals(customerToCheckDuplicated.get().getIsRemoved())) {
+            log.info("{}은 삭제된 회원입니다.", ownerDto.getName());
+            return true;
+        }
+        return false;
+    }
     public boolean isValidCustomer(OwnerLoginRequest ownerLoginRequest, PasswordEncoder passwordEncoder) {
         Owner owner = findOwnerByEmail(ownerLoginRequest.getEmail());
         // param1: 암호화 전, db에 저장된 암호화 된 비밀 번호
@@ -64,7 +72,7 @@ public class GeneralOwnerService {
         List<Owner> ownerList = ownerRepository.findAll();
         List<OwnerInfoDto> ownerInfoDtos = new ArrayList<OwnerInfoDto>();
         for (Owner owner: ownerList){
-            if (!owner.getIsRemoved()){
+            if ((!owner.getIsRemoved())&&(!owner.getBusinessRegistrationNumber().equals("ADMIN"))){
                 ownerInfoDtos.add(owner.toOwnerInfoDto());
             }
         }

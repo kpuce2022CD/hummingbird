@@ -29,7 +29,7 @@ public class OwnerAuthenticationFailureHandler implements AuthenticationFailureH
         if(exception instanceof BadCredentialsException) {
             errorMessage = "Invalid Username or Password";
         } else if(exception instanceof DisabledException) {
-            errorMessage = "Locked";
+            errorMessage = "삭제된 유저입니다. 고객센터에 문의하세요";
         } else if(exception instanceof CredentialsExpiredException) {
             errorMessage = "Expired password";
         }
