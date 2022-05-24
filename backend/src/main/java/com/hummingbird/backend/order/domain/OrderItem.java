@@ -49,6 +49,7 @@ public class OrderItem {
         return OrderItemBillInfo
                 .builder()
                 .tableNum(tableNum)
+                .orderItemId(id)
                 .orderDate(orderDate)
                 .orderId(order.getOrderId())
                 .foodName(food.getName())

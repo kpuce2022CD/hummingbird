@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class OrderItemBillInfo {
     private Long orderId;
+    private Long orderItemId;
     private String foodName;
     private int tableNum;
     private OrderItemStatus status;
