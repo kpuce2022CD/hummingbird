@@ -56,13 +56,11 @@ const MenuCard = ({ menuId, menuName }: Props) => {
         break;
       }
       case 'edit': {
-        console.log('edit');
         setModalOpen(true);
         setMenuWrapState('메뉴판수정');
         break;
       }
       case 'delete': {
-        console.log('delete');
         deleteMenuDelete(menuId);
         break;
       }

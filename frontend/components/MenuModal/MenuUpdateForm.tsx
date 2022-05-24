@@ -1,9 +1,9 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { menuIdState } from "../../recoil/states";
-import * as S from "./style";
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { menuIdState } from '../../recoil/states';
+import * as S from './style';
 
 type Props = {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,22 +12,21 @@ type Props = {
 };
 
 const MenuUpdateForm = ({ setModalOpen, menuId, menuName }: Props) => {
-  const [editMenuName, setEditMenuName] = useState<string>("");
+  const [editMenuName, setEditMenuName] = useState<string>('');
   const router = useRouter();
 
   const updateMenu = async (updateName: string, menuId: number) => {
     try {
-      console.log(updateName);
       const response = await axios.post(
-        "http://localhost:8080/menu/update",
+        'http://localhost:8080/menu/update',
         {
           menuName: updateName,
           menuId: String(menuId),
         },
         {
           headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
           },
         }
       );
@@ -44,14 +43,14 @@ const MenuUpdateForm = ({ setModalOpen, menuId, menuName }: Props) => {
   };
   const handleUpdateMenuSubmit = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    typeof menuId !== "undefined" && updateMenu(editMenuName, menuId);
+    typeof menuId !== 'undefined' && updateMenu(editMenuName, menuId);
   };
   const handleMenuFoodEdit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     menuId: number | undefined
   ) => {
     e.preventDefault();
-    typeof menuId !== "undefined" &&
+    typeof menuId !== 'undefined' &&
       router.push({
         pathname: `/menupage/${menuId}`,
         query: { menuName: menuName },

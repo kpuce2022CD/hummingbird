@@ -45,12 +45,11 @@ const MenuInfo = ({ categoryList }: Props) => {
   const router = useRouter();
   const deleteCategory = async (categoryId: number) => {
     try {
-      console.log(categoryId);
       const response = await axios.get(
         'http://localhost:8080/category/delete/' + categoryId,
         {}
       );
-      console.log(response.data);
+
       window.location.reload();
     } catch (err) {
       console.log('error', err);
