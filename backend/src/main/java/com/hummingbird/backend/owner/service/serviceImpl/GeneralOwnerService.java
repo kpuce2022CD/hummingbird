@@ -64,7 +64,7 @@ public class GeneralOwnerService {
         List<Owner> ownerList = ownerRepository.findAll();
         List<OwnerInfoDto> ownerInfoDtos = new ArrayList<OwnerInfoDto>();
         for (Owner owner: ownerList){
-            if (!owner.getIsRemoved()){
+            if ((!owner.getIsRemoved())&&(!owner.getBusinessRegistrationNumber().equals("ADMIN"))){
                 ownerInfoDtos.add(owner.toOwnerInfoDto());
             }
         }
