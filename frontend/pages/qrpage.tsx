@@ -26,7 +26,6 @@ const QrPage: NextPage = () => {
     const menuId = String(router.query.menuId);
     const ownerId = String(router.query.ownerId);
     const queryStringUrl = `http://localhost:3000/resultmenu?menuId=${menuId}&ownerId=${ownerId}`;
-    console.log(queryStringUrl);
     setUrl(queryStringUrl);
   }, [router.query.menuId]);
 

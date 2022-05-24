@@ -12,8 +12,6 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValue);
-
     try {
       const res = await axios.post(
         'http://localhost:8080/api/owner/login',
@@ -25,12 +23,12 @@ function LoginForm() {
           },
         }
       );
-      console.log(res);
+      res.data.businessRegistrationNumber === 'ADMIN'
+        ? router.push('/admin')
+        : router.push('/');
+
       sessionStorage.setItem('LoginSession', String(Cookies.get('JSESSIONID')));
-      sessionStorage.setItem('ownerId', res.data.id);
-      router.push('/');
-      try {
-      } catch (err) {}
+
       alert('로그인 되었습니다.');
     } catch (err) {
       alert('로그인 실패입니다.');

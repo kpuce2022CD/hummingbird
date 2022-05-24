@@ -36,7 +36,6 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
     amount: number
   ) => {
     try {
-      console.log(itemList);
       let orderCreateRequest = {
         tableNumber: tableNumber,
         impUid: impUid,
