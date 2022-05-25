@@ -20,6 +20,9 @@ const StyledImage = styled.div`
   object-fit: contain;
   background-image: url('img/QR/QRiPhone.svg');
   z-index: 100;
+  @media screen and (max-width: 1000px){
+    display:none;
+  }
 `;
 
 export default ExViewPhone;
