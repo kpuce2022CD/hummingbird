@@ -28,7 +28,7 @@ function LoginForm() {
         : router.push('/');
 
       sessionStorage.setItem('LoginSession', String(Cookies.get('JSESSIONID')));
-
+      sessionStorage.setItem('ownerId', res.data.id);
       alert('로그인 되었습니다.');
     } catch (err) {
       alert('로그인 실패입니다.');
