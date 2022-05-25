@@ -8,12 +8,12 @@ const NavBar = styled.nav`
   justify: between;
   height:80px;
   align-items: center;
-  margin-top:1rem;
+  margin:10px 0px 10px 0px;
 `;
 
 const ListContents = styled.li `
   padding:3px;
-  padding-left: 3rem;
+  padding-left: 5px;
   margin: 9px 15px 9px 15px;
   &:hover{
     color:#FA4A0C;
