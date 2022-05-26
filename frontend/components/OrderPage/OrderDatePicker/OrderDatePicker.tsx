@@ -28,6 +28,7 @@ const OrderDatePicker: FC<OrderDatePickerProps> = ({ ownerId }) => {
         ? setStartDate(parseDate(date, type))
         : setEndDate(parseDate(date, type));
     }
+    alert('날짜 설정되었습니다');
   };
 
   const handleBtnClick = async (
