@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.order.dto.OrderItemBillInfo;
 import com.hummingbird.backend.order.dto.OrderItemInfo;
+import com.hummingbird.backend.util.TimeZoneSetter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,7 +51,7 @@ public class OrderItem {
                 .builder()
                 .tableNum(tableNum)
                 .orderItemId(id)
-                .orderDate(orderDate)
+                .orderDate(TimeZoneSetter.localToKTC(orderDate))
                 .orderId(order.getOrderId())
                 .foodName(food.getName())
                 .status(status)
