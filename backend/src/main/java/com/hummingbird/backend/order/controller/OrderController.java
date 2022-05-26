@@ -10,8 +10,11 @@ import com.hummingbird.backend.order.service.OrderService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 import static com.hummingbird.backend.order.controller.OrderController.ORDER_API_URI;
 
@@ -59,9 +62,11 @@ public class OrderController {
     public OrderItemStatusResponse changeStatus(@PathVariable("itemId")Long itemId) throws Exception{
         return orderService.changeStatus(itemId);
     }
-    @GetMapping("/sales")
-    public SalesCreateResponse getSales(@RequestBody SalesCreateRequest salesCreateRequest){
-        return orderService.getSales(salesCreateRequest);
+    @GetMapping("/sales/{ownerId}")
+    public SalesCreateResponse getSales(@PathVariable("ownerId") Long ownerId,
+                                        @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                        @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime end){
+        return orderService.getSales(ownerId, start, end);
     }
 
     @PostMapping("/cancel/order/{orderId}")
