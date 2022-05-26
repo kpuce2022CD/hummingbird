@@ -28,3 +28,8 @@ export const Btn = styled.button`
   padding: 10px;
   border-radius: 10px;
 `;
+
+export const Sales = styled.div`
+  padding: 10px;
+  margin-right: 20px;
+`;

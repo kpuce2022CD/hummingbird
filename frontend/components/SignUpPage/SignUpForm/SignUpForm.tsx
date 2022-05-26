@@ -31,7 +31,6 @@ const SignUpForm: FC<SignUpProps> = () => {
       alert('회원가입 실패입니다.!');
     }
   };
-
   return (
     <>
       <S.SignUpSection>
@@ -57,6 +56,15 @@ const SignUpForm: FC<SignUpProps> = () => {
           </S.Input>
           <S.Input>
             <S.Label>비밀번호</S.Label>
+            <S.InputSection
+              type="password"
+              name="password"
+              placeholder="비밀번호를 입력하세요"
+              onChange={(e) => handleFormInputChange(e, setFormValue)}
+            />
+          </S.Input>
+          <S.Input>
+            <S.Label>비밀번호 확인</S.Label>
             <S.InputSection
               type="password"
               name="password"
