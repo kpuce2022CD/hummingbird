@@ -20,6 +20,7 @@ import com.hummingbird.backend.order.repository.OrderRepository;
 import com.hummingbird.backend.owner.domain.Owner;
 import com.hummingbird.backend.owner.repository.OwnerRepository;
 import com.hummingbird.backend.owner.service.serviceImpl.GeneralOwnerService;
+import com.hummingbird.backend.util.TimeZoneSetter;
 import net.minidev.json.JSONObject;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,7 +196,7 @@ public class OrderService {
     public SalesCreateResponse getSales (SalesCreateRequest salesCreateRequest){
         int sales = 0;
         Owner ownerReference = ownerService.getReferenceById(salesCreateRequest.getOwnerId());
-        List<Order> orderList = orderRepository.findAllByOrderDateBetweenAndOwner(salesCreateRequest.getStart(), salesCreateRequest.getEnd(), ownerReference);
+        List<Order> orderList = orderRepository.findAllByOrderDateBetweenAndOwner(TimeZoneSetter.KTCToLocal(salesCreateRequest.getStart()), TimeZoneSetter.KTCToLocal(salesCreateRequest.getEnd()), ownerReference);
         for (Order order : orderList) {
             sales += order.getTotalPrice();
         }
