@@ -29,15 +29,14 @@ const menuHeaderList = [
   '주문 부분 환불',
 ];
 
-const OrderList: FC = () => {
+type OrderListProps = {
+  ownerId: string | string[];
+};
+
+const OrderList: FC<OrderListProps> = ({ ownerId }) => {
   const [orderInfos, setOrderInfos] = useState<D.IOrderItemList[]>([]);
-  const [ownerId, setOwnerId] = useState<string | string[]>([]);
   const tabStatus = useRecoilValue(tabClickedState);
   const router = useRouter();
-
-  useEffect(() => {
-    setOwnerId(router.query.ownerid || []);
-  }, [router.query.ownerid]);
 
   const [error, resetError] = useAsync(async () => {
     setOrderInfos([]);
@@ -161,6 +160,7 @@ const OrderList: FC = () => {
               <td>
                 <OrderBtn
                   onClick={() => handleCheckOrder(val.orderItemId)}
+                  // 결제 취소 탭일때 비활성화
                   disabled={tabStatus === 2 ? true : false}
                 >
                   {tabStatus === 0 ? '주문 확인하기' : '주문 확인 취소'}
