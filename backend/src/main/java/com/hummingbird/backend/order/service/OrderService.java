@@ -124,12 +124,12 @@ public class OrderService {
 
     }
 
-    public OrderItemBillResponse getItemsByOrderId(Long ownerId, String status) throws Exception{
+    public OrderItemBillResponse getItemsByOrderId(Long ownerId, String status,LocalDateTime start, LocalDateTime end) throws Exception{
         List<OrderItemBillInfo> itemList = new ArrayList<>();
         Owner owner = ownerRepository.findById(ownerId).orElseThrow();
         switch (status){
             case "DONE":
-                itemList = orderItemRepository.findAllByStatusAndOrder_Owner(OrderItemStatus.DONE, owner)
+                itemList = orderItemRepository.findAllByStatusAndOrder_OwnerAndOrder_OrderDateBetween(OrderItemStatus.DONE, owner,TimeZoneSetter.KTCToLocal(start),TimeZoneSetter.KTCToLocal(end))
                         .stream()
                         .map(orderItemDtoVal ->
                                 orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
@@ -137,7 +137,7 @@ public class OrderService {
                         .collect(Collectors.toList());
                 break;
             case "DOING":
-                itemList = orderItemRepository.findAllByStatusAndOrder_Owner(OrderItemStatus.DOING, owner)
+                itemList = orderItemRepository.findAllByStatusAndOrder_OwnerAndOrder_OrderDateBetween(OrderItemStatus.DOING, owner,TimeZoneSetter.KTCToLocal(start),TimeZoneSetter.KTCToLocal(end))
                         .stream()
                         .map(orderItemDtoVal ->
                                 orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
@@ -145,7 +145,7 @@ public class OrderService {
                         .collect(Collectors.toList());
                 break;
             case "CANCEL":
-                itemList = orderItemRepository.findAllByStatusAndOrder_Owner(OrderItemStatus.CANCEL, owner)
+                itemList = orderItemRepository.findAllByStatusAndOrder_OwnerAndOrder_OrderDateBetween(OrderItemStatus.CANCEL, owner, TimeZoneSetter.KTCToLocal(start),TimeZoneSetter.KTCToLocal(end))
                         .stream()
                         .map(orderItemDtoVal ->
                                 orderItemDtoVal.toEntity(orderItemDtoVal.getOrder().getTableNum(),
@@ -357,4 +357,5 @@ public class OrderService {
         return new JSONObject(response);
 
     }
+
 }

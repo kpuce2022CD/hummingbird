@@ -1,6 +1,7 @@
 package com.hummingbird.backend.order.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hummingbird.backend.order.domain.OrderItem;
 import com.hummingbird.backend.order.domain.OrderItemStatus;
 import com.hummingbird.backend.order.dto.request.OrderCreateRequest;
 import com.hummingbird.backend.order.dto.request.SalesCreateRequest;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.hummingbird.backend.order.controller.OrderController.ORDER_API_URI;
 
@@ -53,9 +55,11 @@ public class OrderController {
     @GetMapping("/items/{ownerId}")
     public OrderItemBillResponse getItemsByOwnerId(
             @PathVariable("ownerId") Long ownerId,
-            @RequestParam(value = "status",defaultValue = "DOING") String status) throws Exception {
+            @RequestParam(value = "status",defaultValue = "DOING") String status,
+            @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+            @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime end) throws Exception {
 
-        return orderService.getItemsByOrderId(ownerId,status);
+        return orderService.getItemsByOrderId(ownerId,status,start,end);
     }
 
     @PostMapping("/status/{itemId}")
@@ -99,6 +103,8 @@ public class OrderController {
         return orderService.getReceipt(orderId, getToken());
 
     }
+
+
 
 
 }
