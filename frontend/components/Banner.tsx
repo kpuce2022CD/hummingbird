@@ -2,8 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import StyledTwoPhone from './StyledTwoPhone';
-import Image from 'next/image';
-import twoPhone from '../public/img/GroupPhone.svg';
 import { getSessionValue } from '../utils';
 
 const Banner = () => {

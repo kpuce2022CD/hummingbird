@@ -14,26 +14,29 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { constSelector, useRecoilValue } from 'recoil';
 import { tabClickedState } from '../../../recoil/states';
+import QRCode from 'react-qr-code';
+import QrModal from '../../QrPage/QrModal';
 const menuHeaderList = [
-  '주문 ID',
+  '주문 번호',
+  '주문 음식 번호',
   '주문 음식 이름',
   // '주문 음식 갯수',
   '테이블 번호',
   '주문 시각',
   '주문 상태',
   '주문 확인',
-  '주문 취소',
+  '주문 전체 환불',
+  '주문 부분 환불',
 ];
 
-const OrderList: FC = () => {
+type OrderListProps = {
+  ownerId: string | string[];
+};
+
+const OrderList: FC<OrderListProps> = ({ ownerId }) => {
   const [orderInfos, setOrderInfos] = useState<D.IOrderItemList[]>([]);
-  const [ownerId, setOwnerId] = useState<string | string[]>([]);
   const tabStatus = useRecoilValue(tabClickedState);
   const router = useRouter();
-
-  useEffect(() => {
-    setOwnerId(router.query.ownerid || []);
-  }, [router.query.ownerid]);
 
   const [error, resetError] = useAsync(async () => {
     setOrderInfos([]);
@@ -46,10 +49,10 @@ const OrderList: FC = () => {
     setOrderInfos(fetchOrderInfos);
   }, [ownerId, tabStatus]);
 
-  const handleCheckOrder = async (idx: number) => {
+  const handleCheckOrder = async (ownerItemId: number) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/orders/status/${idx + 1}`,
+        `http://localhost:8080/api/orders/status/${ownerItemId}`,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -58,12 +61,13 @@ const OrderList: FC = () => {
         }
       );
       console.log(response);
+      location.reload();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleClickCancel = async (orderId: number) => {
+  const handleCancelOrder = async (orderId: number) => {
     try {
       const response = await axios.post(
         `http://localhost:8080/api/orders/cancel/order/${orderId}`,
@@ -75,11 +79,32 @@ const OrderList: FC = () => {
         }
       );
       console.log(response);
-      alert('주문 취소되었습니다.');
+      alert('주문 전체 취소 되었습니다.');
+      location.reload();
     } catch (err) {
       console.log(err);
     }
   };
+
+  const handleCancelOrderItem = async (ownerId: number) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/orders/cancel/item/${ownerId}`,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response);
+      alert('주문 부분 취소 되었습니다.');
+      location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <S.Table>
       <thead>
@@ -93,8 +118,10 @@ const OrderList: FC = () => {
         {orderInfos.length > 0 &&
           orderInfos.map((val, idx) => (
             <tr key={idx}>
-              {/* 주문 ID */}
+              {/* 주문 번호 orderId */}
               <td>{val.orderId}</td>
+              {/* 주문 음식 번호 ownerId */}
+              <td>{val.orderItemId}</td>
               {/* 주문 음식 이름 */}
               <td>{val.foodName}</td>
               {/* 주문 음식 갯수
@@ -131,17 +158,29 @@ const OrderList: FC = () => {
               </td>
               {/* FIXME: 주문 완료 버튼 */}
               <td>
-                <OrderBtn onClick={() => handleCheckOrder(idx)}>
-                  주문 확인 하기
+                <OrderBtn
+                  onClick={() => handleCheckOrder(val.orderItemId)}
+                  // 결제 취소 탭일때 비활성화
+                  disabled={tabStatus === 2 ? true : false}
+                >
+                  {tabStatus === 0 ? '주문 확인하기' : '주문 확인 취소'}
                 </OrderBtn>
               </td>
               {/* FIXME: 주문 취소 버튼 */}
               <td>
                 <OrderBtn
-                  disabled={false}
-                  onClick={() => handleClickCancel(val.orderId)}
+                  disabled={tabStatus === 2 ? true : false}
+                  onClick={() => handleCancelOrder(val.orderId)}
                 >
-                  주문 취소하기
+                  주문 전체 취소
+                </OrderBtn>
+              </td>
+              <td>
+                <OrderBtn
+                  disabled={tabStatus === 2 ? true : false}
+                  onClick={() => handleCancelOrderItem(val.orderItemId)}
+                >
+                  주문 부분 취소
                 </OrderBtn>
               </td>
             </tr>

@@ -28,7 +28,7 @@ const MyPageSideMenu: FC<MyPageSideMenuProps> = ({ setAdminContent }) => {
               router.push(`/orderpage/${sessionStorage.getItem('ownerId')}`)
             }
           >
-            메출내역
+            매출내역
           </p>
         </li>
         <li>
