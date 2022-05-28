@@ -2,13 +2,10 @@ package com.hummingbird.backend.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hummingbird.backend.food.domain.Food;
-import com.hummingbird.backend.order.dto.OrderItemBillInfo;
 import com.hummingbird.backend.order.dto.OrderItemInfo;
 import lombok.*;
 
 import javax.persistence.*;
-
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -32,25 +29,11 @@ public class OrderItem {
 
     @Column(name = "food_price", nullable = false)
     private int foodPrice;
-
-
-    @Column(name = "status",nullable = false)
-    private String status = "doing";
     @Builder
     public OrderItem(Food food, Order order, int foodPrice) {
         this.food = food;
         this.order = order;
         this.foodPrice = foodPrice;
-    }
-
-    public OrderItemBillInfo toEntity(int tableNum, LocalDateTime orderDate){
-        return OrderItemBillInfo
-                .builder()
-                .tableNum(tableNum)
-                .orderDate(orderDate)
-                .foodName(food.getName())
-                .status(status)
-                .build();
     }
 
 }

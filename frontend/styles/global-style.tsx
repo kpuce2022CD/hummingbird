@@ -30,7 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	max-width: 100%;
+	max-width: 1440px;
 	margin: auto;
 }
 ol, ul {
