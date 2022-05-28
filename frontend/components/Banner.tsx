@@ -2,8 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import StyledTwoPhone from "./StyledTwoPhone";
-import Image from "next/image";
-import twoPhone from "../public/img/GroupPhone.svg";
 
 const Banner = () => {
   const router = useRouter();
@@ -50,7 +48,7 @@ const StyledH1 = styled.h1`
   display: block;
   margin: 30px;
   padding: 3px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
 `;
