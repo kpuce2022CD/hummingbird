@@ -114,6 +114,9 @@ const StyledSection = styled.div`
   align-items: center;
   object-fit: contain;
   padding: 15px;
+  @media screen and (max-width: 500px){
+    display: block;
+}
 `;
 
 const StyledImg = styled.div`
@@ -127,6 +130,12 @@ const StyledImg = styled.div`
   max-height: 450px;
   object-fit: scale-down;
   overflow: hidden;
+
+  @media screen and (max-width: 500px){
+    display: block;
+    width:100%;
+    justify-items: center;
+}
 `;
 
 const Img = styled.div`
@@ -134,6 +143,11 @@ const Img = styled.div`
   vertical-align: middle;
   max-width: 320px;
   max-height: 450px;
+  @media screen and (max-width: 500px){
+    display: inline-block;
+    width:50%;
+    justify-items: center;
+}
 `;
 
 const Img2 = styled.div`
@@ -144,6 +158,10 @@ const Img2 = styled.div`
 
 const Contents = styled.div`
   margin: auto;
+  @media screen and (max-width: 500px){
+    display: block;
+    width:100%;
+  }
 `;
 
 const StyledH1 = styled.h1`

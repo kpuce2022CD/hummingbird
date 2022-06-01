@@ -6,7 +6,7 @@ function Login() {
       <LoginSection>
         <Form>
             <H1>로그인</H1>
-            <p>신규 사용자이신가요? <a href='#'>계정 만들기</a></p>
+            <p>신규 사용자이신가요? <Atag href='#'>계정 만들기</Atag></p>
             <Input>
                 <Label>아이디</Label>
                 <InputSection type="id" placeholder="아이디를 입력하세요"/>
@@ -34,7 +34,7 @@ const H1 = styled.h1`
     color: #FA4A0C;
 `
 const Atag = styled.a`
-    color:sky-blue;
+    color:blue;
 `
 
 const InputSection = styled.input`
