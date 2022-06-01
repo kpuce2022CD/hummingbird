@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hummingbird.backend.food.domain.Food;
 import com.hummingbird.backend.order.dto.OrderItemBillInfo;
 import com.hummingbird.backend.order.dto.OrderItemInfo;
+import com.hummingbird.backend.util.TimeZoneSetter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Getter @Setter
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
@@ -34,8 +35,10 @@ public class OrderItem {
     private int foodPrice;
 
 
-    @Column(name = "status",nullable = false)
-    private String status = "doing";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",length = 30, nullable = false)
+    private OrderItemStatus status = OrderItemStatus.DOING;
+
     @Builder
     public OrderItem(Food food, Order order, int foodPrice) {
         this.food = food;
@@ -47,10 +50,24 @@ public class OrderItem {
         return OrderItemBillInfo
                 .builder()
                 .tableNum(tableNum)
-                .orderDate(orderDate)
+                .orderItemId(id)
+                .orderDate(TimeZoneSetter.localToKTC(orderDate))
+                .orderId(order.getOrderId())
                 .foodName(food.getName())
                 .status(status)
                 .build();
+    }
+
+    public void doingItem(){
+        this.status = OrderItemStatus.DOING;
+    }
+
+    public void doneItem(){
+        this.status = OrderItemStatus.DONE;
+    }
+
+    public void cancelItem(){
+        this.status = OrderItemStatus.CANCEL;
     }
 
 }

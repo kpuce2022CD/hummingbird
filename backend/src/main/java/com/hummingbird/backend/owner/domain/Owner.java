@@ -1,6 +1,7 @@
 package com.hummingbird.backend.owner.domain;
 
 import com.hummingbird.backend.owner.dto.OwnerDto;
+import com.hummingbird.backend.owner.dto.OwnerInfoDto;
 import com.hummingbird.backend.owner.dto.OwnerProfileDto;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,6 +27,9 @@ public class Owner {
     @Column(name = "password",nullable = false)
     private String password;
 
+    @Column(name = "is_removed",nullable = false)
+    private Boolean isRemoved;
+
     @Column(name = "business_registration_number",nullable = false)
     private String businessRegistrationNumber;
 
@@ -36,6 +40,7 @@ public class Owner {
         this.name = name;
         this.businessRegistrationNumber = businessRegistrationNumber;
         this.password = password;
+        this.isRemoved = false;
     }
 
     public static Owner toEntity(OwnerDto ownerDto) {
@@ -52,5 +57,19 @@ public class Owner {
                 .userEmail(getEmail())
                 .userName(getName())
                 .build();
+    }
+
+    public OwnerInfoDto toOwnerInfoDto() {
+        return OwnerInfoDto
+                .builder()
+                .ownerId(getId())
+                .businessRegistrationNumber(getBusinessRegistrationNumber())
+                .userEmail(getEmail())
+                .userName(getName())
+                .build();
+    }
+
+    public void deleteOwner(){
+        this.isRemoved = true;
     }
 }

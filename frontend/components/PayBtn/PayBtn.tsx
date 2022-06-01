@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import * as S from './style';
 import axios from 'axios';
-import { stringify } from 'json5';
 
 type CartData = {
   fileName: string;
@@ -14,8 +13,10 @@ type CartData = {
 type Props = {
   amount: number;
   itemList: CartData[];
+  tableNumber: string;
+  ownerId: string;
 };
-const PayBtn = ({ amount, itemList }: Props) => {
+const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
   useEffect(() => {
     const jquery = document.createElement('script');
     jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
@@ -35,11 +36,10 @@ const PayBtn = ({ amount, itemList }: Props) => {
     amount: number
   ) => {
     try {
-      console.log(itemList);
       let orderCreateRequest = {
-        tableNumber: 1,
+        tableNumber: tableNumber,
         impUid: impUid,
-        ownerId: 1,
+        ownerId: ownerId,
         cartDataList: itemList,
         totalPrice: amount,
       };

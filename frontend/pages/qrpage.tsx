@@ -7,6 +7,7 @@ import Nav from '../components/Nav';
 import ExViewPhone from '../components/ExViewPhone';
 import QrModal from '../components/QrPage/QrModal';
 import QrList from '../components/QrPage/QrList';
+import { route } from 'next/dist/server/router';
 
 const QrPage: NextPage = () => {
   const [url, setUrl] = useState<string>('');
@@ -22,10 +23,9 @@ const QrPage: NextPage = () => {
 
   // FIXME: QR 생성 URL 주소 차후에 배포 후 변경 필요
   useEffect(() => {
-    const queryString = String(router.query.menuId);
-    const queryStringUrl =
-      'http://localhost:3000/resultmenu?menuId=' + queryString;
-    console.log(queryStringUrl);
+    const menuId = String(router.query.menuId);
+    const ownerId = String(router.query.ownerId);
+    const queryStringUrl = `http://localhost:3000/resultmenu?menuId=${menuId}&ownerId=${ownerId}`;
     setUrl(queryStringUrl);
   }, [router.query.menuId]);
 
@@ -92,7 +92,7 @@ const QrPage: NextPage = () => {
             <StyledQr>
               {/* FIXME:  영어만 되는 문제점 존재*/}
               <StyledInner>
-                <QRCode value={url} id="QRCode" />
+                <QRCode value={`${url}&table=1`} id="QRCode" />
               </StyledInner>
             </StyledQr>
           </SideSection>

@@ -1,8 +1,10 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import MenuModal from "../MenuModal";
-import * as S from "./style";
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { ownerIdState } from '../../recoil/states';
+import MenuModal from '../MenuModal';
+import * as S from './style';
 type Props = {
   menuId: number;
   menuName: string;
@@ -10,27 +12,28 @@ type Props = {
 
 const MenuCard = ({ menuId, menuName }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [menuWrapState, setMenuWrapState] = useState("");
+  const [menuWrapState, setMenuWrapState] = useState('');
+  const [ownerId, setOwnerId] = useRecoilState(ownerIdState);
   const router = useRouter();
   const btnList = [
     {
-      value: "qr",
-      content: "QR 코드 만들기",
+      value: 'qr',
+      content: 'QR 코드 만들기',
     },
     {
-      value: "edit",
-      content: "메뉴판 수정하기",
+      value: 'edit',
+      content: '메뉴판 수정하기',
     },
     {
-      value: "delete",
-      content: "메뉴판 삭제하기",
+      value: 'delete',
+      content: '메뉴판 삭제하기',
     },
   ];
 
   const deleteMenuDelete = async (menuId: number) => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/menu/delete/"+menuId,
+        'http://localhost:8080/menu/delete/' + menuId,
         {}
       );
       console.log(response);
@@ -45,26 +48,24 @@ const MenuCard = ({ menuId, menuName }: Props) => {
     const target = e.target as Element;
 
     switch (target.id) {
-      case "qr": {
+      case 'qr': {
         router.push({
-          pathname: "/qrpage",
-          query: { menuId: menuId },
+          pathname: '/qrpage',
+          query: { menuId: menuId, ownerId: ownerId },
         });
         break;
       }
-      case "edit": {
-        console.log("edit");
+      case 'edit': {
         setModalOpen(true);
-        setMenuWrapState("메뉴판수정");
+        setMenuWrapState('메뉴판수정');
         break;
       }
-      case "delete": {
-        console.log("delete");
+      case 'delete': {
         deleteMenuDelete(menuId);
         break;
       }
       default:
-        console.log("err!");
+        console.log('err!');
         break;
     }
   };
