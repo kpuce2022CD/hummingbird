@@ -1,4 +1,5 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
+import moment from 'moment';
 
 type FoodData = {
   content: string;
@@ -19,33 +20,43 @@ type CartData = {
 };
 
 const menuIdState = atom<string | string[]>({
-  key: "menuIdState",
-  default: "",
+  key: 'menuIdState',
+  default: '',
 });
 
 const ownerIdState = atom<number>({
-  key: "ownerIdState",
+  key: 'ownerIdState',
   default: 0,
 });
 
 const foodListState = atom<FoodData[]>({
-  key: "foodListState",
+  key: 'foodListState',
   default: [],
 });
 
 const tabClickedState = atom<number>({
-  key: "tabClickedState",
+  key: 'tabClickedState',
   default: 0,
 });
 
 const tabClickedNameState = atom<string>({
-  key: "tabClickedNameState",
-  default: "",
+  key: 'tabClickedNameState',
+  default: '',
 });
 
 const CartItemState = atom<CartData[]>({
-  key: "CartItemState",
+  key: 'CartItemState',
   default: [],
+});
+
+const StartDateState = atom<string>({
+  key: 'StartDateState',
+  default: `${moment().format('YYYY-MM-DD')} 00:00:00`,
+});
+
+const EndDateState = atom<string>({
+  key: 'EndDateState',
+  default: `${moment().format('YYYY-MM-DD')} 23:59:59`,
 });
 
 export {
@@ -55,4 +66,6 @@ export {
   tabClickedState,
   tabClickedNameState,
   CartItemState,
+  StartDateState,
+  EndDateState,
 };

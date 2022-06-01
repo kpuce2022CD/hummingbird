@@ -7,17 +7,15 @@ import moment from 'moment';
 import * as S from './OrederDatePicker.style';
 import { parseDate } from '../../../utils';
 import { getSales, ISales } from '../../../data';
+import { useRecoilState } from 'recoil';
+import { EndDateState, StartDateState } from '../../../recoil/states';
 
 type OrderDatePickerProps = {
   ownerId: string | string[];
 };
 const OrderDatePicker: FC<OrderDatePickerProps> = ({ ownerId }) => {
-  const [startDate, setStartDate] = useState(
-    `${moment().format('YYYY-MM-DD')} 00:00:00`
-  );
-  const [endDate, setEndDate] = useState(
-    `${moment().format('YYYY-MM-DD')} 23:59:59`
-  );
+  const [startDate, setStartDate] = useRecoilState(StartDateState);
+  const [endDate, setEndDate] = useRecoilState(EndDateState);
   const [sale, setSale] = useState<ISales>();
 
   registerLocale('ko', ko);
