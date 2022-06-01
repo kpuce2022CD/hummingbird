@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import moment from 'moment';
+import * as D from '../data';
 
 type FoodData = {
   content: string;
@@ -59,6 +60,11 @@ const EndDateState = atom<string>({
   default: `${moment().format('YYYY-MM-DD')} 23:59:59`,
 });
 
+const OrderInfoState = atom<D.IOrderItemList[]>({
+  key: 'OrderInfoState',
+  default: [],
+});
+
 export {
   menuIdState,
   ownerIdState,
@@ -68,4 +74,5 @@ export {
   CartItemState,
   StartDateState,
   EndDateState,
+  OrderInfoState,
 };

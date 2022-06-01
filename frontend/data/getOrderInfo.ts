@@ -4,8 +4,8 @@ import { IOrderItemList } from './IOrderInfo';
 export const getOrderInfo = (
   ownerId: string,
   status: number,
-  startDate: string,
-  endDate: string
+  startDate?: string,
+  endDate?: string
 ): Promise<IOrderItemList[]> =>
   new Promise((resolve, reject) => {
     let statusStr = 'DOING';
