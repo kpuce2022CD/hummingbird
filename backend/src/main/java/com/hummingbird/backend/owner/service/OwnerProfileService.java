@@ -21,4 +21,9 @@ public class OwnerProfileService {
         return ownerInfo.toOwnerProfileDto();
     }
 
+    public OwnerProfileDto getAdminProfile(){
+
+        Owner ownerInfo = ownerUtil.getUserEntityBySessionID();
+        return ownerInfo.toOwnerProfileDto();
+    }
 }

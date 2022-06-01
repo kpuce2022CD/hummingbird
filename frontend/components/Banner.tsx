@@ -1,11 +1,25 @@
+<<<<<<< HEAD
 import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import StyledTwoPhone from "./StyledTwoPhone";
+=======
+import React from 'react';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import StyledTwoPhone from './StyledTwoPhone';
+import { getSessionValue } from '../utils';
+>>>>>>> upstream/develop-2
 
 const Banner = () => {
   const router = useRouter();
 
+  const handleBannerBnt = () => {
+    const ownerId = getSessionValue('ownerId');
+    ownerId === null
+      ? router.push('/loginpage')
+      : router.push(`/mypage/${sessionStorage.getItem('ownerId')}`);
+  };
   return (
     <Themediv>
       <ThemeSection>
@@ -15,9 +29,7 @@ const Banner = () => {
           <br /> QR 하나로 주문까지!
         </StyledH1>
         <StyledDesc>지금 바로 스마트 메뉴판을 만들어보세요.</StyledDesc>
-        <StyledBtn onClick={() => router.push("/mypage/1")}>
-          메뉴만들기
-        </StyledBtn>
+        <StyledBtn onClick={handleBannerBnt}>메뉴만들기</StyledBtn>
         <StyledTwoPhone />
       </ThemeSection>
     </Themediv>
@@ -40,7 +52,7 @@ const ThemeSection = styled.div`
   margin: 0 0 544.9px;
   padding: 0;
   object-fit: contain;
-  background-image: url("/img/bannerPic.svg");
+  background-image: url('/img/bannerPic.svg');
   background-size: cover;
 `;
 

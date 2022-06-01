@@ -56,6 +56,10 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public void minusPrice(int foodPrice){
+        this.totalPrice = this.totalPrice - foodPrice;
+    }
+
     public static Order createOrder(Owner ownerReference,String impUid,int tableNum,int totalPrice){
         return Order
                 .builder()
@@ -65,5 +69,9 @@ public class Order {
                 .tableNum(tableNum)
                 .totalPrice(totalPrice)
                 .build();
+    }
+
+    public void cancelOrder(){
+        this.orderStatus = OrderStatus.CANCEL;
     }
 }

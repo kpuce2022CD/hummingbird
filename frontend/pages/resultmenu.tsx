@@ -22,14 +22,15 @@ type Props = {
 
 const ResultMenu: NextPage = () => {
   const router = useRouter();
-  console.log(router.query.menuId);
+  const [tableNumber, setTableNumber] = useState<string>('');
+  const [ownerId, setOwnerId] = useState<string>('');
   const [categoryData, setCategoryData] = useState<CategoryType[]>([]);
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
 
-  const getCategoryUseMenuId = async (menuid: string | string[]) => {
+  const getCategoryUseMenuId = async (menuId: string | string[]) => {
     try {
       const response = await axios.get<CategoryType[]>(
-        'http://localhost:8080/category/get/menu/' + menuid,
+        'http://localhost:8080/category/get/menu/' + menuId,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -45,8 +46,14 @@ const ResultMenu: NextPage = () => {
   };
 
   useEffect(() => {
-    if (router.query.menuId) {
-      getCategoryUseMenuId(String(router.query.menuId));
+    const menuId = String(router.query.menuId);
+    const ownerId = String(router.query.ownerId);
+    const tableNumber = String(router.query.table);
+
+    if (menuId) {
+      getCategoryUseMenuId(String(menuId));
+      setTableNumber(tableNumber);
+      setOwnerId(ownerId);
     }
   }, [router.query.menuId]);
 
@@ -70,7 +77,13 @@ const ResultMenu: NextPage = () => {
         <FoodList />
       </FoodListWrap>
       <MenuBtmNav />
-      {openCartModal && <CartModal setOpenCartModal={setOpenCartModal} />}
+      {openCartModal && (
+        <CartModal
+          setOpenCartModal={setOpenCartModal}
+          ownerId={ownerId}
+          tableNumber={tableNumber}
+        />
+      )}
     </Wrapper>
   );
 };
