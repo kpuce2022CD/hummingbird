@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import React from "react";
-import { useRouter } from "next/router";
-import styled from "styled-components";
-import StyledTwoPhone from "./StyledTwoPhone";
-=======
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import StyledTwoPhone from './StyledTwoPhone';
 import { getSessionValue } from '../utils';
->>>>>>> upstream/develop-2
 
 const Banner = () => {
   const router = useRouter();
