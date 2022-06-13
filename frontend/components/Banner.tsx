@@ -53,7 +53,7 @@ const StyledH1 = styled.h1`
   display: block;
   margin: 30px;
   padding: 3px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
 `;

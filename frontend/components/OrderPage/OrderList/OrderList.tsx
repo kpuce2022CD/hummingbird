@@ -12,8 +12,13 @@ import Item from '../Item.tsx/Item';
 import OrderBtn from '../OrderBtn';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { constSelector, useRecoilValue } from 'recoil';
-import { tabClickedState } from '../../../recoil/states';
+import { constSelector, useRecoilState, useRecoilValue } from 'recoil';
+import {
+  EndDateState,
+  OrderInfoState,
+  StartDateState,
+  tabClickedState,
+} from '../../../recoil/states';
 import QRCode from 'react-qr-code';
 import QrModal from '../../QrPage/QrModal';
 const menuHeaderList = [
@@ -34,8 +39,11 @@ type OrderListProps = {
 };
 
 const OrderList: FC<OrderListProps> = ({ ownerId }) => {
-  const [orderInfos, setOrderInfos] = useState<D.IOrderItemList[]>([]);
+  // FIXME:
+  const [orderInfos, setOrderInfos] = useRecoilState(OrderInfoState);
   const tabStatus = useRecoilValue(tabClickedState);
+  const startDate = useRecoilValue(StartDateState);
+  const endDate = useRecoilValue(EndDateState);
   const router = useRouter();
 
   const [error, resetError] = useAsync(async () => {
@@ -45,7 +53,12 @@ const OrderList: FC<OrderListProps> = ({ ownerId }) => {
     // Error 타입 객체가 reject되는 경우 테스트할 시 주석 제거
     // await Promise.reject(new Error('some error occurs'));
 
-    const fetchOrderInfos = await D.getOrderInfo(String(ownerId), tabStatus);
+    const fetchOrderInfos = await D.getOrderInfo(
+      String(ownerId),
+      tabStatus,
+      startDate,
+      endDate
+    );
     setOrderInfos(fetchOrderInfos);
   }, [ownerId, tabStatus]);
 

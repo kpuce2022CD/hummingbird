@@ -7,18 +7,23 @@ import moment from 'moment';
 import * as S from './OrederDatePicker.style';
 import { parseDate } from '../../../utils';
 import { getSales, ISales } from '../../../data';
-
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  EndDateState,
+  OrderInfoState,
+  StartDateState,
+  tabClickedState,
+} from '../../../recoil/states';
+import * as D from '../../../data';
 type OrderDatePickerProps = {
   ownerId: string | string[];
 };
 const OrderDatePicker: FC<OrderDatePickerProps> = ({ ownerId }) => {
-  const [startDate, setStartDate] = useState(
-    `${moment().format('YYYY-MM-DD')} 00:00:00`
-  );
-  const [endDate, setEndDate] = useState(
-    `${moment().format('YYYY-MM-DD')} 23:59:59`
-  );
+  const tabStatus = useRecoilValue(tabClickedState);
+  const [startDate, setStartDate] = useRecoilState(StartDateState);
+  const [endDate, setEndDate] = useRecoilState(EndDateState);
   const [sale, setSale] = useState<ISales>();
+  const [notUsed, setOrderInfos] = useRecoilState(OrderInfoState);
 
   registerLocale('ko', ko);
 
@@ -40,6 +45,14 @@ const OrderDatePicker: FC<OrderDatePickerProps> = ({ ownerId }) => {
     console.log(result);
     if (typeof result !== 'undefined') {
       setSale(result);
+
+      const fetchOrderInfos = await D.getOrderInfo(
+        String(ownerId),
+        tabStatus,
+        startDate,
+        endDate
+      );
+      setOrderInfos(fetchOrderInfos);
     }
   };
 
