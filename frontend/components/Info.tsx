@@ -116,7 +116,7 @@ const StyledSection = styled.div`
   padding: 15px;
   @media screen and (max-width: 500px){
     display: block;
-}
+  }
 `;
 
 const StyledImg = styled.div`
