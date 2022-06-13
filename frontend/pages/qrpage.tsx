@@ -40,39 +40,42 @@ const QrPage: NextPage = () => {
           </QrModal>
         )}
         <LeftSection>
-          <StyledH1>
-            앱을 다운 로드 받을 필요 없이
-            <br />
-            QR 하나로 주문까지!
-          </StyledH1>
-          <StyledDesc>
-            하단 ‘저장 하기’를 누른 후 매장 내잘 보이는 곳에 부착해주세요.
-          </StyledDesc>
-          <StyledList>
-            <StyledItem>
+
+        <StyledH1>
+              앱을 다운 로드 받을 필요 없이
+              <br />
+              QR 하나로 주문까지!
+        </StyledH1>
+        <StyledDesc>
+              하단 ‘저장’ 버튼을 누른 후 매장 내<MediaBr/>잘 보이는 곳에 부착해주세요.
+        </StyledDesc>
+        <StyledList>
+          <StyledItem>
               <CheckBell />
-              테이블 모서리
-            </StyledItem>
-            <StyledItem>
-              <CheckBell />
-              테이블 위의 작은 팻말
-            </StyledItem>
-            <StyledItem>
-              <CheckBell />
-              웨이팅이 있는 매장 입구
-            </StyledItem>
-          </StyledList>
+                <NonDiv>테이블</NonDiv> 모서리
+          </StyledItem>
+              <StyledItem>
+                <CheckBell />
+                <NonDiv>테이블 위의 작은</NonDiv> 팻말
+              </StyledItem>
+          <StyledItem>
+                <CheckBell />
+                <NonDiv>웨이팅이 있는 매장</NonDiv> 입구
+          </StyledItem>
+        </StyledList>
+
+          
           <ModalBtnWrapper>
             <input
               type="number"
-              placeholder="테이블 갯수를 입력해주세요."
+              placeholder="테이블 갯수"
               min={1}
               max={20}
               onChange={(e) => {
                 setTableNum(parseInt(e.target.value));
               }}
             />
-            <StyledBtn onClick={onClickToggleModal}>저장하기</StyledBtn>
+            <StyledBtn onClick={onClickToggleModal}>저장</StyledBtn>
           </ModalBtnWrapper>
         </LeftSection>
         <RightSection>
@@ -83,6 +86,9 @@ const QrPage: NextPage = () => {
               <br />
               메뉴를 보실 수 있습니다.
             </Desc>
+            <Desc2>
+              좀 더 큰 화면에서 확인해주세요.
+            </Desc2>
             <StyledQr>
               {/* FIXME:  영어만 되는 문제점 존재*/}
               <StyledInner>
@@ -102,7 +108,17 @@ const Theme = styled.div`
   justify-content: center;
   margin: auto;
   line-height: 1.5;
+  @media screen and (max-width: 800px){
+    display:block;
+  }
 `;
+
+const MediaBr = styled.br`
+display: none;
+@media screen and (max-width: 1300px){
+  display:block;
+}
+`
 
 const LeftSection = styled.div`
   display: block;
@@ -122,6 +138,14 @@ const SideSection = styled.div`
   border-radius: 20px 0px 0px 20px;
   background-color: #f6f6f9;
   box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.25);
+  @media screen and (max-width: 800px){
+    border-radius: 20px;
+    margin: 0px;
+  }
+  @media screen and (max-width: 400px){
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 const RightSection = styled.div`
@@ -130,15 +154,24 @@ const RightSection = styled.div`
   position: absolute;
   left: 45%;
   background: white;
+  @media screen and (max-width: 800px){
+    position: relative;
+    justify-items: center;
+    left: 3%;
+    width: 60%;
+  }
 `;
 
 const StyledH1 = styled.h1`
-  display: flex;
+  display: block;
   margin: 20px 10px 30px 30px;
   padding: 3px;
   font-size: 1.5rem;
   font-weight: bold;
   color: #fa4a0c;
+  @media screen and (max-width: 800px){
+    display:none;
+  }
 `;
 
 const StyledH2 = styled.h2`
@@ -147,6 +180,10 @@ const StyledH2 = styled.h2`
   font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
+  @media screen and (max-width: 600px){
+    font-size:1rem;
+    padding:5px;
+  }
 `;
 
 const StyledDesc = styled.div`
@@ -155,6 +192,9 @@ const StyledDesc = styled.div`
   margin: 20px 10px 30px 30px;
   font-weight: 500;
   font-size: 1.2rem;
+  @media screen and (max-width: 800px){
+    display:none;
+  }
 `;
 
 const Desc = styled.div`
@@ -162,10 +202,28 @@ const Desc = styled.div`
   text-align: center;
   font-weight: 500;
   font-size: 1.3rem;
+  @media screen and (max-width: 600px){
+    font-size:1rem;
+  }
+  @media screen and (max-width: 300px){
+    display:none;
+  }
 `;
 
+const Desc2 = styled.div`
+  display:none;
+  @media screen and (max-width: 300px){
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.3rem;
+  }
+`;
 const StyledList = styled.ul`
   margin: 13px;
+  @media screen and (max-width: 800px){
+    display:1rem;
+  }
 `;
 
 const StyledItem = styled.li`
@@ -177,6 +235,12 @@ const StyledItem = styled.li`
   font-size: 1.2rem;
 `;
 
+const NonDiv = styled.div`
+@media screen and (max-width: 300px){
+  display:none;
+}
+`
+
 const StyledQr = styled.div`
   display: flex;
   margin: 3rem;
@@ -187,6 +251,9 @@ const StyledQr = styled.div`
   height: 200px;
   border: 5px solid #fa4a0c;
   overflow: hidden;
+  @media screen and (max-width: 300px){
+    display:none;
+  }
 `;
 
 const StyledInner = styled.span`
@@ -194,6 +261,9 @@ const StyledInner = styled.span`
   justify-content: center;
   align-items: center;
   object-fit: cover;
+  @media screen and (max-width: 300px){
+    display:none;
+  }
 `;
 
 const CheckBell = styled.div`
@@ -205,31 +275,41 @@ const CheckBell = styled.div`
   background-size: cover;
   width: 70px;
   height: 70px;
+  @media screen and (max-width: 500px){
+    width:30px;
+    height:30px;
+  }
 `;
 
 const ModalBtnWrapper = styled.div`
   input {
-    padding: 15px;
+    padding:15px 40px 15px 40px;
     border-radius: 25px;
     border: 1px solid lightgray;
-    width: 17%;
+    width: 18%;
     outline: none;
     font-weight: bold;
+    margin-left : 30px;
 
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    @media screen and (max-width: 800px){
+      width:90%;
+    }
   }
 `;
 
 const StyledBtn = styled.button`
-  padding: 40px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding:15px 40px 15px 40px;
   background: #fa4a0c;
   border-radius: 25px;
   margin: 30px;
   font-weight: bold;
-  width: 20%;
+  width: 18%;
   color: white;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  
+  @media screen and (max-width: 800px){
+    width:90%;
+  }
 `;
 export default QrPage;
