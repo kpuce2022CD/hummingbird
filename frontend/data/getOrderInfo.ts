@@ -3,7 +3,9 @@ import { IOrderItemList } from './IOrderInfo';
 
 export const getOrderInfo = (
   ownerId: string,
-  status: number
+  status: number,
+  startDate?: string,
+  endDate?: string
 ): Promise<IOrderItemList[]> =>
   new Promise((resolve, reject) => {
     let statusStr = 'DOING';
@@ -20,10 +22,15 @@ export const getOrderInfo = (
         statusStr = 'CANCEL';
       }
     }
-    axios
-      .get(
-        `http://localhost:8080/api/orders/items/${ownerId}?status=${statusStr}`
-      )
+    axios({
+      method: 'get',
+      url: `http://localhost:8080/api/orders/items/${ownerId}`,
+      params: {
+        status: statusStr,
+        start: startDate,
+        end: endDate,
+      },
+    })
       .then(({ data }) => {
         resolve(data.orderItemList);
       })
