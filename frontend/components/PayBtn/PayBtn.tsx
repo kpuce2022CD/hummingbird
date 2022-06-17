@@ -81,7 +81,7 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
       buyer_postcode: '06018', // 구매자 우편번호
       m_redirect_url: `http://34.64.187.105:3000${router.asPath}`, //결제 성공시 모바일 리다이렉션 주소
     };
-    IMP.request_pay(data);
+    IMP.request_pay(data, callback);
   };
 
   // @ts-ignore
