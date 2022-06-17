@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import * as S from './style';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 type CartData = {
   fileName: string;
@@ -17,6 +18,7 @@ type Props = {
   ownerId: string;
 };
 const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
+  const router = useRouter();
   useEffect(() => {
     const jquery = document.createElement('script');
     jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
@@ -77,6 +79,7 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
       buyer_email: 'example@example', // 구매자 이메일
       buyer_addr: '정왕동 661-16', // 구매자 주소
       buyer_postcode: '06018', // 구매자 우편번호
+      m_redirect_url: `http://34.64.187.105:3000${router.asPath}`, //결제 성공시 모바일 리다이렉션 주소
     };
     IMP.request_pay(data, callback);
   };
