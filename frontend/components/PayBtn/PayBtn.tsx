@@ -81,7 +81,7 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
       buyer_postcode: '06018', // 구매자 우편번호
       m_redirect_url: `http://34.64.187.105:3000${router.asPath}`, //결제 성공시 모바일 리다이렉션 주소
     };
-    IMP.request_pay(data, callback);
+    IMP.request_pay(data);
   };
 
   // @ts-ignore
@@ -104,6 +104,18 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
       alert('결제 실패 : ' + error_msg);
     }
   };
+
+  //모바일 환경 결제 로직 추가
+  useEffect(() => {
+    if (typeof router.query.imp_success !== 'undefined') {
+      if (router.query.imp_success === 'true') {
+        void createOrder(itemList, String(router.query.imp_uid), amount);
+        alert('결제 성공');
+      } else {
+        alert('결제실패');
+      }
+    }
+  }, []);
 
   return (
     <>
