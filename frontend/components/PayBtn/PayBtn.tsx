@@ -15,10 +15,12 @@ type Props = {
   amount: number;
   itemList: CartData[];
   tableNumber: string;
-  ownerId: string;
+  ownerIdNumber: string;
 };
-const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
+const PayBtn = ({ amount, itemList, tableNumber, ownerIdNumber }: Props) => {
   const router = useRouter();
+  const {menuId, ownerId, table} = router.query;
+  console.log(itemList);
   useEffect(() => {
     const jquery = document.createElement('script');
     jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
@@ -41,7 +43,7 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
       let orderCreateRequest = {
         tableNumber: tableNumber,
         impUid: impUid,
-        ownerId: ownerId,
+        ownerId: ownerIdNumber,
         cartDataList: itemList,
         totalPrice: amount,
       };
@@ -64,6 +66,7 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
   };
 
   const onClickPayment = (amount: number, itemList: CartData[]) => {
+    localStorage.setItem('itemList', JSON.stringify(itemList));
     // @ts-ignore
     const { IMP } = window;
     IMP.init('imp18788306');
@@ -79,7 +82,8 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
       buyer_email: 'example@example', // 구매자 이메일
       buyer_addr: '정왕동 661-16', // 구매자 주소
       buyer_postcode: '06018', // 구매자 우편번호
-      m_redirect_url: `http://34.64.187.105:3000${router.asPath}`, //결제 성공시 모바일 리다이렉션 주소
+      m_redirect_url: `http://34.64.187.105:3000/completepay?menuId=${menuId}&ownerId=${ownerId}&table=${table}&amount=${amount}`, //결제 성공시 모바일 리다이렉션 주소
+
     };
     IMP.request_pay(data, callback);
   };
@@ -108,9 +112,11 @@ const PayBtn = ({ amount, itemList, tableNumber, ownerId }: Props) => {
   //모바일 환경 결제 로직 추가
   useEffect(() => {
     if (typeof router.query.imp_success !== 'undefined') {
+      console.log(router.query.imp_success);
       if (router.query.imp_success === 'true') {
         void createOrder(itemList, String(router.query.imp_uid), amount);
         alert('결제 성공');
+        window.location.reload();
       } else {
         alert('결제실패');
       }
