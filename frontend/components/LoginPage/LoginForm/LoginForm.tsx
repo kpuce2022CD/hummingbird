@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import { handleFormInputChange } from '../../../utils';
 import * as S from './LoginForm.style';
+
 function LoginForm() {
   const [formValue, setFormValue] = useState({});
   const router = useRouter();
