@@ -35,7 +35,7 @@ const MyPage: NextPage = () => {
   const getMenuUseOwnerId = async (ownerid: number) => {
     try {
       const response = await axios.get<Menu[]>(
-        'http://localhost:8080/menu/get/owner/' + ownerid,
+        'http://34.64.187.105:8080/menu/get/owner/' + ownerid,
         {
           headers: {
             'Content-Type': 'application/json',

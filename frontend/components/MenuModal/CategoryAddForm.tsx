@@ -22,7 +22,7 @@ const CategoryAddForm = ({ setModalOpen }: Props) => {
         menuId: menuId,
       };
       const response = await axios.post(
-        "http://localhost:8080/category/new",
+        "http://34.64.187.105:8080/category/new",
         data,
         {
           headers: {

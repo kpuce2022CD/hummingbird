@@ -18,7 +18,7 @@ const MenuUpdateForm = ({ setModalOpen, menuId, menuName }: Props) => {
   const updateMenu = async (updateName: string, menuId: number) => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/menu/update',
+        'http://34.64.187.105:8080/menu/update',
         {
           menuName: updateName,
           menuId: String(menuId),

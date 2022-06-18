@@ -14,7 +14,7 @@ const SignUpForm: FC<SignUpProps> = () => {
     console.log(formValue);
     try {
       const res = await axios.post(
-        'http://localhost:8080/api/owner/signup',
+        'http://34.64.187.105:8080/api/owner/signup',
         JSON.stringify(formValue),
         {
           headers: {

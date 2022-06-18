@@ -65,7 +65,7 @@ const OrderList: FC<OrderListProps> = ({ ownerId }) => {
   const handleCheckOrder = async (ownerItemId: number) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/orders/status/${ownerItemId}`,
+        `http://34.64.187.105:8080/api/orders/status/${ownerItemId}`,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -83,7 +83,7 @@ const OrderList: FC<OrderListProps> = ({ ownerId }) => {
   const handleCancelOrder = async (orderId: number) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/orders/cancel/order/${orderId}`,
+        `http://34.64.187.105:8080/api/orders/cancel/order/${orderId}`,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -102,7 +102,7 @@ const OrderList: FC<OrderListProps> = ({ ownerId }) => {
   const handleCancelOrderItem = async (ownerId: number) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/orders/cancel/item/${ownerId}`,
+        `http://34.64.187.105:8080/api/orders/cancel/item/${ownerId}`,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',

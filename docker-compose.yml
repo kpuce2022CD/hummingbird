@@ -50,7 +50,6 @@ services:
 
     networks:
       - network-tier
-    platform: linux/amd64
 
 networks:
   network-tier:

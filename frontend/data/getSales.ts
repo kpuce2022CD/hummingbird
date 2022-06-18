@@ -14,7 +14,7 @@ export const getSales = (
     console.log(startDate, endDate);
     axios({
       method: 'get',
-      url: `http://localhost:8080/api/orders/sales/${ownerId}`,
+      url: `http://34.64.187.105:8080/api/orders/sales/${ownerId}`,
       params: {
         start: startDate,
         end: endDate,

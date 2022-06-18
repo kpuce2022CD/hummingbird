@@ -31,7 +31,7 @@ const CategoryList = ({ CategoryData }: Props) => {
   const getFoodUseCategoryId = async (categoryId: number) => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/food/get/category/"+categoryId,
+        "http://34.64.187.105:8080/food/get/category/"+categoryId,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",

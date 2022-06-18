@@ -34,7 +34,7 @@ const Themediv = styled.div`
   justify-items: center;
   height: 550px;
   text-align: center;
-  color: white;
+  color: black;
   line-height: 1.5;
 `;
 
@@ -45,7 +45,7 @@ const ThemeSection = styled.div`
   margin: 0 0 544.9px;
   padding: 0;
   object-fit: contain;
-  background-image: url('/img/bannerPic.svg');
+  background-image: url(/img/bannerPic.svg);
   background-size: cover;
 `;
 

@@ -25,7 +25,7 @@ const QrPage: NextPage = () => {
   useEffect(() => {
     const menuId = String(router.query.menuId);
     const ownerId = String(router.query.ownerId);
-    const queryStringUrl = `http://localhost:3000/resultmenu?menuId=${menuId}&ownerId=${ownerId}`;
+    const queryStringUrl = `http://34.64.187.105:3000/resultmenu?menuId=${menuId}&ownerId=${ownerId}`;
     setUrl(queryStringUrl);
   }, [router.query.menuId]);
 

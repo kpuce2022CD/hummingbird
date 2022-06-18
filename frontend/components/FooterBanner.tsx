@@ -33,7 +33,7 @@ const ThemeSection = styled.div`
     align-items: center;
     justify-items: center;
     object-fit: contain;
-    background-image: url('/img/FooterBanner.svg');
+    background-image: url("/img/FooterBanner.svg");
     background-size: cover;
 `; 
 

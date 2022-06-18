@@ -33,7 +33,7 @@ const FoodCard = ({ foodList }: Props) => {
         <S.FoodItem key={id} onClick={() => handleFoodItem(id)}>
           <div className="foodcard-top">
             <Image
-              src={`http://localhost:8080/images/${fileName}`}
+              src={`http://34.64.187.105:8080/images/${fileName}`}
               alt="음식 사진"
               width="64"
               height="64"

@@ -23,7 +23,7 @@ const FoodAddForm = ({ setModalOpen, categoryId }: Props) => {
 
   const addNewFood = async (fd: FormData) => {
     try {
-      const response = await axios.post("http://localhost:8080/food/new", fd, {
+      const response = await axios.post("http://34.64.187.105:8080/food/new", fd, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",

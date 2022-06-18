@@ -46,7 +46,7 @@ const MenuInfo = ({ categoryList }: Props) => {
   const deleteCategory = async (categoryId: number) => {
     try {
       const response = await axios.get(
-        'http://localhost:8080/category/delete/' + categoryId,
+        'http://34.64.187.105:8080/category/delete/' + categoryId,
         {}
       );
 
@@ -59,7 +59,7 @@ const MenuInfo = ({ categoryList }: Props) => {
   const getFoodUseCategoryId = async (categoryId: number) => {
     try {
       const response = await axios.get(
-        'http://localhost:8080/food/get/category/' + categoryId,
+        'http://34.64.187.105:8080/food/get/category/' + categoryId,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',

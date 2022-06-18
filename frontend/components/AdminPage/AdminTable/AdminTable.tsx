@@ -25,7 +25,7 @@ const AdminTable = () => {
 
   const handleDeleteUser = async (ownerId: number) => {
     try {
-      axios.delete(`http://localhost:8080/api/owner/${ownerId}`);
+      axios.delete(`http://34.64.187.105:8080/api/owner/${ownerId}`);
       alert('계정 삭제 완료 되었습니다.');
       window.location.reload();
     } catch (err) {

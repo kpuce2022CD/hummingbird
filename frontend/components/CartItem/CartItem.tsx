@@ -45,7 +45,7 @@ const CartItem = ({ foodId, foodName, foodPrice, count, fileName }: Props) => {
   return (
     <S.ItemWrap key={foodId}>
       <Image
-        src={`http://localhost:8080/images/${fileName}`}
+        src={`http://34.64.187.105:8080/images/${fileName}`}
         alt="음식 사진"
         width="100"
         height="100"

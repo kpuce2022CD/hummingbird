@@ -25,7 +25,7 @@ const FoodUpdateForm = ({ setModalOpen, foodId }: Props) => {
   const updateFood = async (fd: FormData, foodId: number) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/food/update",
+        "http://34.64.187.105:8080/food/update",
         fd,
         {
           headers: {
@@ -47,7 +47,7 @@ const FoodUpdateForm = ({ setModalOpen, foodId }: Props) => {
   const deleteFood = async (foodId: number) => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/food/delete/"+foodId,
+        "http://34.64.187.105:8080/food/delete/"+foodId,
         {}
       );
       console.log(response);

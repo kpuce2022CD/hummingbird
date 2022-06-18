@@ -33,7 +33,7 @@ const MenuCard = ({ menuId, menuName }: Props) => {
   const deleteMenuDelete = async (menuId: number) => {
     try {
       const response = await axios.get(
-        'http://localhost:8080/menu/delete/' + menuId,
+        'http://34.64.187.105:8080/menu/delete/' + menuId,
         {}
       );
       console.log(response);

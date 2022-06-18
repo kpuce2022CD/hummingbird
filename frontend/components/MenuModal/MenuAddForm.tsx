@@ -20,7 +20,7 @@ const MenuAddForm = ({ setModalOpen }: Props) => {
         ownerId: ownerId,
       };
       const response = await axios.post(
-        'http://localhost:8080/menu/new',
+        'http://34.64.187.105:8080/menu/new',
         data,
         {
           headers: {

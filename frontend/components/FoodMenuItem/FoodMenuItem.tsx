@@ -76,7 +76,7 @@ const FoodMenuItem = ({
       <ul>
         <li>
           <Image
-            src={`http://localhost:8080/images/${fileName}`}
+            src={`http://34.64.187.105:8080/images/${fileName}`}
             alt="음식 사진"
             width="128"
             height="128"

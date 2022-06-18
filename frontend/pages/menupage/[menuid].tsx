@@ -34,7 +34,7 @@ const MenuPage: NextPage = () => {
   const getCategoryUseMenuId = async (menuid: string | string[]) => {
     try {
       const response = await axios.get<CategoryData[]>(
-        'http://localhost:8080/category/get/menu/' + menuid,
+        'http://34.64.187.105:8080/category/get/menu/' + menuid,
         {
           headers: {
             'Content-Type': 'application/json',
