@@ -43,7 +43,7 @@ public class FoodServiceImpl implements FoodService {
         String origName = null;
 
         try {
-            origName = file.getOriginalFilename();
+            origName = file.getOriginalFilename() + (Math.random() * 10000).toString;
             name = new MD5Generator(origName).toString()+origName;
 //            name=origName;
             savePath="/usr/src/backend/files";
